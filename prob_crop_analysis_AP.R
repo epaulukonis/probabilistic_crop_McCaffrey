@@ -114,6 +114,8 @@ for (j in 2:ncol(mat_n)){ #by simulation
 
 
 
+########everything below is scraps/experimental
+
 for (j in 2:ncol(mat_n)){
   for (i in 1:nrow(mat_n)){
     out<-min_dat[mini_dat$ID %in% mat_n[i,1],] 
