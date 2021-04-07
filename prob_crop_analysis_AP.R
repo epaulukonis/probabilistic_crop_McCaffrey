@@ -22,10 +22,10 @@ setwd(ddir2)
 crop_stack2<-list.files(pattern='.tif$', all.files=TRUE, full.names=FALSE)
 
 
-#for some reason this is the only way it will let me stack for now
+#for some reason this is the only way it will let me stack for now (I think size)
 crop_stacka<- stack(crop_stack1)
 crop_stackb<- stack(crop_stack2)
-crop_stackf<-stack(crop_stacka,crop_stackb) #the order of stacks can be weird
+crop_stackf<-stack(crop_stacka,crop_stackb) 
 
 
 #read in clip of merced county fields
@@ -114,6 +114,8 @@ for (j in 2:ncol(mat_n)){ #by simulation
 
 
 ########everything below is scraps/experimental
+
+#this is the original working 
 for (j in 2:ncol(mat_n)){
   for (i in 1:nrow(mat_n)){
     out<-min_dat[mini_dat$ID %in% mat_n[i,1],] 
