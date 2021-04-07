@@ -92,7 +92,6 @@ area_up[,2:31]<-0
 
 
 #now let's see if we can get it to work for our mat_n and mini_dat
-
 for (j in 2:ncol(mat_n)){ #by simulation
     for (i in 1:nrow(mat_n)){ #by ID
       out<-mini_dat[mini_dat$ID %in% mat_n[i,1],] #this pulls out the row of crop probabilities by ID
@@ -115,7 +114,6 @@ for (j in 2:ncol(mat_n)){ #by simulation
 
 
 ########everything below is scraps/experimental
-
 for (j in 2:ncol(mat_n)){
   for (i in 1:nrow(mat_n)){
     out<-min_dat[mini_dat$ID %in% mat_n[i,1],] 
@@ -128,10 +126,9 @@ for (j in 2:ncol(mat_n)){
 }
  
 
-#function over rows
-func_prob<-function(x){
-  out<-ifelse(x )
-}
+
+
+#function over rows?
 
 
 #how do we add in an updated probability based on area?
