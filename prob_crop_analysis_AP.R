@@ -11,7 +11,7 @@ wd='C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/D
 
 #we'll be treating this like a database problem; i.e., using rows and columns of the rasters 
 
-##Step 1: extract the spatial data
+##Step 1: extract the spatial data (note that if you load the environment this work has been done for you)
 #read in list of tif files denoting probability of each crop
 ddir1 = file.path(wd,"/FinalCropsPt1")
 setwd(ddir1)
@@ -45,7 +45,7 @@ extent(mercedf)
 crop_stackf<-stack(crop_stackf) #turn it back into a stack
 plot(crop_stackf[[2]])
 
-##Step 2: assign new probabilities
+##Step 2: assign new probabilities (start here if loading previous environment)
 datff<- extract(crop_stackf, mercedf, df=T) #this extracts the raster cell values by polygons to a df
 sum_mat<-datff %>% group_by(ID) %>% summarise_all(funs(mean)) #summarize each crop by field to mean
 
