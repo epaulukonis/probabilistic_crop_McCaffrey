@@ -129,8 +129,6 @@ for (j in 2:ncol(mat_n)){
 
 
 #function over rows?
-
-
 #how do we add in an updated probability based on area?
 #1- (area if crop so far/total area of crop)
 
@@ -161,10 +159,9 @@ prob_fun<-function(y){
   n_prob<-1-(areac/c[,1])
   return(n_prob)
 }
-#I don't know how to update area yet
 
 ara<-area_f[area_f$ID %in% out[,1], ] #this is the area of the field ID
-mat_a<-ifelse(mat_n[i,x] == mat_a$crop, ara, NA) #this adds the 
+mat_a<-ifelse(mat_n[i,x] == mat_a$crop, ara, NA) 
 
 # c <- m_c[m_c$Crop %in%  mat_n[i,1],]
 # c<-c[,2]
