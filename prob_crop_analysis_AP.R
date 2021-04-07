@@ -114,7 +114,6 @@ for (j in 2:ncol(mat_n)){ #by simulation
 
 
 ########everything below is scraps/experimental
-
 #this is the original working 
 for (j in 2:ncol(mat_n)){
   for (i in 1:nrow(mat_n)){
