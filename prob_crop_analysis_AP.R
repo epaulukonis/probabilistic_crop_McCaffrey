@@ -102,36 +102,47 @@ for (j in 2:ncol(mat_n)){ #by simulation
       r1<-sample(30, size = 1, replace = TRUE, prob = probs) #use IDs of each crop, and then the probs associated with crop
       mat_n[i,j] <-names(var[,r1]) #assign probs originally
       mat_n[i,j]<-ifelse(mat_n[i,j] == area_c$Crop, (1-(area_c$field_tot/area_c$C)), NA)
+      #missing section where I reassign names instead of raw probabilities 
+
     }
-  
-  for (x in 2:ncol(area_up)){
-  area_o<-area_f[area_f$ID %in% out[,1], ] 
-  area_o<-area_o[,1]
-  area_up[i,x]<-ifelse(out[,1] == area_up$ID & mat_n[i,j] == names(area_up), area_o, 0)
-  area_c$field_tot<-colsums(area_up[,2:31])
+    for (x in 2:ncol(area_up)){
+      area_o<-area_f[area_f$ID %in% out[,1], ] 
+      area_o<-area_o[,1]
+      area_up[i,x]<-ifelse(out[,1] == area_up$ID & mat_n[i,j] == names(area_up), area_o, 0)
+      area_c$field_tot<-colsums(area_up[,2:31])
   }
 }
+
+
+
+
+
 #I'm doing something wrong here; I'm guessing it doesn't like the indices I'm using 
 
-
-
 ########everything below is scraps/experimental
-#this is the original working 
+#this is the original working loop
 for (j in 2:ncol(mat_n)){
   for (i in 1:nrow(mat_n)){
     out<-min_dat[mini_dat$ID %in% mat_n[i,1],] 
     var<-out[,2:31] #pull out crops
-    probs<-as.numeric(var)
+    probs<-as.numeric(var)  
+    #reassign probability here 
     r1<-sample(30, size = 1, replace = TRUE, prob = probs)
     mat_n[i,j] <-names(var[,r1])
   }
   
+  #updating the area here
 }
  
 
+crp_data<-as.data.frame(matrix(data=runif(30,0,1),nrow=10,ncol=3))
+colnames(crp_data)<-c('Almond','Corn','Soy')
+ID<-1:10
+crp_data<-cbind(ID,crp_data)
 
+mat_n<-as.data.frame(matrix(data=NA,nrow=nrow(mini_dat),ncol=1000))
 
-#function over rows?
+#function over rows
 #how do we add in an updated probability based on area?
 #1- (area if crop so far/total area of crop)
 
