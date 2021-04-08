@@ -5,15 +5,17 @@ library(rgdal)
 library(raster)
 library(dplyr)
 
-
-load('myEnvironment_prob_crop.RData')
-wd='C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
-
+if(Sys.info()[4]=="LZ2626UTPURUCKE"){
+  wd <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
+}else{
+  load('myEnvironment_prob_crop.RData')
+  wd='C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
+}
 #we'll be treating this like a database problem; i.e., using rows and columns of the rasters 
 
 ##Step 1: extract the spatial data (note that if you load the environment this work has been done for you)
 #read in list of tif files denoting probability of each crop
-ddir1 = file.path(wd,"/FinalCropsPt1")
+ddir1 = file.path(wd,"FinalCropsPt1")
 setwd(ddir1)
 crop_stack1<-list.files(pattern='.tif$', all.files=TRUE, full.names=FALSE)
 
@@ -99,7 +101,7 @@ for (j in 2:ncol(mat_n)){ #by simulation
       probs<-as.numeric(var) #numeric for sample function
       r1<-sample(30, size = 1, replace = TRUE, prob = probs) #use IDs of each crop, and then the probs associated with crop
       mat_n[i,j] <-names(var[,r1]) #assign probs originally
-      mat_n[i,j]<-ifelse(mat[i,j] == area_c$Crop, (1-(area_c$field_tot/area_c$C)), NA)
+      mat_n[i,j]<-ifelse(mat_n[i,j] == area_c$Crop, (1-(area_c$field_tot/area_c$C)), NA)
     }
   
   for (x in 2:ncol(area_up)){
