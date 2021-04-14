@@ -16,8 +16,7 @@ if(Sys.info()[4]=="annie_put_your_nodename_here"){
   #load('myEnvironment_prob_crop.RData')
   root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
 }
-if(Sys.info()[4]=="atmos"){
-  #load('myEnvironment_prob_crop.RData')
+if(Sys.info()[4]=="r3n01"){ #atmos
   root_dir <- file.path("work", "HONEYBEE", "stp", "probabilistic_crop_McCaffrey")
 }
 
