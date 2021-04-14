@@ -1,0 +1,9 @@
+data_in/cadwr_merced_shp/cadwr_merced.*
+data_in/FinalCropsPt2/*.tif
+data_in/FinalCropsPt1/*.tif
+
+*.Rproj
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
