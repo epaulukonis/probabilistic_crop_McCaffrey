@@ -33,3 +33,5 @@ merced_shp_dir = file.path(root_data_in,"cadwr_merced_shp")
 # source other files
 source(file.path(root_src, "01import_spatial_data.R"))
 
+#print current environment
+print(lapply(ls(),function(x)get(x)))
