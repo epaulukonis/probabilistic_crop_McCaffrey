@@ -3,7 +3,7 @@ print(Sys.info()[4])
 R.Version()$version.string
 
 library(sp)
-library(tiff)
+#library(tiff)
 library(rgeos)
 library(rgdal)
 library(raster)
