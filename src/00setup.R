@@ -17,7 +17,7 @@ if(Sys.info()[4]=="annie_put_your_nodename_here"){
   root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
 }
 if(Sys.info()[4]=="r3n01"){ #atmos
-  root_dir <- file.path("work", "HONEYBEE", "stp", "probabilistic_crop_McCaffrey")
+  root_dir <- file.path("/work", "HONEYBEE", "stp", "probabilistic_crop_McCaffrey")
 }
 
 root_data_in <- file.path(root_dir, "data_in")
