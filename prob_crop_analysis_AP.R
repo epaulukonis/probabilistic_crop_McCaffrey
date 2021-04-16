@@ -5,15 +5,17 @@ library(rgdal)
 library(raster)
 library(dplyr)
 
-
-load('myEnvironment_prob_crop.RData')
-wd='C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
-
+if(Sys.info()[4]=="LZ2626UTPURUCKE"){
+  wd <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
+}else{
+  load('myEnvironment_prob_crop.RData')
+  wd='C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
+}
 #we'll be treating this like a database problem; i.e., using rows and columns of the rasters 
 
 ##Step 1: extract the spatial data (note that if you load the environment this work has been done for you)
 #read in list of tif files denoting probability of each crop
-ddir1 = file.path(wd,"/FinalCropsPt1")
+ddir1 = file.path(wd,"FinalCropsPt1")
 setwd(ddir1)
 crop_stack1<-list.files(pattern='.tif$', all.files=TRUE, full.names=FALSE)
 
@@ -106,6 +108,7 @@ start_time <- Sys.time()
 sleep_for_a_minute()
 end_time <- Sys.time()
 end_time - start_time
+
 
 for (j in 2:ncol(mat_n)){
   for (i in 1:nrow(mat_n)){
