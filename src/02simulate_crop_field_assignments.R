@@ -1,3 +1,4 @@
+print("stepping into 02simulate_crop_field_assignments.R")
 # crop_raster_stack was crop_stackf
 
 ##Step 2: Simulate field level probabilities
@@ -19,7 +20,7 @@ fun_c <- function(x) {
 }
 out<-stack(calc(crop_raster_stack, fun_c)) #put that in a raster stack
 
-
+print("calculating raster areas")
 #calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
 m<-list()
 for (i in 1:29) {
@@ -49,6 +50,7 @@ sleep_for_a_minute <- function() { Sys.sleep(60) }
 start_time <- Sys.time()
 sleep_for_a_minute()
 
+"big loop over simulations and fields"
 for (j in 2:ncol(mat_n)){ #1000
   for (i in 1:nrow(mat_n)){ #16000
     out<-sum_mat[sum_mat$ID %in% mat_n[i,1],]
@@ -70,6 +72,9 @@ for (j in 2:ncol(mat_n)){ #1000
 
 end_time <- Sys.time()
 end_time - start_time
+
 #add in verification after running
+
+print("finished!")
 
 #save.image(file='myEnvironment_prob_crop.RData') 
