@@ -49,8 +49,8 @@ sleep_for_a_minute <- function() { Sys.sleep(60) }
 start_time <- Sys.time()
 sleep_for_a_minute()
 
-for (j in 2:ncol(mat_n)){
-  for (i in 1:nrow(mat_n)){
+for (j in 2:ncol(mat_n)){ #1000
+  for (i in 1:nrow(mat_n)){ #16000
     out<-sum_mat[sum_mat$ID %in% mat_n[i,1],]
     var<-out[,2:31] #pull out crops
     var<-rbind(var, area_c)
@@ -65,6 +65,7 @@ for (j in 2:ncol(mat_n)){
     area_up[i,]<-ifelse(mat_n[i,j] == names(area_up), field_a[,1], 0)
     area_c[2,]<-colSums(area_up)
   }
+  print(paste("finished", j,"out of 1000 simulations"))
 }
 
 end_time <- Sys.time()
