@@ -13,12 +13,10 @@ library(dplyr)
 
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
-}
-if(Sys.info()[4]=="annie_put_your_nodename_here"){
+}else if (Sys.info()[4]=="annie_put_your_nodename_here"){
   #load('myEnvironment_prob_crop.RData')
   root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
-}
-if(Sys.info()[4]=="r3n01"){ #atmos
+}else{
   root_dir <- file.path("/work", "HONEYBEE", "stp", "probabilistic_crop_McCaffrey")
 }
 
