@@ -52,10 +52,10 @@ area_f$ID<-1:15925  #area_f
 #extract to fields
 datff<- extract(crop_stackf, mercedf, df=T) #this extracts the raster cell values by polygons to a df
 sum_mat<-datff %>% group_by(ID) %>% summarise_all(funs(mean)) #summarize each crop by field to mean
-sum_c <- apply(sum_mat[,c(2:30)], 1, sum)
+sum_c <- apply(sum_mat[,c(2:30)], 1, sum) 
 sum_mat$NC<-round(1-sum_c,4) #add in column for non-crop
-sum_mat<-na.omit(sum_mat)
-mat_n<-as.data.frame(matrix(data=NA,nrow=nrow(sum_mat),ncol=1000))
+sum_mat<-na.omit(sum_mat) #omit fields which don't overlap with crop data
+mat_n<-as.data.frame(matrix(data=NA,nrow=nrow(sum_mat),ncol=1000)) #set up empty df to hold simulations
 colnames(mat_n)[1:1000]<-paste0("Sim",1:1000,"")
 ID<-unique(sum_mat$ID)
 mat_n<-cbind(ID,mat_n)
@@ -65,7 +65,7 @@ fun_c <- function(x) {
   x[x>0] <- 1
   return(x)
 }
-out<-stack(calc(crop_stackf, fun_c))
+out<-stack(calc(crop_stackf, fun_c)) #put that in a raster stack
 
 
 #calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
@@ -77,7 +77,7 @@ for (i in 1:29) {
 
 m_a<-lapply(m, `length<-`, max(lengths(m))) #change length of list to all match
 area_c <- data.frame(matrix(unlist(m_a), nrow=length(m_a), byrow=TRUE)) #turn into workable dataframe for total crop area
-NC<-area_c[1,1]
+NC<-area_c[1,1] 
 area_c<-as.data.frame(area_c[,2])
 area_c[30,]<-NC
 colnames(area_c)[1]<-'crop_total'
@@ -91,6 +91,7 @@ area_up<-sum_mat[,2:31]
 area_up[,1:30]<-0
 area_up<-as.data.frame(area_up) 
 
+##loaded environment contains everything above up to here
 #see how long this takes
 sleep_for_a_minute <- function() { Sys.sleep(60) }
 start_time <- Sys.time()
@@ -117,3 +118,5 @@ for (j in 2:ncol(mat_n)){
 end_time <- Sys.time()
 end_time - start_time
 #add in verification after running
+
+#save.image(file='myEnvironment_prob_crop.RData') 
