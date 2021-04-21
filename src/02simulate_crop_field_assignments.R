@@ -56,7 +56,7 @@ for (simulation in 2:ncol(simulation_matrix)){ #1000
     crop_props[1,]<-out[,2:31] #pull out crop probs
     new_crop_props<-(1-(crop_props[3,]/crop_props[2,]))*crop_props[1,] 
     new_crop_props<-rapply(new_crop_props, function(x) ifelse(is.nan(x),0,x), how="replace" ) 
-    new_crop_props[new_crop_props < 0] <- 0 #if any probs are neg, change to 0 (above ifelse was not working, this is alternative)
+    new_crop_props[new_crop_props < 0] <- 0 #if any probs are neg, change to 0 
     r1<-sample(30, size = 1, replace = TRUE, prob = new_crop_props)
     simulation_matrix[field,simulation] <-colnames(out)[r1+1]
     indi_field_area_<-field_areas[field_areas$ID %in% out[,1],]

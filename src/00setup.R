@@ -27,7 +27,7 @@ root_src <- file.path(root_dir, "src")
 # data from ged
 crop_data_dir1 = file.path(root_data_in, "FinalCropsPt1")
 crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
-merced_shp_dir = file.path(root_data_in,"cadwr_merced_shp")
+merced_shp_dir = file.path(root_data_in)
 
 # source other files
 source(file.path(root_src, "01import_spatial_data.R"))
