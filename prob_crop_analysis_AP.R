@@ -98,6 +98,7 @@ start_time <- Sys.time()
 sleep_for_a_minute()
 
 for (j in 2:ncol(mat_n)){
+  
   for (i in 1:nrow(mat_n)){
     out<-sum_mat[sum_mat$ID %in% mat_n[i,1],]
     var<-out[,2:31] #pull out crops
@@ -113,10 +114,10 @@ for (j in 2:ncol(mat_n)){
     area_up[i,]<-ifelse(mat_n[i,j] == names(area_up), field_a[,1], 0)
     area_c[2,]<-colSums(area_up)
   }
+  
 }
 
 end_time <- Sys.time()
 end_time - start_time
 #add in verification after running
-
 #save.image(file='myEnvironment_prob_crop.RData') 

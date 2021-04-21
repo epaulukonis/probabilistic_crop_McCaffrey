@@ -25,9 +25,9 @@ ex <- extent(mercedf) #clip to extent of merced
 #plot(mercedf, add=T)   # check to make sure that the merced plot is there
 print("merced clipped")
 
-area_f<- as.data.frame(area(mercedf)) #area of each field in meters
-colnames(area_f)[1]<-'area_field'
-area_f$ID<-1:15925  #area_f
+field_areas<- as.data.frame(area(mercedf)) #area of each field in meters
+colnames(field_areas)[1]<-'field_areasield'
+field_areas$ID<-1:15925  #field_areas
 
 crop_raster_stack2 <-crop(crop_raster_stack, ex) #crop the crop stack to the merced polygon
 extent(crop_raster_stack2) #check that extents match
