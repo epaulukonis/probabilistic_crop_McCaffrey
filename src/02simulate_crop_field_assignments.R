@@ -45,7 +45,7 @@ area_by_field[,1:30]<-0
 area_by_field<-as.data.frame(area_by_field) 
 
 ##loaded environment contains everything above up to here
-crop_props<-as.data.frame(matrix(data=0,nrow=3,ncol=30)) #empty dataframe for calculating new probabilities
+crop_props<-as.data.frame(matrix(data=0,nrow=3,ncol=30)) #empty data-frame for calculating new probabilities
 crop_props[2,]<-total_crop_and_field_area[1,]
 names(crop_props)<-names(probs_by_fields[,2:31])
 start_time <- Sys.time()
