@@ -1,6 +1,7 @@
-
-
 #Install and load supporting libraries.
+start_time <- Sys.time()
+print("in 00setup.R")
+
 print(Sys.info()[4])
 R.Version()$version.string
 
@@ -35,3 +36,7 @@ source(file.path(root_src, "02simulate_crop_field_assignments.R"))
 
 #print current environment
 print(lapply(ls(),function(x)get(x)))
+
+end_time <- Sys.time()
+time_elapsed <- end_time - start_time
+print(paste("time for initial setup:", time_elapsed))
