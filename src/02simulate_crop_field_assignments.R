@@ -59,11 +59,11 @@ for (simulation in 2:ncol(simulation_matrix)){ #1000
     new_crop_props[new_crop_props < 0] <- 0 #if any probs are neg, change to 0 
     r1<-sample(30, size = 1, replace = TRUE, prob = new_crop_props)
     simulation_matrix[field,simulation] <-colnames(out)[r1+1]
-    indi_field_area_<-field_areas[field_areas$ID %in% out[,1],]
-    area_by_field[i,which(names(area_by_field) == simulation_matrix[field,simulation])] <- indi_field_area[,1]
+    indi_field_area<-field_areas[field_areas$ID %in% out[,1],]
+    area_by_field[field, which(names(area_by_field) == simulation_matrix[field,simulation])] <- indi_field_area[,1]
     crop_props[3,]<-colSums(area_by_field)
   }
-  print(paste("finished", simulation,"out of 1000 simulations"))
+  print(paste("finished", simulation-1,"out of 1000 simulations"))
 
 }
 
