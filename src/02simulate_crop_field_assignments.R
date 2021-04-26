@@ -1,24 +1,30 @@
+start_time <- Sys.time()
 print("stepping into 02simulate_crop_field_assignments.R")
 # crop_raster_stack was crop_stackf
 
 ##Step 2: Simulate field level probabilities
 #extract to fields
+print("field extraction")
+nsims <- 10
 extract_to_fields<- extract(crop_raster_stack, mercedf, df=T) #this extracts the raster cell values by polygons to a df
 probs_by_fields<-extract_to_fields %>% group_by(ID) %>% summarise_all(funs(mean)) #summarize each crop by field to mean
 sum_c <- apply(probs_by_fields[,c(2:30)], 1, sum) 
 probs_by_fields$NC<-round(1-sum_c,4) #add in column for non-crop
 probs_by_fields<-na.omit(probs_by_fields) #omit fields which don't overlap with crop data
-simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=1000)) #set up empty df to hold simulations
-colnames(simulation_matrix)[1:1000]<-paste0("Sim",1:1000,"")
+simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=nsims)) #set up empty df to hold simulations
+colnames(simulation_matrix)[1:nsims]<-paste0("Sim",1:nsims,"")
 ID<-unique(probs_by_fields$ID)
 simulation_matrix<-cbind(ID,simulation_matrix)
-
 #function to convert the rasters to binary
 fun_c <- function(x) {
   x[x>0] <- 1
   return(x)
 }
 out<-stack(calc(crop_raster_stack, fun_c)) #put that in a raster stack
+end_time <- Sys.time()
+time_elapsed <- end_time - start_time
+print(paste("time for field extraction:", time_elapsed))
+
 
 print("calculating raster areas")
 #calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
@@ -48,9 +54,12 @@ area_by_field<-as.data.frame(area_by_field)
 crop_props<-as.data.frame(matrix(data=0,nrow=3,ncol=30)) #empty data-frame for calculating new probabilities
 crop_props[2,]<-total_crop_and_field_area[1,]
 names(crop_props)<-names(probs_by_fields[,2:31])
+
+#field loop
+print("big loop over simulations and fields")
 start_time <- Sys.time()
-"big loop over simulations and fields"
-for (simulation in 2:ncol(simulation_matrix)){ #1000  
+for (simulation in 2:nsims){ #1000  
+  sim_start_time <- Sys.time()
   for (field in 1:nrow(simulation_matrix)){ #16000   
     out<-probs_by_fields[probs_by_fields$ID %in% simulation_matrix[field,1],]
     crop_props[1,]<-out[,2:31] #pull out crop probs
@@ -66,10 +75,9 @@ for (simulation in 2:ncol(simulation_matrix)){ #1000
   print(paste("finished", simulation-1,"out of 1000 simulations"))
 
 }
-
-
 end_time <- Sys.time()
-end_time - start_time
+time_elapsed <- end_time - start_time
+print(paste("time for big loop:", time_elapsed))
 
 #add in verification after running
 
