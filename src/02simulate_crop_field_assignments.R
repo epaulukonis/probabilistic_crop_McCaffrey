@@ -64,7 +64,7 @@ for (simulation in 2:ncol(simulation_matrix)){ #1000
     crop_props[3,]<-colSums(area_by_field)
   }
   print(paste("finished", simulation,"out of 1000 simulations"))
-  gc() #toss anything we aren't using; may not matter, just testing
+
 }
 
 
