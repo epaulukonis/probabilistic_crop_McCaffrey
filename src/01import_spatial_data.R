@@ -1,4 +1,4 @@
-start_time <- Sys.time()
+import_start_time <- Sys.time()
 print("stepping into 01import_spatial_data.R")
 
 ##Step 1: extract the spatial data (note that if you load the environment this work has been done for you)
@@ -37,6 +37,6 @@ colnames(field_areas)[1]<-'field_areasield'
 field_areas$ID<-1:15925  #field_areas
 print("area of individual fields put into dataframe")
 
-end_time <- Sys.time()
-time_elapsed <- end_time - start_time
-print(paste("time for importing spatial data:", time_elapsed))
+import_end_time <- Sys.time()
+import_time_elapsed <- import_end_time - import_start_time
+print(paste("time for importing spatial data:", import_time_elapsed))

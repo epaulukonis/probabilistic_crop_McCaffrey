@@ -40,8 +40,8 @@ print(paste("time for initial setup:", time_elapsed))
 
 # source other files
 source(file.path(root_src, "01import_spatial_data.R"))
-source(file.path(root_src, "02simulate_crop_field_assignments.R"))
-
+source(file.path(root_src, "02create_field_level_pdfs.R"))
+#source(file.path(root_src, "03simulate_crop_field_assignments.R"))
 
 
 
