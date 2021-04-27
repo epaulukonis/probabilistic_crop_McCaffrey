@@ -69,4 +69,16 @@ print("saving simulation_matrix object")
 print(Sys.time())
 saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix"))
 
-#save.image(file='myEnvironment_prob_crop.RData') 
+
+print("saving crop_probs object")
+print(Sys.time())
+saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs"))
+
+print("saving independent field areas by sim object")
+print(Sys.time())
+saveRDS(indi_field_area, file = file.path(root_data_out, "indi_field_area"))
+
+print("saving area_by_field object")
+print(Sys.time())
+saveRDS(area_by_field, file = file.path(root_data_out, "area_by_field"))
+
