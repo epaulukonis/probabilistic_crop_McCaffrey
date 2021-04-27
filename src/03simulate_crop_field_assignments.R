@@ -43,7 +43,7 @@ names(crop_props)<-names(probs_by_fields[,2:31])
 #field loop
 print("big loop over simulations and fields")
 start_time <- Sys.time()
-for (simulation in 2:nsims){ #1000  
+for (simulation in 2:nsims+1){ #1000  
   sim_start_time <- Sys.time()
   for (field in 1:nrow(simulation_matrix)){ #16000   
     out<-probs_by_fields[probs_by_fields$ID %in% simulation_matrix[field,1],]
