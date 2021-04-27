@@ -56,6 +56,7 @@ if(file.exists(extract_to_fields_filename) &&
   print(dim(probs_by_fields))
   print("omit fields which don't overlap with crop data")
   probs_by_fields <- na.omit(probs_by_fields) 
+  probs_by_fields$ID<-1:nrow(probs_by_fields)
   print(dim(probs_by_fields))
   out <- stack(calc(crop_raster_stack, fun_c)) #put that in a raster stack
   #save extract_to_fields and probs_by_fields
