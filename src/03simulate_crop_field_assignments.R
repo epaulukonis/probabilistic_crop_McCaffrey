@@ -3,7 +3,7 @@ simulate_start_time <- Sys.time()
 print("stepping into 03simulate_crop_field_assignments.R")
 print(Sys.time())
 
-nsims <- 10
+nsims <- 1000
 
 # create empty simulation matrix
 simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=nsims)) #set up empty df to hold simulations
