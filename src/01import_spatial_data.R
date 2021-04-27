@@ -16,16 +16,19 @@ print("spatial data extracted")
 
 #read in clips of county files
 merced_shp_file <- file.path(merced_shp_dir, "cadwr_merced.shp")
-merced <- readOGR(dsn = merced_shp_file)
+merced <- readOGR(dsn = county_shp_dir)
 
+counties <- list.files(county_shp_dir, pattern="\\.shp$", full.names=TRUE)
+ex<-list()
+for (i in 1:length(counties)) {
+ readOGR(dsn = counties[i])
+  counties[i] <- spTransform(counties[i],crs(crop_raster_stack)) #transform crs of merced polygon
+  ex[i] <- extent(myfiles[i]) 
+}
 
-
-crs(merced)
-crs(crop_raster_stack)
-mercedf <- spTransform(merced,crs(crop_raster_stack)) #transform crs of merced polygon
-ex <- extent(mercedf) #clip to extent of merced
-#plot(crop_raster_stack[[5]]) 
-#plot(mercedf, add=T)   # check to make sure that the merced plot is there
+counties[i] <- spTransform(counties[i],crs(crop_raster_stack)) #transform crs of merced polygon
+ex[i] <- extent(myfiles[i]) 
+#clip to extent of merced
 crop_raster_stack2 <-crop(crop_raster_stack, ex) #crop the crop stack to the merced polygon
 extent(crop_raster_stack2) #check that extents match
 extent(mercedf)

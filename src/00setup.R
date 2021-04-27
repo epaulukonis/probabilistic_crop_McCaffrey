@@ -32,7 +32,7 @@ root_src <- file.path(root_dir, "src")
 # data from ged
 crop_data_dir1 = file.path(root_data_in, "FinalCropsPt1")
 crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
-merced_shp_dir = file.path(root_data_in)
+county_shp_dir = file.path(root_data_in)
 
 #print current environment
 print(lapply(ls(),function(x)get(x)))
