@@ -4,12 +4,13 @@ library(rgeos)
 library(rgdal)
 library(raster)
 library(dplyr)
+setwd('C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/probabilistic_crop_McCaffrey')
 
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   wd <- file.path("c:", "git", "probabilistic_crop_McCaffrey")
 }else{
   load('myEnvironment_prob_crop.RData')
-  wd='C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/Paulukonis_Documents/manuscript_probabilistic_crop'
+  wd='C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/probabilistic_crop_McCaffrey'
 }
 
 

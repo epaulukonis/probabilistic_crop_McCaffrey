@@ -49,7 +49,7 @@ if(file.exists(extract_to_fields_filename) &&
   
   print("apply probs_by_fields to sum_c")
   print(Sys.time())
-  sum_c <- apply(probs_by_fields[,c(2:30)], 1, sum) 
+  sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
   print(dim(sum_c))
   print(Sys.time())
   probs_by_fields$NC <- round(1-sum_c,4) #add in column for non-crop
