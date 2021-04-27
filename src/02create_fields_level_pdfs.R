@@ -33,12 +33,20 @@ if(file.exists(extract_to_fields_filename) &&
 }else{
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
-  extract_to_fields <- extract(crop_raster_stack, mercedf, df=T) 
+  #extract_to_fields <- parallelExtract(crop_raster_stack2, county, fun=NULL, id = "OBJECTID") #extractParrallel 
+  extract_to_fields <- exact_extract(crop_raster_stack2, county, 'mean') 
   print(dim(extract_to_fields))
   print("summarize each crop by fields to mean")
   print(Sys.time())
-  probs_by_fields <- extract_to_fields %>% group_by(ID) %>% summarise_all(funs(mean)) 
+  #probs_by_fields <- extract_to_fields %>% group_by(ID) %>% summarise_all(funs(mean)) #don't need if exact_extract works
+  probs_by_fields<-extract_to_fields
   print(dim(probs_by_fields))
+  
+  field_areas<- as.data.frame(area(county)) #area of each field in meters
+  colnames(field_areas)[1]<-'field_areasield'
+  field_areas$ID<-1:nrow(probs_by_fields)  
+  print("area of individual fields put into dataframe for 03 code")
+  
   print("apply probs_by_fields to sum_c")
   print(Sys.time())
   sum_c <- apply(probs_by_fields[,c(2:30)], 1, sum) 

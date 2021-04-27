@@ -50,7 +50,18 @@ area_f$ID<-1:15925  #area_f
 
 ##Step 2: Simulate field level probabilities
 #extract to fields
+names(mercedf)
+
 datff<- extract(crop_stackf, mercedf, df=T) #this extracts the raster cell values by polygons to a df
+#new function attempt for extract to fields
+install.packages("disaggregation")
+library(disaggregation)
+
+datff_test<-parallelExtract(crop_stackf, mercedf, fun = NULL)
+start_time <- Sys.time()
+end_time <- Sys.time()
+time_elapsed <- end_time - start_time
+
 #extract_to_fields<-datff
 sum_mat<-datff %>% group_by(ID) %>% summarise_all(funs(mean)) #summarize each crop by field to mean
 sum_c <- apply(sum_mat[,c(2:30)], 1, sum) 

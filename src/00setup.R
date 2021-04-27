@@ -10,6 +10,10 @@ library(rgeos)
 library(rgdal)
 library(raster)
 library(dplyr)
+#install.packages("disaggregation") ##for extracParrallel function
+#library(disaggregation)
+#install.packages('exactextractr')
+library(exactextractr)
 
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "probabilistic_crop_McKaffrey")

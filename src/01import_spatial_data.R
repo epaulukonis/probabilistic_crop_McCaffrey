@@ -29,13 +29,10 @@ extent(crop_raster_stack2) #check that extents match
 extent(mercedf)
 crop_raster_stack2<-stack(crop_raster_stack2) #turn it back into a stack
 #plot(crop_raster_stack2[[2]])
+county<-mercedf
 print("merced clipped")
 print("reassembled into a stack")
-
-field_areas<- as.data.frame(area(mercedf)) #area of each field in meters
-colnames(field_areas)[1]<-'field_areasield'
-field_areas$ID<-1:15925  #field_areas
-print("area of individual fields put into dataframe")
+print("renamed to county for extract function and 02 code")
 
 import_end_time <- Sys.time()
 import_time_elapsed <- import_end_time - import_start_time

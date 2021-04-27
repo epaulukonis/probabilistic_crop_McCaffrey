@@ -6,6 +6,7 @@ print("stepping into 02simulate_crop_field_assignments.R")
 #extract to fields
 print("field extraction")
 nsims <- 10
+#begin/end cluster! do tomorrow 4/27
 extract_to_fields<- extract(crop_raster_stack, mercedf, df=T) #this extracts the raster cell values by polygons to a df
 probs_by_fields<-extract_to_fields %>% group_by(ID) %>% summarise_all(funs(mean)) #summarize each crop by field to mean
 sum_c <- apply(probs_by_fields[,c(2:30)], 1, sum) 
