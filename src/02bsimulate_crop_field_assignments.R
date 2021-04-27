@@ -4,6 +4,8 @@ print("stepping into 02bsimulate_crop_field_assignments.R")
 ##Step 2: Simulate field level probabilities
 #extract to 16000 fields
 extract_to_fields<-extract(crop_raster_stack, mercedf, df=T) #this extracts the raster cell values by polygons to a df
+
+
 probs_by_fields<-extract_to_fields %>% group_by(ID) %>% summarise_all(funs(mean)) #summarize each crop by field to mean
 sum_c <- apply(probs_by_fields[,c(2:30)], 1, sum) 
 probs_by_fields$NC<-round(1-sum_c,4) #add in column for non-crop
