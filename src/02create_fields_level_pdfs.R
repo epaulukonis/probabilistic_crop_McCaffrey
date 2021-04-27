@@ -60,15 +60,15 @@ if(file.exists(extract_to_fields_filename) &&
   out <- stack(calc(crop_raster_stack, fun_c)) #put that in a raster stack
   #save extract_to_fields and probs_by_fields
   # Save the objects to file
-  print("saving extract_to_fields object")
-  print(Sys.time())
-  saveRDS(extract_to_fields, file = file.path(root_data_out, "extract_to_fields.rds"))
-  print("saving probs_by_fields object")
-  print(Sys.time())
-  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
-  print("saving out object")
-  print(Sys.time())
-  saveRDS(out, file = file.path(root_data_out, "out.rds"))
+  # print("saving extract_to_fields object")
+  # print(Sys.time())
+  # saveRDS(extract_to_fields, file = file.path(root_data_out, "extract_to_fields.rds"))
+  # print("saving probs_by_fields object")
+  # print(Sys.time())
+  # saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
+  # print("saving out object")
+  # print(Sys.time())
+ # saveRDS(out, file = file.path(root_data_out, "out.rds"))
 }
 print("finished fields extraction")
 extract_end_time <- Sys.time()
