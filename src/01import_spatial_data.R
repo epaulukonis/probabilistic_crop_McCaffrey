@@ -14,10 +14,12 @@ crop_stack_allfiles <- c(crop_stack1_files, crop_stack2_files) #was #crop_stackf
 crop_raster_stack <- stack(crop_stack_allfiles)
 print("spatial data extracted")
 
-#read in clip of merced county fields
+#read in clips of county files
 merced_shp_file <- file.path(merced_shp_dir, "cadwr_merced.shp")
 merced <- readOGR(dsn = merced_shp_file)
-#plot(merced) #quick peek at the field layer
+
+
+
 crs(merced)
 crs(crop_raster_stack)
 mercedf <- spTransform(merced,crs(crop_raster_stack)) #transform crs of merced polygon
