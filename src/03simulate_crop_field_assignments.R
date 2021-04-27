@@ -64,4 +64,9 @@ for (simulation in 2:nsims+1){ #1000
 simulate_end_time <- Sys.time()
 simulate_time_elapsed <- simulate_end_time - simulate_start_time
 print(paste("time for big loop:", simulate_time_elapsed))
+
+print("saving simulation_matrix object")
+print(Sys.time())
+saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix"))
+
 #save.image(file='myEnvironment_prob_crop.RData') 
