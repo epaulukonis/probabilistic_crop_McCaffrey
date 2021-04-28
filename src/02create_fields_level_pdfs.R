@@ -34,7 +34,6 @@ if(file.exists(extract_to_fields_filename) &&
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
 
-  
   madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean') 
   names(madera)<-names(crop_raster_stack)
   merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean') 
@@ -45,6 +44,10 @@ if(file.exists(extract_to_fields_filename) &&
   names(sanjoaquin)<-names(crop_raster_stack)
   stanislaus <- exact_extract(stack(crop_raster_stack2[5]), do.call(rbind, counties_trans[5]), 'mean') 
   names(stanislaus)<-names(crop_raster_stack)
+  print(Sys.time())
+  
+  #save to RDS files
+  
   
   probs_by_fields<-madera  
   county<-do.call(rbind, counties_trans[1]) #specify county here
