@@ -34,28 +34,23 @@ if(file.exists(extract_to_fields_filename) &&
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
 
+  madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean') 
+  names(madera)<-names(crop_raster_stack)
+  merced <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
+  sacramento <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
+  sanjoaquin <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
+  stanislaus <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
+  
 
+ 
   
   ext_to_fields<-function(x){
    for (county in 1:length(counties_trans))
     exact_extract(x, counties_trans[county], 'mean')
   }
   
-extracted_field_probs<-lapply(crop_raster_stack2, function(x){ 
-  for (county in 1:length(counties_trans)){
-  exact_extract(x, counties_trans[county], 'mean')}
-  })
 
-extract_to_fields<-list()
-for (rasterstack in  1:length(crop_raster_stack2)){
-  for (county in 1:length(counties)){
-  extract_to_fields[i] <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
-}}
-
-
-#do individual counties
-test<-exact_extract(crop_raster_stack2[1], counties_trans[1],'mean')
-  
+  county<-
   print(dim(extract_to_fields))
   print("summarize each crop by fields to mean")
   print(Sys.time())

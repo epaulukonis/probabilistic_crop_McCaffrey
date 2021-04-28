@@ -13,7 +13,6 @@ crop_stack_allfiles <- c(crop_stack1_files, crop_stack2_files) #was #crop_stackf
 # crop_raster_stack was crop_stackf
 crop_raster_stack <- stack(crop_stack_allfiles)
 print("raster data extracted")
-
 names<-c('madera','merced','sacramento','sanjoaquin','stanislaus')
 counties <- list.files(county_shp_dir, pattern="\\.shp$", full.names=TRUE)
 counties <- lapply(counties, shapefile)
