@@ -47,7 +47,11 @@ if(file.exists(extract_to_fields_filename) &&
   print(Sys.time())
   
   #save to RDS files
-  
+  saveRDS(madera, file = file.path(root_data_out, "madera.rds"))
+  saveRDS(merced, file = file.path(root_data_out, "merced.rds"))
+  saveRDS(sacramento, file = file.path(root_data_out, "sacramento.rds"))
+  saveRDS(sanjoaquin, file = file.path(root_data_out, "sanjoaquin.rds"))
+  saveRDS(stanislaus, file = file.path(root_data_out, "stanislaus.rds"))
   
   probs_by_fields<-madera  
   county<-do.call(rbind, counties_trans[1]) #specify county here
