@@ -33,8 +33,29 @@ if(file.exists(extract_to_fields_filename) &&
 }else{
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
-  #extract_to_fields <- parallelExtract(crop_raster_stack2, county, fun=NULL, id = "OBJECTID") #extractParrallel 
-  extract_to_fields <- exact_extract(crop_raster_stack2, county, 'mean') 
+
+
+  
+  ext_to_fields<-function(x){
+   for (county in 1:length(counties_trans))
+    exact_extract(x, counties_trans[county], 'mean')
+  }
+  
+extracted_field_probs<-lapply(crop_raster_stack2, function(x){ 
+  for (county in 1:length(counties_trans)){
+  exact_extract(x, counties_trans[county], 'mean')}
+  })
+
+extract_to_fields<-list()
+for (rasterstack in  1:length(crop_raster_stack2)){
+  for (county in 1:length(counties)){
+  extract_to_fields[i] <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
+}}
+
+
+#do individual counties
+test<-exact_extract(crop_raster_stack2[1], counties_trans[1],'mean')
+  
   print(dim(extract_to_fields))
   print("summarize each crop by fields to mean")
   print(Sys.time())
@@ -59,17 +80,17 @@ if(file.exists(extract_to_fields_filename) &&
   probs_by_fields$ID<-1:nrow(probs_by_fields)
   print(dim(probs_by_fields))
   out <- stack(calc(crop_raster_stack, fun_c)) #put that in a raster stack
-  #save extract_to_fields and probs_by_fields
-  # Save the objects to file
-  # print("saving extract_to_fields object")
-  # print(Sys.time())
-  # saveRDS(extract_to_fields, file = file.path(root_data_out, "extract_to_fields.rds"))
-  # print("saving probs_by_fields object")
-  # print(Sys.time())
-  # saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
-  # print("saving out object")
-  # print(Sys.time())
- # saveRDS(out, file = file.path(root_data_out, "out.rds"))
+ #save extract_to_fields and probs_by_fields
+ #Save the objects to file
+ print("saving extract_to_fields object")
+ print(Sys.time())
+ saveRDS(extract_to_fields, file = file.path(root_data_out, "extract_to_fields.rds"))
+ print("saving probs_by_fields object")
+ print(Sys.time())
+ saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
+ print("saving out object")
+ print(Sys.time())
+ saveRDS(out, file = file.path(root_data_out, "out.rds"))
 }
 print("finished fields extraction")
 extract_end_time <- Sys.time()

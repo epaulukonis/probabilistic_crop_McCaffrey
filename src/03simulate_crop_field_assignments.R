@@ -2,7 +2,6 @@
 simulate_start_time <- Sys.time()
 print("stepping into 03simulate_crop_field_assignments.R")
 print(Sys.time())
-
 nsims <- 1000
 
 # create empty simulation matrix
@@ -58,8 +57,8 @@ for (simulation in 2:nsims+1){ #1000
     crop_props[3,]<-colSums(area_by_field)
   }
   print(paste("finished", simulation-1,"out of 1000 simulations"))
-
 }
+
 #add in verification after running
 simulate_end_time <- Sys.time()
 simulate_time_elapsed <- simulate_end_time - simulate_start_time
