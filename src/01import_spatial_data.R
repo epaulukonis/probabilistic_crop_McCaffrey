@@ -12,33 +12,18 @@ crop_stack_allfiles <- c(crop_stack1_files, crop_stack2_files) #was #crop_stackf
 
 # crop_raster_stack was crop_stackf
 crop_raster_stack <- stack(crop_stack_allfiles)
-print("spatial data extracted")
-
-#read in clips of county files
-merced_shp_file <- file.path(merced_shp_dir, "cadwr_merced.shp")
-merced <- readOGR(dsn = county_shp_dir)
+print("raster data extracted")
 
 names<-c('madera','merced','sacramento','sanjoaquin','stanislaus')
 counties <- list.files(county_shp_dir, pattern="\\.shp$", full.names=TRUE)
 counties <- lapply(counties, shapefile)
 names(counties)<-names
+print("county shapefiles extracted")
 counties_trans <- lapply(counties, function(x) spTransform(x,crs(crop_raster_stack))) #transform crs of county polygon
-ex <- lapply(counties_trans, function (x) extent(x)) 
-crop_raster_stack2 <- lapply(ex, function(x) crop(crop_raster_stack, x))
+ex <- lapply(counties_trans, function (x) extent(x)) #get extents of each county
+crop_raster_stack2 <- lapply(ex, function(x) crop(crop_raster_stack, x)) #crop raster stack to each county
+print('county shapefiles cropped to extent each county, put in list')
 
-extent(crop_raster_stack2[[1]])
-
-counties[i] <- spTransform(counties[i],crs(crop_raster_stack)) #transform crs of merced polygon
-ex[i] <- extent(myfiles[i]) 
-#clip to extent of merced
-# crop_raster_stack2 <-crop(crop_raster_stack, ex) #crop the crop stack to the merced polygon
-# extent(crop_raster_stack2) #check that extents match
-#turn it back into a stack
-#plot(crop_raster_stack2[[2]])
-county<-mercedf
-print("merced clipped")
-print("reassembled into a stack")
-print("renamed to county for extract function and 02 code")
 
 import_end_time <- Sys.time()
 import_time_elapsed <- import_end_time - import_start_time
