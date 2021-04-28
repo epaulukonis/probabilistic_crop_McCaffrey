@@ -34,30 +34,25 @@ if(file.exists(extract_to_fields_filename) &&
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
 
+  
   madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean') 
   names(madera)<-names(crop_raster_stack)
-  merced <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
-  sacramento <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
-  sanjoaquin <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
-  stanislaus <- exact_extract(crop_raster_stack2[rasterstack], counties_trans[county], 'mean') 
+  merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean') 
+  names(merced)<-names(crop_raster_stack)
+  sacramento <- exact_extract(stack(crop_raster_stack2[3]), do.call(rbind, counties_trans[3]), 'mean') 
+  names(sacramento)<-names(crop_raster_stack)
+  sanjoaquin <- exact_extract(stack(crop_raster_stack2[4]), do.call(rbind, counties_trans[4]), 'mean') 
+  names(sanjoaquin)<-names(crop_raster_stack)
+  stanislaus <- exact_extract(stack(crop_raster_stack2[5]), do.call(rbind, counties_trans[5]), 'mean') 
+  names(stanislaus)<-names(crop_raster_stack)
   
-
- 
-  
-  ext_to_fields<-function(x){
-   for (county in 1:length(counties_trans))
-    exact_extract(x, counties_trans[county], 'mean')
-  }
-  
-
-  county<-
-  print(dim(extract_to_fields))
-  print("summarize each crop by fields to mean")
-  print(Sys.time())
-  #probs_by_fields <- extract_to_fields %>% group_by(ID) %>% summarise_all(funs(mean)) #don't need if exact_extract works
-  probs_by_fields<-extract_to_fields
+  probs_by_fields<-madera  
+  county<-do.call(rbind, counties_trans[1]) #specify county here
+  print('specify county here')
   print(dim(probs_by_fields))
+  print(Sys.time())
   
+  print("summarize each crop by fields to mean")
   field_areas<- as.data.frame(area(county)) #area of each field in meters
   colnames(field_areas)[1]<-'field_areasield'
   field_areas$ID<-1:nrow(probs_by_fields)  

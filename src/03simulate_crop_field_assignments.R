@@ -4,6 +4,9 @@ print("stepping into 03simulate_crop_field_assignments.R")
 print(Sys.time())
 nsims <- 1000
 
+#note that you will specify which county in 02
+print('county information loaded from 02')
+
 # create empty simulation matrix
 simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=nsims)) #set up empty df to hold simulations
 colnames(simulation_matrix)[1:nsims]<-paste0("Sim",1:nsims,"")
