@@ -19,12 +19,10 @@ merced_shp_file <- file.path(merced_shp_dir, "cadwr_merced.shp")
 merced <- readOGR(dsn = county_shp_dir)
 
 counties <- list.files(county_shp_dir, pattern="\\.shp$", full.names=TRUE)
+counties <- lapply(counties, shapefile)
 ex<-list()
-for (i in 1:length(counties)) {
- readOGR(dsn = counties[i])
-  counties[i] <- spTransform(counties[i],crs(crop_raster_stack)) #transform crs of merced polygon
-  ex[i] <- extent(myfiles[i]) 
-}
+counties <- lapply(counties, function(x) spTransform(x,crs(crop_raster_stack))) #transform crs of county polygon
+ex[i] <- extent(myfiles[i]) 
 
 counties[i] <- spTransform(counties[i],crs(crop_raster_stack)) #transform crs of merced polygon
 ex[i] <- extent(myfiles[i]) 
