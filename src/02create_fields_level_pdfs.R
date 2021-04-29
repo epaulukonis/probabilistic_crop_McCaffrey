@@ -32,7 +32,7 @@ if( file.exists(madera_filename)&&
 county<-"madera"
 print('specify county here')
 probs_by_fields<-readRDS(file = madera_filename)  #dataframe of field probs by county
-print("loading county of interest here")
+print("loading extracted field file for county of interest here")
 print(Sys.time())
 
 if (county=='madera'){
@@ -120,9 +120,6 @@ print("finished fields extraction, finished preparing data for 03")
 extract_end_time <- Sys.time()
 extract_time_elapsed <- extract_end_time - extract_start_time
 print(paste("time for fields extraction:", extract_time_elapsed))
-
-
-
 
 
 # # if(file.exists(probs_by_fields_filename)&& 
