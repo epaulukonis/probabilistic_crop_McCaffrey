@@ -64,7 +64,7 @@ else {
 
 print("summarize each crop by fields to mean")
 field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
-colnames(field_areas)[1]<-'field_areasield'
+colnames(field_areas)[1]<-'field_areas'
 field_areas$ID<-1:nrow(probs_by_fields)  
 print("area of individual fields put into dataframe for 03 code")
 
