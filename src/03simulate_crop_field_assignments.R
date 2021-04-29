@@ -15,6 +15,7 @@ simulation_matrix<-cbind(ID,simulation_matrix)
 
 print("calculating raster areas")
 #calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
+
 m<-list()
 for (i in 1:29) {
   y <- out[[i]]

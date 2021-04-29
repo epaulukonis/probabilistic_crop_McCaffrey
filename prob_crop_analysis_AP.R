@@ -53,12 +53,13 @@ area_f$ID<-1:15925  #area_f
 #extract to fields
 names(mercedf)
 
-datff<- extract(crop_stackf, mercedf, df=T) #this extracts the raster cell values by polygons to a df
+#datff<- extract(crop_stackf, mercedf, df=T) #this extracts the raster cell values by polygons to a df
 #new function attempt for extract to fields
-install.packages("disaggregation")
-library(disaggregation)
 
-datff_test<-parallelExtract(crop_stackf, mercedf, fun = NULL)
+
+datff<-exact_extract(crop_stackf, mercedf, 'mean') 
+
+
 start_time <- Sys.time()
 end_time <- Sys.time()
 time_elapsed <- end_time - start_time
@@ -78,8 +79,8 @@ fun_c <- function(x) {
   x[x>0] <- 1
   return(x)
 }
+crop_stackf<-stack(crop_stackf)
 out<-stack(calc(crop_stackf, fun_c)) #put that in a raster stack
-
 
 #calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
 m<-list()

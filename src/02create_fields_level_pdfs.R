@@ -76,12 +76,10 @@ if(file.exists(extract_to_fields_filename) &&
   probs_by_fields <- na.omit(probs_by_fields) 
   probs_by_fields$ID<-1:nrow(probs_by_fields)
   print(dim(probs_by_fields))
-  out <- stack(calc(crop_raster_stack, fun_c)) #put that in a raster stack
+  probs_by_fields<-probs_by_fields[,c(31,1:30)]
+  out <- stack(calc(stack(crop_raster_stack2[1]), fun_c)) #put that in a raster stack, make sure to specify raster stack layer
  #save extract_to_fields and probs_by_fields
  #Save the objects to file
- print("saving extract_to_fields object")
- print(Sys.time())
- saveRDS(extract_to_fields, file = file.path(root_data_out, "extract_to_fields.rds"))
  print("saving probs_by_fields object")
  print(Sys.time())
  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
