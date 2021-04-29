@@ -59,7 +59,7 @@ else if (county=='stanislaus')
   county_raster_stack<-stanislaus_raster_stack
 }
 else {
-  print ("no county specified")
+  print("no county specified")
 }
 
 print("summarize each crop by fields to mean")
