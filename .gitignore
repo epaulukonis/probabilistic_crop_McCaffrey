@@ -1,4 +1,5 @@
 data_in/cadwr_merced_shp/cadwr_merced.*
+data_in/cadwr*.*
 data_in/FinalCropsPt2/*.tif
 data_in/FinalCropsPt1/*.tif
 data_out/extract_to_fields.rds
