@@ -11,19 +11,15 @@ print(Sys.time())
 mat_n_f<-merge(mat_n,area_f, by='ID')
 mat_n_f<-mat_n_f[,c(1,4,2:3)]
 
+cols<-names(mat_n_f[,3:4])
 
-test_1<-mat_n_f %>% 
+out<-mat_n_f %>% 
   group_by(Sim1)%>% 
   summarise(Area_Crop = sum(area_field))
 
 
-test<-list()
-for (i in 3:ncol(mat_n_f)){
-test[sim]<-mat_n_f %>% 
-  group_by([sim])%>% 
-  summarise(Area_Crop = sum(area_field))
-}
 
+#fix tomorrow
 
 
 #figure showing reduction of autocorrelation?
