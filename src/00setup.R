@@ -10,6 +10,7 @@ library(rgeos)
 library(rgdal)
 library(raster)
 library(dplyr)
+library(ggplot2)
 #install.packages("disaggregation") ##for extracParrallel function
 #library(disaggregation)
 #install.packages('exactextractr')
