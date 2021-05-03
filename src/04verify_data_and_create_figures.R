@@ -9,13 +9,20 @@ print(Sys.time())
 #field_areas is area_f
 
 mat_n_f<-merge(mat_n,area_f, by='ID')
+mat_n_f<-mat_n_f[,c(1,4,2:3)]
 
-mat__f %>% 
-  group_by(unique(Sim1))%>% 
-  summarise(Frequency = sum(area_field))
 
-area_by_field[field, which(names(area_by_field) == simulation_matrix[field,simulation])] <- indi_field_area[,1]
-crop_props[3,]<-colSums(area_by_field)
+test_1<-mat_n_f %>% 
+  group_by(Sim1)%>% 
+  summarise(Area_Crop = sum(area_field))
+
+
+test<-list()
+for (i in 3:ncol(mat_n_f)){
+test[sim]<-mat_n_f %>% 
+  group_by([sim])%>% 
+  summarise(Area_Crop = sum(area_field))
+}
 
 
 
