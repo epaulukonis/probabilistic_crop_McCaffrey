@@ -26,6 +26,8 @@ test_f<-lapply(test, crop_area_calc)
 
 
 
+
+
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
 simulation_matrix_f<-simulation_matrix_f[,c(1,4,2:3)]
 
@@ -45,8 +47,6 @@ list_of_sims_areas<-lapply(list_of_sims, crop_area_calc)
 
 
 
-
-#fix tomorrow
 
 
 #figure showing reduction of autocorrelation?
