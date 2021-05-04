@@ -10,9 +10,11 @@ library(rgeos)
 library(rgdal)
 library(raster)
 library(dplyr)
+library(ggplot2)
 #install.packages("disaggregation") ##for extracParrallel function
 #library(disaggregation)
 #install.packages('exactextractr')
+install.packages('exactextractr')
 library(exactextractr)
 
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
@@ -45,7 +47,7 @@ print(paste("time for initial setup:", time_elapsed))
 # source other files
 source(file.path(root_src, "01import_spatial_data.R"))
 source(file.path(root_src, "02create_fields_level_pdfs.R"))
-#source(file.path(root_src, "03simulate_crop_field_assignments.R"))
+source(file.path(root_src, "03simulate_crop_field_assignments.R"))
 
 
 
