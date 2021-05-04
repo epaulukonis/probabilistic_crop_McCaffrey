@@ -26,6 +26,13 @@ test_f<-lapply(test, crop_area_calc)
 
 
 
+crop_names<-names(sum_mat[2:31])
+crops_all<-as.data.frame(matrix(data=0,nrow=30,ncol=1))
+crop_all<-names(sum_mat[2:31])
+
+
+testy<-left_join(crops_all, test_f[1], by = )
+
 
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
