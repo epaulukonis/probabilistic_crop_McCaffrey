@@ -15,7 +15,7 @@ test<-setNames(lapply(names(mat_n_f)[-2], function(x) cbind(mat_n_f[2], mat_n_f[
 test[1]<-NULL
 IDs<-mat_n_f$ID
 test<-lapply(test, cbind, IDs)
-colnames<-c("area_field",'crop','ID')
+colnames<-c("area_field",'Crop','ID')
 test<-lapply(test, setNames, colnames)
 
 crop_area_calc<-function(x){
@@ -27,9 +27,9 @@ test_f<-lapply(test, crop_area_calc)
 
 ##put this in a list form, or for loop
 crops_all<-as.data.frame(matrix(data=names(sum_mat[2:31]),nrow=30,ncol=1))
-colnames(crops_all)[1]<-'crop'
+colnames(crops_all)[1]<-'Crop'
 test_y <- test_f[[1]]
-testy<-merge(crops_all, test_y, by="crop", all.x=TRUE)
+testy<-merge(crops_all, test_y, by="Crop", all.x=TRUE)
 testy[is.na(testy)] <- 0
 
 
