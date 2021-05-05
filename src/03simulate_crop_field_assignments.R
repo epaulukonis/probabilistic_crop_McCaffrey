@@ -69,7 +69,6 @@ for (simulation in 1:nsims+1){ #1000
   
 }
 
-#add in verification after running
 simulate_end_time <- Sys.time()
 simulate_time_elapsed <- simulate_end_time - simulate_start_time
 print(paste("time for big loop:", simulate_time_elapsed))

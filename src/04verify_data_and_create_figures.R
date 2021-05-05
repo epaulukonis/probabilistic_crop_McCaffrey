@@ -25,6 +25,9 @@ x %>%
   summarise(Area_Crop = sum(area_field))}
 test_f<-lapply(test, crop_area_calc)
 
+crops_all<-as.data.frame(matrix(data=names(sum_mat[2:31]),nrow=30,ncol=1))
+colnames(crops_all)[1]<-'Crop'
+
 list_of_output<-list()  
 for (sim in 1:length(test_f)){
   output <- test_f[[sim]]
@@ -46,8 +49,8 @@ sum(orig_area$crop_total)
 new<-fin %>%
   group_by(ID) %>% 
   transmute(Total=sum(Area_Crop))
-sum(var[2,1:30])
-sum(var[3,1:30])
+
+
 
 
 
