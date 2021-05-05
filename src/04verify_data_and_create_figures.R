@@ -43,12 +43,15 @@ row.names(orig_area)<-NULL
 orig_area<-orig_area[order(orig_area$Crop),]
 
 sum(orig_area$crop_total)
-fin %>%
+new<-fin %>%
   group_by(ID) %>% 
   transmute(Total=sum(Area_Crop))
-
 sum(var[2,1:30])
 sum(var[3,1:30])
+
+
+
+#big difference
 
 #final
 
