@@ -25,12 +25,13 @@ m_a<-lapply(m, `length<-`, max(lengths(m))) #change length of list to all match
 total_crop_and_field_area<- data.frame(matrix(unlist(m_a), nrow=length(m_a), byrow=TRUE)) #turn into workable dataframe for total crop area
 NC<-total_crop_and_field_area[1,1] 
 total_crop_and_field_area<-as.data.frame(total_crop_and_field_area[,2])
-total_crop_and_field_area[30,]<-NC
+total_crop_and_field_area[is.na(total_crop_and_field_area)] <- 0 
+total_crop_and_field_area[30,]<-NC-sum(total_crop_and_field_area[1:29,])
 colnames(total_crop_and_field_area)[1]<-'crop_total'
-total_crop_and_field_area[is.na(total_crop_and_field_area)] <- 0 #add in 0 #this is the dataset containing the total crop areas for each crop
 total_crop_and_field_area$field_tot<-0
 total_crop_and_field_area<-as.data.frame(t(total_crop_and_field_area))
 colnames(total_crop_and_field_area)<-colnames(probs_by_fields)[2:31] 
+
 
 #dataset for updating the areas that matches ncol and nrow of simulation_matrix
 area_by_field<-probs_by_fields[,2:31]
@@ -38,9 +39,10 @@ area_by_field[,1:30]<-0
 area_by_field<-as.data.frame(area_by_field) 
 
 ##loaded environment contains everything above up to here
-crop_props<-as.data.frame(matrix(data=0,nrow=3,ncol=30)) #empty data-frame for calculating new probabilities
+crop_props<-as.data.frame(matrix(data=0,nrow=4,ncol=30)) #empty data-frame for calculating new probabilities
 crop_props[2,]<-total_crop_and_field_area[1,]
 names(crop_props)<-names(probs_by_fields[,2:31])
+row.names(crop_probs)<-c("orig_prob","total_crop","crop_so_far","updated_prob")
 
 #field loop
 print("big loop over simulations and fields")
@@ -50,9 +52,11 @@ for (simulation in 1:nsims+1){ #1000
   for (field in 1:nrow(simulation_matrix)){ #16000   
     out<-probs_by_fields[probs_by_fields$ID %in% simulation_matrix[field,1],]
     crop_props[1,]<-out[,2:31] #pull out crop probs
-    new_crop_props<-(1-(crop_props[3,]/crop_props[2,]))*crop_props[1,] 
+    crop_props[4,]<-ifelse(crop_props[3,] >=  crop_props[2,], 0, (1-( crop_props[3,]/ crop_props[2,]))* crop_props[1,]) #if total crop area = sum of field area, automatically assign 0 prob
+    new_crop_props<- crop_props[4,]
+    #new_crop_props<-(1-(crop_props[3,]/crop_props[2,]))*crop_props[1,] 
     new_crop_props<-rapply(new_crop_props, function(x) ifelse(is.nan(x),0,x), how="replace" ) 
-    new_crop_props[new_crop_props < 0] <- 0 #if any probs are neg, change to 0 
+   #new_crop_props[new_crop_props < 0] <- 0 #if any probs are neg, change to 0 
     r1<-sample(30, size = 1, replace = TRUE, prob = new_crop_props)
     simulation_matrix[field,simulation] <-colnames(out)[r1+1]
     indi_field_area<-field_areas[field_areas$ID %in% out[,1],]
@@ -60,6 +64,9 @@ for (simulation in 1:nsims+1){ #1000
     crop_props[3,]<-colSums(area_by_field)
   }
   print(paste("finished", simulation,"out of 1000 simulations"))
+  area_by_field[,1:30]<-0 #remake empty area dataframe each sim
+  area_by_field<-as.data.frame(area_by_field) 
+  
 }
 
 #add in verification after running
