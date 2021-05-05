@@ -24,17 +24,33 @@ x %>%
   group_by(Crop)%>% 
   summarise(Area_Crop = sum(area_field))}
 test_f<-lapply(test, crop_area_calc)
-#test_f<-Map(cbind,test_f, unique.id = (1:length(test_f)))
 
-##put this in a list form, or for loop
+list_of_output<-list()  
+for (sim in 1:length(test_f)){
+  output <- test_f[[sim]]
+  output<-merge(crops_all, output, by="Crop", all.x=TRUE)
+  output[is.na(output)] <- 0
+  list_of_output[[sim]]<-output
+}
+fincalc<-Map(cbind, list_of_output, ID = (1:length( list_of_output)))
 
+fin<-do.call("rbind",fincalc)
+fin$Area_Crop<-as.integer(fin$Area_Crop)
 
-crops_all<-as.data.frame(matrix(data=names(sum_mat[2:31]),nrow=30,ncol=1))
-colnames(crops_all)[1]<-'Crop'
-test_y <- test_f[[1]]
-testy<-merge(crops_all, test_y, by="Crop", all.x=TRUE)
-testy[is.na(testy)] <- 0
+orig_area<-as.data.frame(t(area_c[1,]))
+orig_area$Crop<-row.names(orig_area)
+row.names(orig_area)<-NULL
+orig_area<-orig_area[order(orig_area$Crop),]
 
+sum(orig_area$crop_total)
+fin %>%
+  group_by(ID) %>% 
+  transmute(Total=sum(Area_Crop))
+
+sum(var[2,1:30])
+sum(var[3,1:30])
+
+#final
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
 simulation_matrix_f<-simulation_matrix_f[,c(1,4,2:3)]
@@ -52,7 +68,7 @@ crop_area_calc<-function(x){
     summarise(Area_Crop = sum(area_field))}
 list_of_sims_areas<-lapply(list_of_sims, crop_area_calc)
 
-crops_all<-as.data.frame(matrix(data=names(sum_mat[2:31]),nrow=30,ncol=1))
+crops_all<-as.data.frame(matrix(data=names(probs_by_fields[2:31]),nrow=30,ncol=1))
 colnames(crops_all)[1]<-'Crop'
 
 list_of_output<-list()  
@@ -62,9 +78,10 @@ for (sim in 1:length(list_of_sims_areas)){
   output[is.na(output)] <- 0
   list_of_output[[sim]]<-output
 }
+compiled_areas_by_crop_sim<-Map(cbind, list_of_output, unique.id = (1:length( list_of_output)))
 
-list_of_output<-Map(cbind, list_of_output, unique.id = (1:length( list_of_output)))
-
+compiled_areas_fin<-do.call("rbind",compiled_areas_by_crop_sim)
+compiled_areas_fin$Area_Crop<-as.integer(compiled_areas_fin$Area_Crop)
 
 
 
