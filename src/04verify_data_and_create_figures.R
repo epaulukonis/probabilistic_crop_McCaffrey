@@ -7,6 +7,7 @@ print(Sys.time())
 #so we need the area total by crop for each sim
 
 #field_areas is area_f
+#sum_mat is probs by fields
 
 mat_n_f<-merge(mat_n,area_f, by='ID')
 mat_n_f<-mat_n_f[,c(1,4,2:3)]
@@ -20,12 +21,14 @@ test<-lapply(test, setNames, colnames)
 
 crop_area_calc<-function(x){
 x %>% 
-  group_by(crop)%>% 
+  group_by(Crop)%>% 
   summarise(Area_Crop = sum(area_field))}
 test_f<-lapply(test, crop_area_calc)
-
+#test_f<-Map(cbind,test_f, unique.id = (1:length(test_f)))
 
 ##put this in a list form, or for loop
+
+
 crops_all<-as.data.frame(matrix(data=names(sum_mat[2:31]),nrow=30,ncol=1))
 colnames(crops_all)[1]<-'Crop'
 test_y <- test_f[[1]]
@@ -49,7 +52,18 @@ crop_area_calc<-function(x){
     summarise(Area_Crop = sum(area_field))}
 list_of_sims_areas<-lapply(list_of_sims, crop_area_calc)
 
+crops_all<-as.data.frame(matrix(data=names(sum_mat[2:31]),nrow=30,ncol=1))
+colnames(crops_all)[1]<-'Crop'
 
+list_of_output<-list()  
+for (sim in 1:length(list_of_sims_areas)){
+  output <- list_of_sims_areas[[sim]]
+  output<-merge(crops_all, output, by="Crop", all.x=TRUE)
+  output[is.na(output)] <- 0
+  list_of_output[[sim]]<-output
+}
+
+list_of_output<-Map(cbind, list_of_output, unique.id = (1:length( list_of_output)))
 
 
 
