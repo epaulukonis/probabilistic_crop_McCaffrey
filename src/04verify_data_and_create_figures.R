@@ -51,7 +51,7 @@ new<-fin %>%
   transmute(Total=sum(Area_Crop))
 
 
-
+sum(sum_mat[,2:31])
 
 
 #big difference

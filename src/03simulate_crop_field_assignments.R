@@ -13,24 +13,33 @@ colnames(simulation_matrix)[1:nsims]<-paste0("Sim",1:nsims,"")
 ID<-unique(probs_by_fields$ID)
 simulation_matrix<-cbind(ID,simulation_matrix)
 
-print("calculating raster areas")
-#calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
-m<-list()
-for (i in 1:29) {
-  y <- out[[i]]
-  m[[i]]<-as.matrix(tapply(area(y), y[], sum))
-}
+# print("calculating raster areas")
+# #calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
+# m<-list()
+# for (i in 1:29) {
+#   y <- out[[i]]
+#   m[[i]]<-as.matrix(tapply(area(y), y[], sum))
+# }
+# 
+# m_a<-lapply(m, `length<-`, max(lengths(m))) #change length of list to all match
+# total_crop_and_field_area<- data.frame(matrix(unlist(m_a), nrow=length(m_a), byrow=TRUE)) #turn into workable dataframe for total crop area
+# NC<-total_crop_and_field_area[1,1] 
+# total_crop_and_field_area<-as.data.frame(total_crop_and_field_area[,2])
+# total_crop_and_field_area[is.na(total_crop_and_field_area)] <- 0 
+# total_crop_and_field_area[30,]<-NC-sum(total_crop_and_field_area[1:29,])
+# colnames(total_crop_and_field_area)[1]<-'crop_total'
+# total_crop_and_field_area$field_tot<-0
+# total_crop_and_field_area<-as.data.frame(t(total_crop_and_field_area))
+# colnames(total_crop_and_field_area)<-colnames(probs_by_fields)[2:31] 
 
-m_a<-lapply(m, `length<-`, max(lengths(m))) #change length of list to all match
-total_crop_and_field_area<- data.frame(matrix(unlist(m_a), nrow=length(m_a), byrow=TRUE)) #turn into workable dataframe for total crop area
-NC<-total_crop_and_field_area[1,1] 
-total_crop_and_field_area<-as.data.frame(total_crop_and_field_area[,2])
-total_crop_and_field_area[is.na(total_crop_and_field_area)] <- 0 
-total_crop_and_field_area[30,]<-NC-sum(total_crop_and_field_area[1:29,])
+field_areas<-field_areas[(field_areas$ID %in% simulation_matrix$ID),]
+total_crop_and_field_area<-simulation_matrix[,2:31]*field_areas$area_field
+total_crop_and_field_area<-as.data.frame(colSums(total_crop_and_field_area))
 colnames(total_crop_and_field_area)[1]<-'crop_total'
 total_crop_and_field_area$field_tot<-0
 total_crop_and_field_area<-as.data.frame(t(total_crop_and_field_area))
-colnames(total_crop_and_field_area)<-colnames(probs_by_fields)[2:31] 
+colnames(total_crop_and_field_area)<-colnames(simulation_matrix)[2:31] 
+
 
 
 #dataset for updating the areas that matches ncol and nrow of simulation_matrix
@@ -52,7 +61,7 @@ for (simulation in 1:nsims+1){ #1000
   for (field in 1:nrow(simulation_matrix)){ #16000   
     out<-probs_by_fields[probs_by_fields$ID %in% simulation_matrix[field,1],]
     crop_props[1,]<-out[,2:31] #pull out crop probs
-    crop_props[4,]<-ifelse(crop_props[3,] >=  crop_props[2,], 0, (1-( crop_props[3,]/ crop_props[2,]))* crop_props[1,]) #if total crop area = sum of field area, automatically assign 0 prob
+    crop_props[4,]<-ifelse(crop_props[3,] >=  crop_props[2,] & crop_props[1,] !=0, 0.00001, (1-( crop_props[3,]/ crop_props[2,]))* crop_props[1,]) #if total crop area = sum of field area, automatically assign 0 prob
     new_crop_props<- crop_props[4,]
     #new_crop_props<-(1-(crop_props[3,]/crop_props[2,]))*crop_props[1,] 
     new_crop_props<-rapply(new_crop_props, function(x) ifelse(is.nan(x),0,x), how="replace" ) 

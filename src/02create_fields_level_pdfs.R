@@ -82,18 +82,18 @@ print(dim(probs_by_fields))
 probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
 
 #function to convert the rasters to binary
-fun_c <- function(x) {
-  x[x>0] <- 1
-  return(x)
-}
-out <- stack(calc(county_raster_stack, fun_c)) #put that in a raster stack, make sure to specify raster stack layer
+# fun_c <- function(x) {
+#   x[x>0] <- 1
+#   return(x)
+# }
+# out <- stack(calc(county_raster_stack, fun_c)) #put that in a raster stack, make sure to specify raster stack layer
 #save probs_by_fields and out
 print("saving probs_by_fields object")
 print(Sys.time())
 saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
-print("saving out object")
-print(Sys.time())
-saveRDS(out, file = file.path(root_data_out, "out.rds"))
+# print("saving out object")
+# print(Sys.time())
+# saveRDS(out, file = file.path(root_data_out, "out.rds"))
 }else{
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
