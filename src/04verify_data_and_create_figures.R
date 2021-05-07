@@ -54,22 +54,35 @@ orig_area$ID<-'Orig'
 new<-fin %>%
   group_by(ID) %>% 
   summarize(Total=sum(Area_Crop)) #this gives sum of each total area with new crop assignments
+#there's going to be a slight discrepancy between the total field area and the total area of the raster crops
+#this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
+
+
 
 #let's add in the ratio of each crop for each sim to its original area
+
+namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
+          "Grapes","Honeydew Melons","Lettuce","Misc.","Non-Crop","Oats","Oranges","Pears","Pecans","Peppers","Pistachios","Pomegranates",
+          "Potatoes","Pumpkins","Soybeans","Squash","Sweet Potatoes","Tomatoes","Walnuts","Watermelons")
+orig_area$Name<-namesc
+
 finf<-merge(fin,orig_area, by = 'Crop')
 finf<-finf[order(finf$ID.x), ]
 finf$Ratio<-finf$Area_Crop.x/finf$Area_Crop.y
 #for now, let's simple remove the rows with NAN, because those simulations won't have those crops represented
 #we can hope/assume out of 1000, all crops should be somewhat represented
 
-
 finf<-na.omit(finf)
-finf %>% ggplot(aes(x=Crop, y=Ratio, fill=Crop)) + 
+finf %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) + 
   geom_boxplot()+
   coord_cartesian(ylim = c(-2, 6))+
   xlab("Crop") + 
   ylab ("Ratio of Area") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  theme(panel.background = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.title=element_text(size=14,face="bold"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
+
 
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
