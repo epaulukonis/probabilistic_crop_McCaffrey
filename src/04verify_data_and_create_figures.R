@@ -44,17 +44,16 @@ orig_area<-as.data.frame(t(area_c[1,]))
 orig_area$Crop<-row.names(orig_area)
 row.names(orig_area)<-NULL
 orig_area<-orig_area[order(orig_area$Crop),]
+orig_area$crop_total<-as.integer(orig_area$crop_total)
+colnames(orig_area)[1]<-'Area_Crop'
+orig_area<-orig_area[,c(2,1)]
 
-sum(orig_area$crop_total)
 new<-fin %>%
   group_by(ID) %>% 
   transmute(Total=sum(Area_Crop))
 
 
-sum(var[2,])
-2060387584
 
-#tiny difference
 
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')

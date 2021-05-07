@@ -60,7 +60,7 @@ for (simulation in 1:nsims+1){ #1000
   for (field in 1:nrow(simulation_matrix)){ #16000   
     out<-probs_by_fields[probs_by_fields$ID %in% simulation_matrix[field,1],]
     crop_props[1,]<-out[,2:31] #pull out crop probs
-    crop_props[4,]<-ifelse(crop_props[3,] >=  crop_props[2,] & crop_props[1,] !=0, 0.00001, (1-( crop_props[3,]/ crop_props[2,]))* crop_props[1,]) #if total crop area = sum of field area, automatically assign 0 prob
+    crop_props[4,]<-ifelse(crop_props[3,] >=  crop_props[2,] & crop_props[1,] !=0, 0.00001, (1-(crop_props[3,]/ crop_props[2,]))* crop_props[1,]) #if total crop area = sum of field area, automatically assign 0 prob
     new_crop_props<- crop_props[4,]
     #new_crop_props<-(1-(crop_props[3,]/crop_props[2,]))*crop_props[1,] 
     new_crop_props<-rapply(new_crop_props, function(x) ifelse(is.nan(x),0,x), how="replace" ) 

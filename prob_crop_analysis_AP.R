@@ -20,7 +20,7 @@ ddir1 = file.path(wd,"FinalCropsPt1")
 setwd(ddir1)
 crop_stack1<-list.files(pattern='.tif$', all.files=TRUE, full.names=FALSE)
 
-ddir2 = file.path(wd,"/FinalCropsPt2")
+ddir2 = file.path(wd,"FinalCropsPt2")
 setwd(ddir2)
 crop_stack2<-list.files(pattern='.tif$', all.files=TRUE, full.names=FALSE)
 
