@@ -66,9 +66,10 @@ finf$Ratio<-finf$Area_Crop.x/finf$Area_Crop.y
 finf<-na.omit(finf)
 finf %>% ggplot(aes(x=Crop, y=Ratio, fill=Crop)) + 
   geom_boxplot()+
-  coord_cartesian(ylim = c(-2, 2))+
+  coord_cartesian(ylim = c(-2, 6))+
   xlab("Crop") + 
-  ylab ("Ratio of Area") 
+  ylab ("Ratio of Area") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
