@@ -10,7 +10,7 @@
 
 setenv TMPDIR /work/HONEYBEE/stp/run_crops_mcc
 
-module load intel/19.0
+module load intel/21.1
 module load R/4.0.3
 module load geos/3.8.1
 module load gdal-3.1.3/intel-19.0

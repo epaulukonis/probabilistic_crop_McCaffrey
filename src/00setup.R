@@ -16,6 +16,7 @@ library(ggplot2)
 #install.packages('exactextractr')
 install.packages('exactextractr')
 library(exactextractr)
+library(unzip)
 
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
@@ -35,6 +36,8 @@ root_src <- file.path(root_dir, "src")
 crop_data_dir1 = file.path(root_data_in, "FinalCropsPt1")
 crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
 county_shp_dir = file.path(root_data_in)
+
+#unzip spatial files if necessary
 
 #print current environment
 print(lapply(ls(),function(x)get(x)))
