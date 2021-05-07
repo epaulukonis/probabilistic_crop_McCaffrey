@@ -92,9 +92,9 @@ saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs"))
 
 print("saving independent field areas by sim object")
 print(Sys.time())
-saveRDS(indi_field_area, file = file.path(root_data_out, "indi_field_area"))
+saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area"))
 
 print("saving area_by_field object")
 print(Sys.time())
-saveRDS(area_by_field, file = file.path(root_data_out, "area_by_field"))
+saveRDS(field_areas, file = file.path(root_data_out, "field_areas"))
 

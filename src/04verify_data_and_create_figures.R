@@ -8,6 +8,7 @@ print(Sys.time())
 
 #field_areas is area_f
 #sum_mat is probs by fields
+#area_c is total_crop_and_field_area
 
 mat_n_f<-merge(mat_n,area_f, by='ID')
 mat_n_f<-mat_n_f[,c(1,4,2:3)]
@@ -40,6 +41,7 @@ fincalc<-Map(cbind, list_of_output, ID = (1:length( list_of_output)))
 fin<-do.call("rbind",fincalc)
 fin$Area_Crop<-as.integer(fin$Area_Crop)
 
+#this is the original area of each crop
 orig_area<-as.data.frame(t(area_c[1,]))
 orig_area$Crop<-row.names(orig_area)
 row.names(orig_area)<-NULL
@@ -47,13 +49,26 @@ orig_area<-orig_area[order(orig_area$Crop),]
 orig_area$crop_total<-as.integer(orig_area$crop_total)
 colnames(orig_area)[1]<-'Area_Crop'
 orig_area<-orig_area[,c(2,1)]
+orig_area$ID<-'Orig'
 
 new<-fin %>%
   group_by(ID) %>% 
-  transmute(Total=sum(Area_Crop))
+  summarize(Total=sum(Area_Crop)) #this gives sum of each total area with new crop assignments
+
+#let's add in the ratio of each crop for each sim to its original area
+finf<-merge(fin,orig_area, by = 'Crop')
+finf<-finf[order(finf$ID.x), ]
+finf$Ratio<-finf$Area_Crop.x/finf$Area_Crop.y
+#for now, let's simple remove the rows with NAN, because those simulations won't have those crops represented
+#we can hope/assume out of 1000, all crops should be somewhat represented
 
 
-
+finf<-na.omit(finf)
+finf %>% ggplot(aes(x=Crop, y=Ratio, fill=Crop)) + 
+  geom_boxplot()+
+  coord_cartesian(ylim = c(-2, 2))+
+  xlab("Crop") + 
+  ylab ("Ratio of Area") 
 
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
