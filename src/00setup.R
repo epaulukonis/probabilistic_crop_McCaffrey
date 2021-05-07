@@ -14,8 +14,8 @@ library(ggplot2)
 #install.packages("disaggregation") ##for extracParrallel function
 #library(disaggregation)
 #install.packages('exactextractr')
-install.packages('exactextractr')
-library(exactextractr)
+#install.packages('exactextractr')
+library(exactextractr) #requires geos
 library(unzip)
 
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
