@@ -3,6 +3,7 @@ simulate_start_time <- Sys.time()
 print("stepping into 04verify_data_and_create_figures.R")
 print(Sys.time())
 
+##Test----
 ##create boxplot of each crop from the sims showing distribution of total crop areas and then the line with the original areas
 #so we need the area total by crop for each sim
 
@@ -84,7 +85,7 @@ finf %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) +
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
 
 
-
+##Fin----
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
 simulation_matrix_f<-simulation_matrix_f[,c(1,4,2:3)]
 
@@ -116,8 +117,45 @@ compiled_areas_by_crop_sim<-Map(cbind, list_of_output, unique.id = (1:length( li
 compiled_areas_fin<-do.call("rbind",compiled_areas_by_crop_sim)
 compiled_areas_fin$Area_Crop<-as.integer(compiled_areas_fin$Area_Crop)
 
+fin_total_sum_areas<-compiled_areas_fin %>%
+  group_by(ID) %>% 
+  summarize(Total=sum(Area_Crop)) #this gives sum of each total area with new crop assignments
+#there's going to be a slight discrepancy between the total field area and the total area of the raster crops
+#this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
 
 
-#figure showing reduction of autocorrelation?
+orig_area<-as.data.frame(t(total_crop_and_field_area[1,]))
+orig_area$Crop<-row.names(orig_area)
+row.names(orig_area)<-NULL
+orig_area<-orig_area[order(orig_area$Crop),]
+orig_area$crop_total<-as.integer(orig_area$crop_total)
+colnames(orig_area)[1]<-'Area_Crop'
+orig_area<-orig_area[,c(2,1)]
+orig_area$ID<-'Orig'
+
+#let's add in the ratio of each crop for each sim to its original area
+
+namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
+          "Grapes","Honeydew Melons","Lettuce","Misc.","Non-Crop","Oats","Oranges","Pears","Pecans","Peppers","Pistachios","Pomegranates",
+          "Potatoes","Pumpkins","Soybeans","Squash","Sweet Potatoes","Tomatoes","Walnuts","Watermelons")
+orig_area$Name<-namesc
+
+compiled_areas_fin<-merge(compiled_areas_fin,orig_area, by = 'Crop')
+compiled_areas_fin<-compiled_areas_fin[order(compiled_areas_fin$ID.x), ]
+compiled_areas_fin$Ratio<-compiled_areas_fin$Area_Crop.x/compiled_areas_fin$Area_Crop.y
+#for now, let's simple remove the rows with NAN, because those simulations won't have those crops represented
+#we can hope/assume out of 1000, all crops should be somewhat represented
+
+compiled_areas_fin<-na.omit(compiled_areas_fin)
+compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) + 
+  geom_boxplot()+
+  coord_cartesian(ylim = c(-2, 6))+
+  xlab("Crop") + 
+  ylab ("Ratio of Original Area to Simulated Area by Crop") +
+  theme(panel.background = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.title=element_text(size=14,face="bold"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
+
 
 
