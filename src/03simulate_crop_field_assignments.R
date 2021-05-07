@@ -41,7 +41,6 @@ total_crop_and_field_area<-as.data.frame(t(total_crop_and_field_area))
 colnames(total_crop_and_field_area)<-colnames(simulation_matrix)[2:31] 
 
 
-
 #dataset for updating the areas that matches ncol and nrow of simulation_matrix
 area_by_field<-probs_by_fields[,2:31]
 area_by_field[,1:30]<-0

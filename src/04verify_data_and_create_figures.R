@@ -51,12 +51,11 @@ new<-fin %>%
   transmute(Total=sum(Area_Crop))
 
 
-sum(sum_mat[,2:31])
+sum(var[2,])
+2060387584
 
+#tiny difference
 
-#big difference
-
-#final
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
 simulation_matrix_f<-simulation_matrix_f[,c(1,4,2:3)]
