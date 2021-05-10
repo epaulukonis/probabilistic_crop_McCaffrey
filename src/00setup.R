@@ -40,8 +40,8 @@ print(root_src)
 
 
 # data from ged
-crop_data_dir1 = file.path(root_data_in,"FinalCropsPt1")
-crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
+crop_data_dir1 = file.path(root_data_in)
+crop_data_dir2 = file.path(root_data_in)
 county_shp_dir = file.path(root_data_in)
 
 #unzip spatial files if necessary
