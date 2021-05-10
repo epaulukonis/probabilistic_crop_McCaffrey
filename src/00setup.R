@@ -42,7 +42,7 @@ print(root_src)
 # data from ged
 crop_data_dir1 = file.path(root_data_in, "FinalCropsPt1")
 crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
-county_shp_dir = file.path(root_data_in, "cadwr_merced_shp")
+county_shp_dir = file.path(root_data_in)
 
 #unzip spatial files if necessary
 #check if FinalCropsPt1 has been unzipped
@@ -56,8 +56,8 @@ print(unzip_dir2_filename )
 unzipped_dir2 <- file.exists(file.path(crop_data_dir2, "Lettuce_StudyArea.tif"))
 if(!unzipped_dir2){unzip(unzip_dir2_filename)}
 #check if county shapefiles has been unzipped
-unzip_cadwr_filename <- file.path(root_data_in, "4_counties.zip")
-unzipped_cadwr <- file.exists(file.path(county_shp_dir, "cadwr_merced.shp"))
+unzip_cadwr_filename <- file.path(root_data_in, "5_counties.zip")
+unzipped_cadwr <- file.exists(file.path(county_shp_dir, "cadwr_madera.shp"))
 if(!unzipped_cadwr){unzip(unzip_cadwr_filename)}
 
 #print current environment
