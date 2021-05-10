@@ -13,10 +13,10 @@ crop_stack_allfiles <- c(crop_stack1_files, crop_stack2_files) #was #crop_stackf
 # crop_raster_stack was crop_stackf
 crop_raster_stack <- stack(crop_stack_allfiles)
 print("raster data extracted")
-names<-c('madera','merced','sacramento','sanjoaquin','stanislaus')
+county_names<-c('madera','merced','sacramento','sanjoaquin','stanislaus')
 counties <- list.files(county_shp_dir, pattern="\\.shp$", full.names=TRUE)
 counties <- lapply(counties, shapefile)
-names(counties)<-names
+names(counties)<-county_names
 print("county shapefiles extracted")
 counties_trans <- lapply(counties, function(x) spTransform(x,crs(crop_raster_stack))) #transform crs of county polygon
 ex <- lapply(counties_trans, function (x) extent(x)) #get extents of each county
