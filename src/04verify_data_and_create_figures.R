@@ -150,7 +150,7 @@ compiled_areas_fin<-na.omit(compiled_areas_fin)
 compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) + 
   geom_boxplot()+
   coord_cartesian(ylim = c(-2, 6))+
-  xlab("Crop") + 
+  xlab("Crop - Merced County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 
