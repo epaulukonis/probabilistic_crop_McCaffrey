@@ -64,6 +64,8 @@ compiled_areas_fin$Ratio<-compiled_areas_fin$Area_Crop.x/compiled_areas_fin$Area
 #we can hope/assume out of 1000, all crops should be somewhat represented
 
 compiled_areas_fin<-na.omit(compiled_areas_fin)
+
+jpeg(file = root_data_out)
 compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) + 
   geom_boxplot()+
   coord_cartesian(ylim = c(-2, 6))+
@@ -73,6 +75,6 @@ compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) +
         axis.line = element_line(colour = "black"), 
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
-
+dev.off()
 
 
