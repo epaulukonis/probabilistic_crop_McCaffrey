@@ -16,7 +16,6 @@ library(ggplot2)
 #install.packages('exactextractr')
 #install.packages('exactextractr')
 library(exactextractr) #requires geos
-library(unzip)
 
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
@@ -38,6 +37,18 @@ crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
 county_shp_dir = file.path(root_data_in)
 
 #unzip spatial files if necessary
+#check if FinalCropsPt1 has been unzipped
+unzip_dir1_filename <- file.path(root_data_in, "FinalCropsPt1.zip")
+unzipped_dir1 <- file.exists(file.path(crop_data_dir1, "Alfalfa_StudyArea.tif"))
+if(!unzipped_dir1){unzip(unzip_dir1_filename)}
+#check if FinalCropsPt2 has been unzipped
+unzip_dir2_filename <- file.path(root_data_in, "FinalCropsPt2.zip")
+unzipped_dir2 <- file.exists(file.path(crop_data_dir2, "Lettuce_StudyArea.tif"))
+if(!unzipped_dir2){unzip(unzip_dir2_filename)}
+#check if county shapefiles has been unzipped
+unzip_cadwr_filename <- file.path(root_data_in, "4_counties.zip")
+unzipped_cadwr <- file.exists(file.path(county_shp_dir, "cadwr_merced.shp"))
+if(!unzipped_cadwr){unzip(unzip_cadwr_filename)}
 
 #print current environment
 print(lapply(ls(),function(x)get(x)))
