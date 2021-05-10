@@ -57,8 +57,9 @@ unzipped_dir2 <- file.exists(file.path(crop_data_dir2, "Lettuce_StudyArea.tif"))
 if(!unzipped_dir2){unzip(unzip_dir2_filename)}
 #check if county shapefiles has been unzipped
 unzip_cadwr_filename <- file.path(root_data_in, "5_counties.zip")
+print(unzip_cadwr_filename)
 unzipped_cadwr <- file.exists(file.path(county_shp_dir, "cadwr_madera.shp"))
-if(!unzipped_cadwr){unzip(unzip_cadwr_filename)}
+if(!unzipped_cadwr){unzip(unzip_cadwr_filename, exdir=county_shp_dir)}
 
 
 #print current environment
