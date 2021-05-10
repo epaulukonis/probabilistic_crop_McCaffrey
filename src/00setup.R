@@ -40,7 +40,7 @@ print(root_src)
 
 
 # data from ged
-crop_data_dir1 = file.path(root_data_in, "FinalCropsPt1")
+crop_data_dir1 = file.path(root_data_in,"FinalCropsPt1")
 crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
 county_shp_dir = file.path(root_data_in)
 
@@ -59,6 +59,7 @@ if(!unzipped_dir2){unzip(unzip_dir2_filename)}
 unzip_cadwr_filename <- file.path(root_data_in, "5_counties.zip")
 unzipped_cadwr <- file.exists(file.path(county_shp_dir, "cadwr_madera.shp"))
 if(!unzipped_cadwr){unzip(unzip_cadwr_filename)}
+
 
 #print current environment
 print(lapply(ls(),function(x)get(x)))
