@@ -47,10 +47,12 @@ county_shp_dir = file.path(root_data_in, "cadwr_merced_shp")
 #unzip spatial files if necessary
 #check if FinalCropsPt1 has been unzipped
 unzip_dir1_filename <- file.path(root_data_in, "FinalCropsPt1.zip")
+print(unzip_dir1_filename )
 unzipped_dir1 <- file.exists(file.path(crop_data_dir1, "Alfalfa_StudyArea.tif"))
 if(!unzipped_dir1){unzip(unzip_dir1_filename)}
 #check if FinalCropsPt2 has been unzipped
 unzip_dir2_filename <- file.path(root_data_in, "FinalCropsPt2.zip")
+print(unzip_dir2_filename )
 unzipped_dir2 <- file.exists(file.path(crop_data_dir2, "Lettuce_StudyArea.tif"))
 if(!unzipped_dir2){unzip(unzip_dir2_filename)}
 #check if county shapefiles has been unzipped
