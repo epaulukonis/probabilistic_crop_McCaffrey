@@ -27,18 +27,22 @@ if(Sys.info()[4]=="LZ2626UTPURUCKE"){
 }else{
   root_dir <- file.path("/work", "HONEYBEE", who_is_running, "probabilistic_crop_McCaffrey")
 }
+print(root_dir)
 
 root_data_in <- file.path(root_dir, "data_in")
 print(root_data_in)
 root_data_out <- file.path(root_dir, "data_out")
 print(root_data_out)
 root_graphics <- file.path(root_dir, "graphics")
+print(root_graphics)
 root_src <- file.path(root_dir, "src")
+print(root_src)
+
 
 # data from ged
 crop_data_dir1 = file.path(root_data_in, "FinalCropsPt1")
 crop_data_dir2 = file.path(root_data_in,"FinalCropsPt2")
-county_shp_dir = file.path(root_data_in, "cadwr_merced.shp")
+county_shp_dir = file.path(root_data_in, "cadwr_merced_shp")
 
 #unzip spatial files if necessary
 #check if FinalCropsPt1 has been unzipped
