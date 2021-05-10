@@ -17,13 +17,15 @@ library(ggplot2)
 #install.packages('exactextractr')
 library(exactextractr) #requires geos
 
+who_is_running<-'eap'
+#who_is_running<-'stp'
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
 }else if (Sys.info()[4]=="LZ26EPAULUKO"){
   #load('myEnvironment_prob_crop.RData')
   root_dir <- 'C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/probabilistic_crop_McCaffrey'
 }else{
-  root_dir <- file.path("/work", "HONEYBEE", "stp", "probabilistic_crop_McCaffrey")
+  root_dir <- file.path("/work", "HONEYBEE", who_is_running, "probabilistic_crop_McCaffrey")
 }
 
 root_data_in <- file.path(root_dir, "data_in")
