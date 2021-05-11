@@ -17,8 +17,9 @@ library(ggplot2)
 #install.packages('exactextractr')
 library(exactextractr) #requires geos
 
-who_is_running<-'eap'
-#who_is_running<-'stp'
+#who_is_running<-'eap'
+who_is_running<-'stp'
+
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
 }else if (Sys.info()[4]=="LZ26EPAULUKO"){
