@@ -17,9 +17,8 @@ library(ggplot2)
 #install.packages('exactextractr')
 library(exactextractr) #requires geos
 
-#who_is_running<-'eap'
-who_is_running<-'stp'
-
+who_is_running<-'eap'
+#who_is_running<-'stp'
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
   root_dir <- file.path("c:", "git", "probabilistic_crop_McKaffrey")
 }else if (Sys.info()[4]=="LZ26EPAULUKO"){
@@ -28,42 +27,32 @@ if(Sys.info()[4]=="LZ2626UTPURUCKE"){
 }else{
   root_dir <- file.path("/work", "HONEYBEE", who_is_running, "probabilistic_crop_McCaffrey")
 }
-print(paste('root dir:', root_dir))
+print(root_dir)
 
 root_data_in <- file.path(root_dir, "data_in")
-print(paste('root_data_in dir:', root_data_in))
+print(root_data_in)
 root_data_out <- file.path(root_dir, "data_out")
-print(paste('root_data_out dir:', root_data_out))
+print(root_data_out)
 root_graphics <- file.path(root_dir, "graphics")
-print(paste('root_graphics dir:', root_graphics))
+print(root_graphics)
 root_src <- file.path(root_dir, "src")
-print(paste('root_src dir:', root_src))
+print(root_src)
 
 
 # data from ged
-crop_data_dir1 = file.path(root_data_in, "FinalCropsPt1")
-print(paste('crop_data_dir1:', crop_data_dir1))
-crop_data_dir2 = file.path(root_data_in, "FinalCropsPt2")
-print(paste('crop_data_dir2:', crop_data_dir2))
-county_shp_dir = file.path(root_data_in, "cadwr_merced_shp")
-print(paste('county_shp_dir:', county_shp_dir))
+crop_data_dir1 = file.path(root_data_in)
+crop_data_dir2 = file.path(root_data_in)
+county_shp_dir = file.path(root_data_in)
 
 #unzip spatial files if necessary
 #check if FinalCropsPt1 has been unzipped
 unzip_dir1_filename <- file.path(root_data_in, "FinalCropsPt1.zip")
-print(paste('unzip_dir1_filename:', unzip_dir1_filename))
-check_dir1_filename <- file.path(crop_data_dir1, "Alfalfa_StudyArea.tif")
-unzipped_dir1 <- file.exists(check_dir1_filename)
-print(paste(check_dir1_filename, 'exists? =', unzipped_dir1))
-if(unzipped_dir1){
-  print(paste(check_dir1_filename, 'exists so no need to unzip'))
-}else{
-  unzip(unzip_dir1_filename, exdir=crop_data_dir1)
-}
+print(unzip_dir1_filename )
+unzipped_dir1 <- file.exists(file.path(crop_data_dir1, "Alfalfa_StudyArea.tif"))
+if(!unzipped_dir1){unzip(unzip_dir1_filename, exdir=crop_data_dir1)}
 #check if FinalCropsPt2 has been unzipped
 unzip_dir2_filename <- file.path(root_data_in, "FinalCropsPt2.zip")
-check_dir2_filename <- file.path(crop_data_dir2, "Lettuce_StudyArea.tif")
-print(unzip_dir2_filename)
+print(unzip_dir2_filename )
 unzipped_dir2 <- file.exists(file.path(crop_data_dir2, "Lettuce_StudyArea.tif"))
 if(!unzipped_dir2){unzip(unzip_dir2_filename, exdir=crop_data_dir2)}
 #check if county shapefiles has been unzipped
