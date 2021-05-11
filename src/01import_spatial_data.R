@@ -32,7 +32,6 @@ if(!cropped_raster_stack){crop_raster_stack2 <- lapply(counties, function(x) mas
 }else if (cropped_raster_stack){
   crop_raster_stack2 <- readRDS(cropped_raster_stack_filname)
 } 
-
 print('check if the cropped and masked rasterstack exists, if not, run extract')
 saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
 print('raster stack masked and saved locally')
