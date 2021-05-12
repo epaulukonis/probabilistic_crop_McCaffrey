@@ -119,7 +119,7 @@ saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
   
   county<-"merced"
   print('specify county here')
-  probs_by_fields<-readRDS(file = merced_filename)  #dataframe of field probs by county
+  probs_by_fields<-merced #use extracted finished dataframe
   print("loading extracted field file for county of interest here")
   print(Sys.time())
   
@@ -163,6 +163,7 @@ saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
   print(dim(probs_by_fields))
   print("omit fields which don't overlap with crop data")
   probs_by_fields <- na.omit(probs_by_fields) 
+  print(dim(probs_by_fields))
   probs_by_fields$ID<-1:nrow(probs_by_fields)
   print(dim(probs_by_fields))
   probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
