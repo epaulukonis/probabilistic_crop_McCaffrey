@@ -115,6 +115,61 @@ saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
   saveRDS(sacramento, file = file.path(root_data_out, "sacramento.rds"))
   saveRDS(sanjoaquin, file = file.path(root_data_out, "sanjoaquin.rds"))
   saveRDS(stanislaus, file = file.path(root_data_out, "stanislaus.rds"))
+  
+  county<-"merced"
+  print('specify county here')
+  probs_by_fields<-readRDS(file = merced_filename)  #dataframe of field probs by county
+  print("loading extracted field file for county of interest here")
+  print(Sys.time())
+  
+  if (county=='madera'){
+    county_shape<-madera_shape
+    county_raster_stack<-madera_raster_stack
+  } else if (county=='merced')
+  {
+    county_shape<-merced_shape
+    county_raster_stack<-merced_raster_stack
+  }
+  else if (county=='sacramento')
+  {
+    county_shape<-sacramento_shape
+    county_raster_stack<-sacramento_raster_stack
+  }
+  else if (county=='sanjoaquin')
+  {
+    county_shape<-sanjoaquin_shape
+    county_raster_stack<-sanjoaquin_raster_stack
+  }
+  else if (county=='stanislaus')
+  {
+    county_shape<-stanislaus_shape
+    county_raster_stack<-stanislaus_raster_stack
+  }
+  else {
+    print("no county specified")
+  }
+  
+  print("summarize each crop by fields to mean")
+  field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
+  colnames(field_areas)[1]<-'field_areas'
+  field_areas$ID<-1:nrow(probs_by_fields)  
+  print("area of individual fields put into dataframe for 03 code")
+  
+  print("apply probs_by_fields to sum_c")
+  sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
+  print(dim(sum_c))
+  probs_by_fields$NC <- round((1-sum_c),4)#add in column for non-crop
+  print(dim(probs_by_fields))
+  print("omit fields which don't overlap with crop data")
+  probs_by_fields <- na.omit(probs_by_fields) 
+  probs_by_fields$ID<-1:nrow(probs_by_fields)
+  print(dim(probs_by_fields))
+  probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
+  
+  print("saving probs_by_fields object")
+  print(Sys.time())
+  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
+  
 }
 
 print("finished fields extraction, finished preparing data for 03")
