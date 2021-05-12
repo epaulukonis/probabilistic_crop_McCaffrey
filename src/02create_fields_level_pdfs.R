@@ -27,74 +27,74 @@ if( file.exists(madera_filename)&&
     file.exists(sacramento_filename)&&
     file.exists(sanjoaquin_filename)&&
     file.exists(stanislaus_filename))
+{
+  # files exist so we will load the needed R objects
+  county<-"merced"
+  print('specify county here')
+  probs_by_fields<-readRDS(file = merced_filename)  #dataframe of field probs by county
+  print("loading extracted field file for county of interest here")
+  print(Sys.time())
+  
+  if (county=='madera'){
+    county_shape<-madera_shape
+    #county_raster_stack<-madera_raster_stack
+  } else if (county=='merced')
   {
-# files exist so we will load the needed R objects
-county<-"merced"
-print('specify county here')
-probs_by_fields<-readRDS(file = merced_filename)  #dataframe of field probs by county
-print("loading extracted field file for county of interest here")
-print(Sys.time())
-
-if (county=='madera'){
-county_shape<-madera_shape
-county_raster_stack<-madera_raster_stack
-} else if (county=='merced')
-{
-county_shape<-merced_shape
-county_raster_stack<-merced_raster_stack
-}
-else if (county=='sacramento')
-{
-  county_shape<-sacramento_shape
-  county_raster_stack<-sacramento_raster_stack
-}
-else if (county=='sanjoaquin')
-{
-  county_shape<-sanjoaquin_shape
-  county_raster_stack<-sanjoaquin_raster_stack
-}
-else if (county=='stanislaus')
-{
-  county_shape<-stanislaus_shape
-  county_raster_stack<-stanislaus_raster_stack
-}
-else {
-  print("no county specified")
-}
-
-print("summarize each crop by fields to mean")
-field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
-colnames(field_areas)[1]<-'field_areas'
-field_areas$ID<-1:nrow(probs_by_fields)  
-print("area of individual fields put into dataframe for 03 code")
-
-print("apply probs_by_fields to sum_c")
-print(Sys.time())
-sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
-print(dim(sum_c))
-print(Sys.time())
-probs_by_fields$NC <- round((1-sum_c),4)#add in column for non-crop
-print(dim(probs_by_fields))
-print("omit fields which don't overlap with crop data")
-probs_by_fields <- na.omit(probs_by_fields) 
-print(dim(probs_by_fields))
-probs_by_fields$ID<-1:nrow(probs_by_fields)
-print(dim(probs_by_fields))
-probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
-
-#function to convert the rasters to binary
-# fun_c <- function(x) {
-#   x[x>0] <- 1
-#   return(x)
-# }
-# out <- stack(calc(county_raster_stack, fun_c)) #put that in a raster stack, make sure to specify raster stack layer
-#save probs_by_fields and out
-print("saving probs_by_fields object")
-print(Sys.time())
-saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
-# print("saving out object")
-# print(Sys.time())
-# saveRDS(out, file = file.path(root_data_out, "out.rds"))
+    county_shape<-merced_shape
+    #county_raster_stack<-merced_raster_stack
+  }
+  else if (county=='sacramento')
+  {
+    county_shape<-sacramento_shape
+    #county_raster_stack<-sacramento_raster_stack
+  }
+  else if (county=='sanjoaquin')
+  {
+    county_shape<-sanjoaquin_shape
+    #county_raster_stack<-sanjoaquin_raster_stack
+  }
+  else if (county=='stanislaus')
+  {
+    county_shape<-stanislaus_shape
+    #county_raster_stack<-stanislaus_raster_stack
+  }
+  else {
+    print("no county specified")
+  }
+  
+  print("summarize each crop by fields to mean")
+  field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
+  colnames(field_areas)[1]<-'field_areas'
+  field_areas$ID<-1:nrow(probs_by_fields)  
+  print("area of individual fields put into dataframe for 03 code")
+  
+  print("apply probs_by_fields to sum_c")
+  print(Sys.time())
+  sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
+  print(dim(sum_c))
+  print(Sys.time())
+  probs_by_fields$NC <- round((1-sum_c),4)#add in column for non-crop
+  print(dim(probs_by_fields))
+  print("omit fields which don't overlap with crop data")
+  probs_by_fields <- na.omit(probs_by_fields) 
+  print(dim(probs_by_fields))
+  probs_by_fields$ID<-1:nrow(probs_by_fields)
+  print(dim(probs_by_fields))
+  probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
+  
+  #function to convert the rasters to binary
+  # fun_c <- function(x) {
+  #   x[x>0] <- 1
+  #   return(x)
+  # }
+  # out <- stack(calc(county_raster_stack, fun_c)) #put that in a raster stack, make sure to specify raster stack layer
+  #save probs_by_fields and out
+  print("saving probs_by_fields object")
+  print(Sys.time())
+  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
+  # print("saving out object")
+  # print(Sys.time())
+  # saveRDS(out, file = file.path(root_data_out, "out.rds"))
 }else{
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
@@ -109,7 +109,7 @@ saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
   stanislaus <- exact_extract(stack(crop_raster_stack2[5]), do.call(rbind, counties_trans[5]), 'mean')
   names(stanislaus)<-names(crop_raster_stack)
   print(Sys.time())
-
+  
   #save to RDS files
   saveRDS(madera, file = file.path(root_data_out, "madera.rds"))
   saveRDS(merced, file = file.path(root_data_out, "merced.rds"))
@@ -119,32 +119,32 @@ saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
   
   county<-"merced"
   print('specify county here')
-  probs_by_fields<-merced #use extracted finished dataframe
+  probs_by_fields<-readRDS(file = merced_filename) #use extracted finished dataframe
   print("loading extracted field file for county of interest here")
   print(Sys.time())
   
   if (county=='madera'){
     county_shape<-madera_shape
-    county_raster_stack<-madera_raster_stack
+    #county_raster_stack<-madera_raster_stack
   } else if (county=='merced')
   {
     county_shape<-merced_shape
-    county_raster_stack<-merced_raster_stack
+    #county_raster_stack<-merced_raster_stack
   }
   else if (county=='sacramento')
   {
     county_shape<-sacramento_shape
-    county_raster_stack<-sacramento_raster_stack
+    #county_raster_stack<-sacramento_raster_stack
   }
   else if (county=='sanjoaquin')
   {
     county_shape<-sanjoaquin_shape
-    county_raster_stack<-sanjoaquin_raster_stack
+    #county_raster_stack<-sanjoaquin_raster_stack
   }
   else if (county=='stanislaus')
   {
     county_shape<-stanislaus_shape
-    county_raster_stack<-stanislaus_raster_stack
+    #county_raster_stack<-stanislaus_raster_stack
   }
   else {
     print("no county specified")
