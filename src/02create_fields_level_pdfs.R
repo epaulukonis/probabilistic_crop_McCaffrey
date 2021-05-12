@@ -77,6 +77,7 @@ probs_by_fields$NC <- round((1-sum_c),4)#add in column for non-crop
 print(dim(probs_by_fields))
 print("omit fields which don't overlap with crop data")
 probs_by_fields <- na.omit(probs_by_fields) 
+print(dim(probs_by_fields))
 probs_by_fields$ID<-1:nrow(probs_by_fields)
 print(dim(probs_by_fields))
 probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
