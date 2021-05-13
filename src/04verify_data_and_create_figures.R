@@ -3,6 +3,15 @@ simulate_start_time <- Sys.time()
 print("stepping into 04verify_data_and_create_figures.R")
 print(Sys.time())
 
+##figure for workflow - Fig. 1
+#madera county, alfalfa
+window<-extent(-2220000, -2140000, 1965000, 2010000)
+r1<-crop(crop_raster_stack[[1]], window)
+plot(r1)
+plot(counties_trans[[3]], add=T)
+
+
+##figure for boxplot - Fig. 2
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
 simulation_matrix_f<-simulation_matrix_f[,c(1,4,2:3)]
 
@@ -76,5 +85,6 @@ compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) +
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
 dev.off()
+
 
 
