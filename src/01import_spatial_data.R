@@ -28,10 +28,12 @@ crop_raster_stack2 <- lapply(ex, function(x) crop(crop_raster_stack, x)) #crop r
 #check if masked raster stack already exists
 cropped_raster_stack_filename <- file.path(root_data_out,"crop_rasterstack_masked.rds")
 cropped_raster_stack <- file.exists(cropped_raster_stack_filename)
+print(cropped_raster_stack)
 if(!cropped_raster_stack){crop_raster_stack2 <- lapply(counties_trans, function(x) mask(crop_raster_stack, x))
 }else if (cropped_raster_stack){
   crop_raster_stack2 <- readRDS(cropped_raster_stack_filename)
 } 
+
 print('check if the cropped and masked rasterstack exists, if not, run extract')
 saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
 print('raster stack masked and saved locally')
@@ -43,4 +45,3 @@ import_end_time <- Sys.time()
 import_time_elapsed <- import_end_time - import_start_time
 print(paste("time for importing spatial data:", import_time_elapsed))
 
-plot(crop_raster_stack[[2]])

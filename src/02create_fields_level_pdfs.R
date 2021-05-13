@@ -98,6 +98,8 @@ if( file.exists(madera_filename)&&
 }else{
   # files don't exist so we will create them
   print("extract the raster cell values by polygons to a df")
+  print(file.exists(file.path(root_data_out, "crop_rasterstack_masked.rds")))
+  
   madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean')
   names(madera)<-names(crop_raster_stack)
   merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean')
