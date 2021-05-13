@@ -12,14 +12,19 @@ stanislaus_filename <- file.path(root_data_out, "stanislaus.rds")
 
 #load county shapes and raster stacks
 madera_shape<-do.call(rbind, counties_trans[1]) 
+print(dim(madera_shape))
 #madera_raster_stack<-stack(crop_raster_stack2[1])
 merced_shape<-do.call(rbind, counties_trans[2]) 
+print(dim(merced_shape))
 #merced_raster_stack<-stack(crop_raster_stack2[2])
 sacramento_shape<-do.call(rbind, counties_trans[3]) 
+print(dim(sacramento_shape))
 #sacramento_raster_stack<-stack(crop_raster_stack2[3])
 sanjoaquin_shape<-do.call(rbind, counties_trans[4]) 
+print(dim(sanjoaquin_shape))
 #sanjoaquin_raster_stack<-stack(crop_raster_stack2[4])
 stanislaus_shape<-do.call(rbind, counties_trans[5]) 
+print(dim(stanislaus_shape))
 #stanislaus_raster_stack<-stack(crop_raster_stack2[5])
 
 if( file.exists(madera_filename)&&
@@ -68,7 +73,6 @@ if( file.exists(madera_filename)&&
   colnames(field_areas)[1]<-'field_areas'
   field_areas$ID<-1:nrow(probs_by_fields)  
   print("area of individual fields put into dataframe for 03 code")
-  
   print("apply probs_by_fields to sum_c")
   print(Sys.time())
   sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
@@ -102,23 +106,21 @@ if( file.exists(madera_filename)&&
   print("extract the raster cell values by polygons to a df, double check that the masked rasterstack is there")
   print(file.exists(file.path(root_data_out, "crop_rasterstack_masked.rds")))
   print(dim(crop_raster_stack2[1]))
-  print(dim(counties_trans[[1]]))
+  print(dim(counties_trans[1]))
   
   x<-stack(crop_raster_stack2[1])
   print(dim(x))
-  y<-do.call(rbind, counties_trans[1])
-  print(dim(y))
-  
-  
-  madera<- exact_extract(x, y, 'mean')
+  print(dim(madera_shape))
+  madera<- exact_extract(x, madera_shape, 'mean')
   names(madera)<-names(crop_raster_stack)
-  merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean')
+  
+  merced <- exact_extract(stack(crop_raster_stack2[2]), merced_shape, 'mean')
   names(merced)<-names(crop_raster_stack)
-  sacramento <- exact_extract(stack(crop_raster_stack2[3]), do.call(rbind, counties_trans[3]), 'mean')
+  sacramento <- exact_extract(stack(crop_raster_stack2[3]), sacramento_shape, 'mean')
   names(sacramento)<-names(crop_raster_stack)
-  sanjoaquin <- exact_extract(stack(crop_raster_stack2[4]), do.call(rbind, counties_trans[4]), 'mean')
+  sanjoaquin <- exact_extract(stack(crop_raster_stack2[4]), sanjoaquin_shape, 'mean')
   names(sanjoaquin)<-names(crop_raster_stack)
-  stanislaus <- exact_extract(stack(crop_raster_stack2[5]), do.call(rbind, counties_trans[5]), 'mean')
+  stanislaus <- exact_extract(stack(crop_raster_stack2[5]), stanislaus_shape, 'mean')
   names(stanislaus)<-names(crop_raster_stack)
   print(Sys.time())
   
