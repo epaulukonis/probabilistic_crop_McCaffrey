@@ -26,6 +26,7 @@ crop_raster_stack2 <- lapply(ex, function(x) crop(crop_raster_stack, x)) #crop r
 # crop_raster_stack2 <- lapply(counties, function(x) mask(crop_raster_stack, x)) 
 
 #check if masked raster stack already exists
+print('check if the cropped and masked rasterstack exists, if not, run extract')
 cropped_raster_stack_filename <- file.path(root_data_out,"crop_rasterstack_masked.rds")
 cropped_raster_stack <- file.exists(cropped_raster_stack_filename)
 print(cropped_raster_stack)
@@ -34,13 +35,12 @@ if(!cropped_raster_stack){crop_raster_stack2 <- lapply(counties_trans, function(
   crop_raster_stack2 <- readRDS(cropped_raster_stack_filename)
 } 
 
-print('check if the cropped and masked rasterstack exists, if not, run extract')
-saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
-print('raster stack masked and saved locally')
 
 print('county shapefiles cropped to extent each county, put in list')
-crop_raster_stack2<-lapply(crop_raster_stack2, stack)
 print('make sure each list element is a stack of rasters')
+crop_raster_stack2<-lapply(crop_raster_stack2, stack)
+saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
+print('raster stack masked and saved locally')
 import_end_time <- Sys.time()
 import_time_elapsed <- import_end_time - import_start_time
 print(paste("time for importing spatial data:", import_time_elapsed))
