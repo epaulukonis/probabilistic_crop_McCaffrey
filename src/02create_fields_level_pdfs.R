@@ -101,10 +101,16 @@ if( file.exists(madera_filename)&&
   print("files don't exist, make them")
   print("extract the raster cell values by polygons to a df, double check that the masked rasterstack is there")
   print(file.exists(file.path(root_data_out, "crop_rasterstack_masked.rds")))
-  dim(crop_raster_stack2[[1]])
-  dim(counties_trans[[1]])
+  print(dim(crop_raster_stack2[1]))
+  print(dim(counties_trans[[1]]))
   
-  madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean')
+  x<-stack(crop_raster_stack2[1])
+  print(dim(x))
+  y<-do.call(rbind, counties_trans[1])
+  print(dim(y))
+  
+  
+  madera<- exact_extract(x, y, 'mean')
   names(madera)<-names(crop_raster_stack)
   merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean')
   names(merced)<-names(crop_raster_stack)
