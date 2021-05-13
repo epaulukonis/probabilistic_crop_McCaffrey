@@ -97,9 +97,10 @@ if( file.exists(madera_filename)&&
   # saveRDS(out, file = file.path(root_data_out, "out.rds"))
 }else{
   # files don't exist so we will create them
-  print("extract the raster cell values by polygons to a df")
+  print("extract the raster cell values by polygons to a df, double check that the masked rasterstack is there")
   print(file.exists(file.path(root_data_out, "crop_rasterstack_masked.rds")))
-  
+  dim(crop_raster_stack2[1])
+  dim(counties_trans[1])
   madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean')
   names(madera)<-names(crop_raster_stack)
   merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean')
@@ -151,7 +152,6 @@ if( file.exists(madera_filename)&&
   else {
     print("no county specified")
   }
-  
   print("summarize each crop by fields to mean")
   field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
   colnames(field_areas)[1]<-'field_areas'
