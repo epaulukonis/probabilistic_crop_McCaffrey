@@ -12,15 +12,15 @@ stanislaus_filename <- file.path(root_data_out, "stanislaus.rds")
 
 #load county shapes and raster stacks
 madera_shape<-do.call(rbind, counties_trans[1]) 
-madera_raster_stack<-stack(crop_raster_stack2[1])
+#madera_raster_stack<-stack(crop_raster_stack2[1])
 merced_shape<-do.call(rbind, counties_trans[2]) 
-merced_raster_stack<-stack(crop_raster_stack2[2])
+#merced_raster_stack<-stack(crop_raster_stack2[2])
 sacramento_shape<-do.call(rbind, counties_trans[3]) 
-sacramento_raster_stack<-stack(crop_raster_stack2[3])
+#sacramento_raster_stack<-stack(crop_raster_stack2[3])
 sanjoaquin_shape<-do.call(rbind, counties_trans[4]) 
-sanjoaquin_raster_stack<-stack(crop_raster_stack2[4])
+#sanjoaquin_raster_stack<-stack(crop_raster_stack2[4])
 stanislaus_shape<-do.call(rbind, counties_trans[5]) 
-stanislaus_raster_stack<-stack(crop_raster_stack2[5])
+#stanislaus_raster_stack<-stack(crop_raster_stack2[5])
 
 if( file.exists(madera_filename)&&
     file.exists(merced_filename)&&
@@ -29,6 +29,7 @@ if( file.exists(madera_filename)&&
     file.exists(stanislaus_filename))
 {
   # files exist so we will load the needed R objects
+  print("files do exist, read them in")
   county<-"merced"
   print('specify county here')
   probs_by_fields<-readRDS(file = merced_filename)  #dataframe of field probs by county
@@ -97,10 +98,12 @@ if( file.exists(madera_filename)&&
   # saveRDS(out, file = file.path(root_data_out, "out.rds"))
 }else{
   # files don't exist so we will create them
+  print("files don't exist, make them")
   print("extract the raster cell values by polygons to a df, double check that the masked rasterstack is there")
   print(file.exists(file.path(root_data_out, "crop_rasterstack_masked.rds")))
-  dim(crop_raster_stack2[1])
-  dim(counties_trans[1])
+  dim(crop_raster_stack2[[1]])
+  dim(counties_trans[[1]])
+  
   madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean')
   names(madera)<-names(crop_raster_stack)
   merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean')

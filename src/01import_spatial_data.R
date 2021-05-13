@@ -23,7 +23,7 @@ print("county shapefiles extracted")
 counties_trans <- lapply(counties, function(x) spTransform(x,crs(crop_raster_stack)))#transform crs of county polygon
 ex <- lapply(counties_trans, function (x) extent(x)) #get extents of each county
 crop_raster_stack2 <- lapply(ex, function(x) crop(crop_raster_stack, x)) #crop raster stack to each county
-# crop_raster_stack2 <- lapply(counties, function(x) mask(crop_raster_stack, x)) 
+# crop_raster_stack2 <- lapply(counties_trans, function(x) mask(crop_raster_stack, x)) 
 
 #check if masked raster stack already exists
 print('check if the cropped and masked rasterstack exists, if not, run extract')
@@ -34,7 +34,6 @@ if(!cropped_raster_stack){crop_raster_stack2 <- lapply(counties_trans, function(
 }else if (cropped_raster_stack){
   crop_raster_stack2 <- readRDS(cropped_raster_stack_filename)
 } 
-
 
 print('county shapefiles cropped to extent each county, put in list')
 print('make sure each list element is a stack of rasters')
