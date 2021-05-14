@@ -107,13 +107,12 @@ if( file.exists(madera_filename)&&
   print(file.exists(file.path(root_data_out, "crop_rasterstack_masked.rds")))
   print(dim(crop_raster_stack2[1]))
   print(dim(counties_trans[1]))
-  
-  x<-stack(crop_raster_stack2[1])
-  print(dim(x))
+
+  print(dim(stack(crop_raster_stack2[1])))
   print(dim(madera_shape))
-  madera<- exact_extract(x, madera_shape, 'mean')
-  names(madera)<-names(crop_raster_stack)
   
+  madera<- exact_extract(stack(crop_raster_stack2[1]), madera_shape, 'mean')
+  names(madera)<-names(crop_raster_stack)
   merced <- exact_extract(stack(crop_raster_stack2[2]), merced_shape, 'mean')
   names(merced)<-names(crop_raster_stack)
   sacramento <- exact_extract(stack(crop_raster_stack2[3]), sacramento_shape, 'mean')

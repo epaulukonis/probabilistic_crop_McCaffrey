@@ -81,9 +81,9 @@ simulate_end_time <- Sys.time()
 simulate_time_elapsed <- simulate_end_time - simulate_start_time
 print(paste("time for big loop:", simulate_time_elapsed))
 
-print("saving simulation_matrix object")
+print("saving simulation_matrix object; specify county at end")
 print(Sys.time())
-saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix"))
+saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_mer"))
 
 
 print("saving crop_probs object")

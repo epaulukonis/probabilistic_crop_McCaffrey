@@ -8,7 +8,15 @@ print(Sys.time())
 window<-extent(-2220000, -2140000, 1965000, 2010000)
 r1<-crop(crop_raster_stack[[1]], window)
 plot(r1)
-plot(counties_trans[[3]], add=T)
+plot(counties[[1]])
+
+counties_ca <- file.path(root_dir, "")
+
+counties_shapes <- readOGR(dsn =  , layer = "CA_Counties_TIGER2016")
+madera.sub <- counties_shapes[counties_shapes$NAME == 'Madera',] 
+
+plot(madera.sub)
+madera.sub<-spTransform(madera.sub,crs(r1))
 
 
 ##figure for boxplot - Fig. 2
