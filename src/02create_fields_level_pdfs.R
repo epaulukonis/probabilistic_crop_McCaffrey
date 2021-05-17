@@ -80,7 +80,7 @@ if( file.exists(madera_filename)&&
   print(dim(probs_by_fields))
   print("apply probs_by_fields to sum_c")
   sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
-  print(dim(sum_c))
+  print(sum_c)
   probs_by_fields$NC <- round((1-sum_c),4)#add in column for non-crop
   print(dim(probs_by_fields))
   print("omit fields which don't overlap with crop data")
@@ -101,9 +101,6 @@ if( file.exists(madera_filename)&&
   # }
   # out <- stack(calc(county_raster_stack, fun_c)) #put that in a raster stack, make sure to specify raster stack layer
   #save probs_by_fields and out
-  print("saving probs_by_fields object")
-  print(Sys.time())
-  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
   # print("saving out object")
   # print(Sys.time())
   # saveRDS(out, file = file.path(root_data_out, "out.rds"))
@@ -187,6 +184,7 @@ if( file.exists(madera_filename)&&
   probs_by_fields$ID<-1:nrow(probs_by_fields)
   print(dim(probs_by_fields))
   probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
+  print(dim(probs_by_fields))
   
   print("saving probs_by_fields object")
   print(Sys.time())

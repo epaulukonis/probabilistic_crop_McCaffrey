@@ -3,7 +3,7 @@ simulate_start_time <- Sys.time()
 print("stepping into 03simulate_crop_field_assignments.R")
 print(Sys.time())
 nsims <- 1000
-
+print(dim(probs_by_fields))
 #note that you will specify which county in 02
 print('county information loaded from 02')
 
