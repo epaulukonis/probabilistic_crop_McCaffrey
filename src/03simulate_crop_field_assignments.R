@@ -9,9 +9,11 @@ print('county information loaded from 02')
 
 # create empty simulation matrix
 simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=nsims)) #set up empty df to hold simulations
+print(dim(simulation_matrix))
 colnames(simulation_matrix)[1:nsims]<-paste0("Sim",1:nsims,"")
 ID<-unique(probs_by_fields$ID)
 simulation_matrix<-cbind(ID,simulation_matrix)
+print(dim(simulation_matrix))
 
 # print("calculating raster areas")
 # #calculate the area (m2) of each type of raster (crop/non-crop) for each crop type
