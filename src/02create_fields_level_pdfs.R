@@ -38,6 +38,7 @@ if( file.exists(madera_filename)&&
   county<-"merced"
   print('specify county here')
   probs_by_fields<-readRDS(file = merced_filename)  #dataframe of field probs by county
+  print(dim(probs_by_fields))
   print("loading extracted field file for county of interest here")
   print(Sys.time())
   
@@ -68,16 +69,18 @@ if( file.exists(madera_filename)&&
     print("no county specified")
   }
   
+
   print("summarize each crop by fields to mean")
   field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
   colnames(field_areas)[1]<-'field_areas'
   field_areas$ID<-1:nrow(probs_by_fields)  
+  print(dim(field_areas))
   print("area of individual fields put into dataframe for 03 code")
+  
+  print(dim(probs_by_fields))
   print("apply probs_by_fields to sum_c")
-  print(Sys.time())
   sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
   print(dim(sum_c))
-  print(Sys.time())
   probs_by_fields$NC <- round((1-sum_c),4)#add in column for non-crop
   print(dim(probs_by_fields))
   print("omit fields which don't overlap with crop data")
@@ -86,6 +89,10 @@ if( file.exists(madera_filename)&&
   probs_by_fields$ID<-1:nrow(probs_by_fields)
   print(dim(probs_by_fields))
   probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
+  
+  print("saving probs_by_fields object")
+  print(Sys.time())
+  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
   
   #function to convert the rasters to binary
   # fun_c <- function(x) {
