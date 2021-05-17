@@ -89,6 +89,7 @@ if( file.exists(madera_filename)&&
   probs_by_fields$ID<-1:nrow(probs_by_fields)
   print(dim(probs_by_fields))
   probs_by_fields <- as.data.frame(c(probs_by_fields[,31], round(probs_by_fields [,1:30],4)))
+  print(dim(probs_by_fields))
   
   print("saving probs_by_fields object")
   print(Sys.time())
