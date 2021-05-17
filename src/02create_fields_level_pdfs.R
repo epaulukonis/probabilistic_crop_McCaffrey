@@ -86,7 +86,7 @@ if( file.exists(madera_filename)&&
   print("omit fields which don't overlap with crop data")
   probs_by_fields <- na.omit(probs_by_fields) 
   print(dim(probs_by_fields))
-  probs_by_fields[,1:30] <-  round(probs_by_field[,1:30],4)
+  probs_by_fields[,1:30] <-  round(probs_by_fields[,1:30],4)
   print(dim(probs_by_fields))
   probs_by_fields$ID<-1:nrow(probs_by_fields)
   probs_by_fields<-probs_by_fields[,c(31,1:30)]
