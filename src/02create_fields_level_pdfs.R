@@ -168,6 +168,7 @@ if( file.exists(madera_filename)&&
   field_areas$ID<-1:nrow(probs_by_fields)  
   print("area of individual fields put into dataframe for 03 code")
   
+  print(dim(probs_by_fields))
   print("apply probs_by_fields to sum_c")
   sum_c <- apply(probs_by_fields[,c(1:29)], 1, sum) 
   print(dim(sum_c))
