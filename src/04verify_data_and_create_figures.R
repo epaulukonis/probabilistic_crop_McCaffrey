@@ -5,18 +5,19 @@ print(Sys.time())
 
 ##figure for workflow - Fig. 1
 #madera county, alfalfa
-window<-extent(-2220000, -2140000, 1965000, 2010000)
+window<-extent(-2200000, -2160000, 1980000, 2000000)
 r1<-crop(crop_raster_stack[[1]], window)
 plot(r1)
-plot(counties[[1]])
+plot(counties_trans[[3]], add=T)
+counties_ca <- file.path(root_data_in, "ca_counties")
 
-counties_ca <- file.path(root_dir, "")
+counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
+sac.sub <- counties_shapes[counties_shapes$NAME == 'Sacramento',] 
+sac.sub<-spTransform(madera.sub,crs(r1))
+plot(r1)
+plot(sac.sub, add=T)
+plot(counties_trans[[3]], add=T, col=col)
 
-counties_shapes <- readOGR(dsn =  , layer = "CA_Counties_TIGER2016")
-madera.sub <- counties_shapes[counties_shapes$NAME == 'Madera',] 
-
-plot(madera.sub)
-madera.sub<-spTransform(madera.sub,crs(r1))
 
 
 ##figure for boxplot - Fig. 2

@@ -136,9 +136,9 @@ if( file.exists(madera_filename)&&
   saveRDS(sanjoaquin, file = file.path(root_data_out, "sanjoaquin.rds"))
   saveRDS(stanislaus, file = file.path(root_data_out, "stanislaus.rds"))
   
-  county<-"merced"
+  county<-"madera"
   print('specify county here')
-  probs_by_fields<-readRDS(file = merced_filename) #use extracted finished dataframe
+  probs_by_fields<-readRDS(file = madera_filename) #use extracted finished dataframe
   print("loading extracted field file for county of interest here")
   print(Sys.time())
   
