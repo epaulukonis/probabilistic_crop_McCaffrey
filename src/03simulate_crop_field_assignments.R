@@ -1,10 +1,8 @@
 ##Step 3: simulate field level crop classifications
-simulation_matrix_mer_filename <- file.path(root_data_out,"simulation_matrix_mer")
-crop_probs_filename <- file.path(root_data_out,"crop_probs")
-total_crop_and_field_area_filename <- file.path(root_data_out,"total_crop_and_field_area")
-field_areas_filename <- file.path(root_data_out,"field_areas")
-
-
+# simulation_matrix_mer_filename <- file.path(root_data_out,"simulation_matrix_mer")
+# crop_probs_filename <- file.path(root_data_out,"crop_probs")
+# total_crop_and_field_area_filename <- file.path(root_data_out,"total_crop_and_field_area")
+# field_areas_filename <- file.path(root_data_out,"field_areas")
 # if( file.exists(simulation_matrix_mer_filename)&&
 #     file.exists(crop_probs_filename)&&
 #     file.exists(total_crop_and_field_area_filename)&&
