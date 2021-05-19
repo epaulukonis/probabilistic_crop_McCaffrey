@@ -35,9 +35,9 @@ if( file.exists(madera_filename)&&
 {
   # files exist so we will load the needed R objects
   print("files do exist, read them in")
-  county<-"sanjoaquin"
+  county<-"stanislaus"
   print('specify county here')
-  probs_by_fields<-readRDS(file = sanjoaquin_filename)  #dataframe of field probs by county
+  probs_by_fields<-readRDS(file = stanislaus_filename)  #dataframe of field probs by county
   print(dim(probs_by_fields))
   print("loading extracted field file for county of interest here")
   print(Sys.time())
@@ -136,9 +136,9 @@ if( file.exists(madera_filename)&&
   saveRDS(sanjoaquin, file = file.path(root_data_out, "sanjoaquin.rds"))
   saveRDS(stanislaus, file = file.path(root_data_out, "stanislaus.rds"))
   
-  county<-"sanjoaquin"
+  county<-"stanislaus"
   print('specify county here')
-  probs_by_fields<-readRDS(file = sanjoaquin_filename) #use extracted finished dataframe
+  probs_by_fields<-readRDS(file = stanislaus_filename) #use extracted finished dataframe
   print("loading extracted field file for county of interest here")
   print(Sys.time())
   
