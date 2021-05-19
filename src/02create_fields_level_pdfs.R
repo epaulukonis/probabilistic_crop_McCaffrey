@@ -35,9 +35,9 @@ if( file.exists(madera_filename)&&
 {
   # files exist so we will load the needed R objects
   print("files do exist, read them in")
-  county<-"merced"
+  county<-"madera"
   print('specify county here')
-  probs_by_fields<-readRDS(file = merced_filename)  #dataframe of field probs by county
+  probs_by_fields<-readRDS(file = madera_filename)  #dataframe of field probs by county
   print(dim(probs_by_fields))
   print("loading extracted field file for county of interest here")
   print(Sys.time())

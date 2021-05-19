@@ -114,7 +114,7 @@ if( file.exists(simulation_matrix_mer_filename)&&
   write.csv(field_areas, file = file.path(root_data_out, "field_areas_mad.csv"))
   
 }else {
-  print("files don't exist, do merced county")
+print("files don't exist, do merced county")
 simulate_start_time <- Sys.time()
 print("stepping into 03simulate_crop_field_assignments.R")
 print(Sys.time())
