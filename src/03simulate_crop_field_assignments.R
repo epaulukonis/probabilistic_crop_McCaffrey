@@ -93,23 +93,23 @@
   
   print("saving simulation_matrix object; specify county")
   print(Sys.time())
-  saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_sac"))
-  write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_sac.csv"))
+  saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_san"))
+  write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_san.csv"))
   
   print("saving crop_probs object")
   print(Sys.time())
-  saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_sac"))
-  write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_sac.csv"))
+  saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_san"))
+  write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_san.csv"))
   
   print("saving independent field areas by sim object")
   print(Sys.time())
-  saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_sac"))
-  write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_sac.csv"))
+  saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_san"))
+  write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_san.csv"))
   
   print("saving area_by_field object")
   print(Sys.time())
-  saveRDS(field_areas, file = file.path(root_data_out, "field_areas_sac"))
-  write.csv(field_areas, file = file.path(root_data_out, "field_areas_sac.csv"))
+  saveRDS(field_areas, file = file.path(root_data_out, "field_areas_san"))
+  write.csv(field_areas, file = file.path(root_data_out, "field_areas_san.csv"))
   
 # }else {
 # print("files don't exist, do merced county")
