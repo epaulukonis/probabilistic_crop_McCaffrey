@@ -14,10 +14,16 @@ print(dim(simulation_matrix))
 colnames(simulation_matrix)[1:nsims]<-paste0("Sim",1:nsims,"")
 ID<-unique(probs_by_fields$ID)
 simulation_matrix<-cbind(ID,simulation_matrix)
+print('dim sim mat')
 print(dim(simulation_matrix))
-print(head(simulation_matrix))
+print('dim of field areas')
+print(dim(field_areas))
+
 
 #create field areas and total crop area dataframes
+print('assign field areas based on id')
+print(dim(field_areas$ID))
+print(dim(simulation_matrix$ID))
 field_areas<-field_areas[(field_areas$ID %in% simulation_matrix$ID),]
 print(dim(probs_by_fields))
 total_crop_and_field_area<-probs_by_fields[,2:31]*field_areas$area_field
