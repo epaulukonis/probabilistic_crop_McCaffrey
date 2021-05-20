@@ -21,6 +21,7 @@ print(head(simulation_matrix))
 field_areas<-field_areas[(field_areas$ID %in% simulation_matrix$ID),]
 print(dim(probs_by_fields))
 total_crop_and_field_area<-probs_by_fields[,2:31]*field_areas$area_field
+print(dim(total_crop_and_field_area))
 total_crop_and_field_area<-as.data.frame(colSums(total_crop_and_field_area))
 colnames(total_crop_and_field_area)[1]<-'crop_total'
 total_crop_and_field_area$field_tot<-0
@@ -36,6 +37,7 @@ area_by_field<-as.data.frame(area_by_field)
 
 ##loaded environment contains everything above up to here
 crop_probs<-as.data.frame(matrix(data=0,nrow=4,ncol=30)) #empty data-frame for calculating new probabilities
+print(total_crop_and_field_area[1,])
 crop_probs[2,]<-total_crop_and_field_area[1,]
 names(crop_probs)<-names(probs_by_fields[,2:31])
 row.names(crop_probs)<-c("orig_prob","total_crop","crop_so_far","updated_prob")
