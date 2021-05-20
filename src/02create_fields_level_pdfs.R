@@ -35,9 +35,9 @@ if( file.exists(madera_filename)&&
 {
   # files exist so we will load the needed R objects
   print("files do exist, read them in")
-  county<-"stanislaus"
+  county<-"sacramento"
   print('specify county here')
-  probs_by_fields<-readRDS(file = stanislaus_filename)  #dataframe of field probs by county
+  probs_by_fields<-readRDS(file = sacremento_filename)  #dataframe of field probs by county
   print(dim(probs_by_fields))
   print("loading extracted field file for county of interest here")
   print(Sys.time())
@@ -94,18 +94,9 @@ if( file.exists(madera_filename)&&
   
   print("saving probs_by_fields object")
   print(Sys.time())
-  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
-  
-  #function to convert the rasters to binary
-  # fun_c <- function(x) {
-  #   x[x>0] <- 1
-  #   return(x)
-  # }
-  # out <- stack(calc(county_raster_stack, fun_c)) #put that in a raster stack, make sure to specify raster stack layer
-  #save probs_by_fields and out
-  # print("saving out object")
-  # print(Sys.time())
-  # saveRDS(out, file = file.path(root_data_out, "out.rds"))
+  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields_sac.rds"))
+  write.csv(probs_by_fields, file = file.path(root_data_out, "probs_by_fields_sac.csv"))
+
 }else{
   # files don't exist so we will create them
   print("files don't exist, make them")
@@ -136,9 +127,9 @@ if( file.exists(madera_filename)&&
   saveRDS(sanjoaquin, file = file.path(root_data_out, "sanjoaquin.rds"))
   saveRDS(stanislaus, file = file.path(root_data_out, "stanislaus.rds"))
   
-  county<-"stanislaus"
+  county<-"sacramento"
   print('specify county here')
-  probs_by_fields<-readRDS(file = stanislaus_filename) #use extracted finished dataframe
+  probs_by_fields<-readRDS(file = sacramento_filename) #use extracted finished dataframe
   print("loading extracted field file for county of interest here")
   print(Sys.time())
   
@@ -190,7 +181,8 @@ if( file.exists(madera_filename)&&
   
   print("saving probs_by_fields object")
   print(Sys.time())
-  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields.rds"))
+  saveRDS(probs_by_fields, file = file.path(root_data_out, "probs_by_fields_sac.rds"))
+  write.csv(probs_by_fields, file = file.path(root_data_out, "probs_by_fields_sac.csv"))
   
 }
 
@@ -199,37 +191,3 @@ extract_end_time <- Sys.time()
 extract_time_elapsed <- extract_end_time - extract_start_time
 print(paste("time for fields extraction:", extract_time_elapsed))
 
-
-# # if(file.exists(probs_by_fields_filename)&& 
-# #    file.exists(out_filename)){
-# #   # files exist so we will load the needed R objects
-# #   print("loading probs_by_fields object")
-# #   print(Sys.time())
-# #   readRDS(file = probs_by_fields_filename)
-# #   print("loading out object")
-# #   print(Sys.time())
-# #   readRDS(file = out_filename)
-# # }else{
-# #   # files don't exist so we will create them
-# #   print("extract the raster cell values by polygons to a df")
-#   # madera<- exact_extract(stack(crop_raster_stack2[1]), do.call(rbind, counties_trans[1]), 'mean') 
-#   # names(madera)<-names(crop_raster_stack)
-#   # merced <- exact_extract(stack(crop_raster_stack2[2]), do.call(rbind, counties_trans[2]), 'mean') 
-#   # names(merced)<-names(crop_raster_stack)
-#   # sacramento <- exact_extract(stack(crop_raster_stack2[3]), do.call(rbind, counties_trans[3]), 'mean') 
-#   # names(sacramento)<-names(crop_raster_stack)
-#   # sanjoaquin <- exact_extract(stack(crop_raster_stack2[4]), do.call(rbind, counties_trans[4]), 'mean') 
-#   # names(sanjoaquin)<-names(crop_raster_stack)
-#   # stanislaus <- exact_extract(stack(crop_raster_stack2[5]), do.call(rbind, counties_trans[5]), 'mean') 
-#   # names(stanislaus)<-names(crop_raster_stack)
-#   # print(Sys.time())
-# # }
-#   #save to RDS files
-#   # saveRDS(madera, file = file.path(root_data_out, "madera.rds"))
-#   # saveRDS(merced, file = file.path(root_data_out, "merced.rds"))
-#   # saveRDS(sacramento, file = file.path(root_data_out, "sacramento.rds"))
-#   # saveRDS(sanjoaquin, file = file.path(root_data_out, "sanjoaquin.rds"))
-#   # saveRDS(stanislaus, file = file.path(root_data_out, "stanislaus.rds"))
-#   
-#   #note: here is where we specify the county
-#   #probs_by_fields is the extracted pixel to field dataframe

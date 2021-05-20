@@ -10,3 +10,4 @@ src/slurm*.out
 .Rhistory
 .RData
 .Ruserdata
+*.csv

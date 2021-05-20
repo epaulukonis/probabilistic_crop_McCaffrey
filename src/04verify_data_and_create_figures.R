@@ -8,7 +8,7 @@ print(Sys.time())
 window<-extent(-2200000, -2160000, 1980000, 2000000)
 r1<-crop(crop_raster_stack[[1]], window)
 plot(r1)
-plot(counties_trans[[3]], add=T)
+plot(counties_trans[[3]])
 counties_ca <- file.path(root_data_in, "ca_counties")
 
 counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
@@ -16,28 +16,40 @@ sac.sub <- counties_shapes[counties_shapes$NAME == 'Sacramento',]
 sac.sub<-spTransform(madera.sub,crs(r1))
 plot(r1)
 plot(sac.sub, add=T)
+counties_trans_sac<-counties_trans[[3]]
+counties_trans_sac$crop<-simulation_matrix[,3]
+
 plot(counties_trans[[3]], add=T, col=col)
 
 
 
 ##figure for boxplot - Fig. 2
+
+#sac
+sim_mat<-file.path(root_data_out, "simulation_matrix_sac.csv")
+simulation_matrix<-read.csv(sim_mat)
+field_areas<-file.path(root_data_out, "field_areas_sac.csv")
+field_areas<-read.csv(field_areas)
+
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
-simulation_matrix_f<-simulation_matrix_f[,c(1,4,2:3)]
+simulation_matrix_f<-simulation_matrix_f[,c(1,1004,3:1002)]
 
 list_of_sims<-setNames(lapply(names(simulation_matrix_f)[-2], function(x) cbind(simulation_matrix_f[2], simulation_matrix_f[x])), names(simulation_matrix_f)[-2])
 list_of_sims[1]<-NULL
 IDs<-simulation_matrix_f$ID
 list_of_sims<-lapply(list_of_sims, cbind, IDs)
-colnames<-c("area_field",'sim','ID')
+colnames<-c("area_field",'Crop','ID')
 list_of_sims<-lapply(list_of_sims, setNames, colnames)
 
 crop_area_calc<-function(x){
   x %>% 
-    group_by(sim)%>% 
+    group_by(Crop)%>% 
     summarise(Area_Crop = sum(area_field))}
 list_of_sims_areas<-lapply(list_of_sims, crop_area_calc)
 
-crops_all<-as.data.frame(matrix(data=names(probs_by_fields[2:31]),nrow=30,ncol=1))
+crop_names<-c(names(crop_raster_stack), 'NC')
+
+crops_all<-as.data.frame(matrix(crop_names,nrow=30,ncol=1))
 colnames(crops_all)[1]<-'Crop'
 
 list_of_output<-list()  
@@ -51,12 +63,16 @@ compiled_areas_by_crop_sim<-Map(cbind, list_of_output, unique.id = (1:length( li
 
 compiled_areas_fin<-do.call("rbind",compiled_areas_by_crop_sim)
 compiled_areas_fin$Area_Crop<-as.integer(compiled_areas_fin$Area_Crop)
+colnames(compiled_areas_fin)[3]<-'ID'
 
 fin_total_sum_areas<-compiled_areas_fin %>%
   group_by(ID) %>% 
   summarize(Total=sum(Area_Crop)) #this gives sum of each total area with new crop assignments
 #there's going to be a slight discrepancy between the total field area and the total area of the raster crops
 #this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
+
+total_crop_and_field_area<-file.path(root_data_out, "total_crop_and_field_area_sac.csv")
+total_crop_and_field_area<-read.csv(total_crop_and_field_area)
 
 
 orig_area<-as.data.frame(t(total_crop_and_field_area[1,]))
