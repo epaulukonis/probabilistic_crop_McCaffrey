@@ -19,6 +19,7 @@ print(head(simulation_matrix))
 
 #create field areas and total crop area dataframes
 field_areas<-field_areas[(field_areas$ID %in% simulation_matrix$ID),]
+print(dim(probs_by_fields))
 total_crop_and_field_area<-probs_by_fields[,2:31]*field_areas$area_field
 total_crop_and_field_area<-as.data.frame(colSums(total_crop_and_field_area))
 colnames(total_crop_and_field_area)[1]<-'crop_total'
