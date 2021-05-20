@@ -70,7 +70,7 @@ for (simulation in 1:nsims+1){ #1000
     area_by_field[field, which(names(area_by_field) == simulation_matrix[field,simulation])] <- indi_field_area[,1]
     crop_probs[3,]<-colSums(area_by_field)
   }
-  print(paste("finished", simulation,"out of 1000 simulations"))
+  print(paste("finished", simulation-1,"out of 1000 simulations"))
   area_by_field[,1:30]<-0 #remake empty area dataframe each sim
   area_by_field<-as.data.frame(area_by_field)
 
@@ -82,22 +82,22 @@ print(paste("time for big loop:", simulate_time_elapsed))
 
 print("saving simulation_matrix object; specify county at end of each name")
 print(Sys.time())
-saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_stan"))
-write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_stan.csv"))
+saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_mad"))
+write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_mad.csv"))
 
 print("saving crop_probs object")
 print(Sys.time())
-saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_stan"))
-write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_stan.csv"))
+saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_mad"))
+write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_mad.csv"))
 
 print("saving independent field areas by sim object")
 print(Sys.time())
-saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_stan"))
-write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_stan.csv"))
+saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_mad"))
+write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_mad.csv"))
 
 print("saving area_by_field object")
 print(Sys.time())
-saveRDS(field_areas, file = file.path(root_data_out, "field_areas_stan"))
-write.csv(field_areas, file = file.path(root_data_out, "field_areas_stan.csv"))
+saveRDS(field_areas, file = file.path(root_data_out, "field_areas_mad"))
+write.csv(field_areas, file = file.path(root_data_out, "field_areas_mad.csv"))
 
 
