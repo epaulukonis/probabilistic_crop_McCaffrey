@@ -6,7 +6,7 @@ print(Sys.time())
 nsims <- 1000
 print(dim(probs_by_fields))
 #note that you will specify which county in 02
-print('county is:', county)
+print('check 02 for county')
 
 # create empty simulation matrix
 simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=nsims)) #set up empty df to hold simulations
@@ -24,7 +24,7 @@ total_crop_and_field_area<-as.data.frame(colSums(total_crop_and_field_area))
 colnames(total_crop_and_field_area)[1]<-'crop_total'
 total_crop_and_field_area$field_tot<-0
 total_crop_and_field_area<-as.data.frame(t(total_crop_and_field_area))
-colnames(total_crop_and_field_area)<-colnames(simulation_matrix)[2:31]
+colnames(total_crop_and_field_area)<-colnames(probs_by_fields)[2:31]
 print(head(total_crop_and_field_area))
 
 
@@ -70,22 +70,22 @@ print(paste("time for big loop:", simulate_time_elapsed))
 
 print("saving simulation_matrix object; specify county at end of each name")
 print(Sys.time())
-saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_mer"))
-write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_mer.csv"))
+saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_sac"))
+write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_sac.csv"))
 
 print("saving crop_probs object")
 print(Sys.time())
-saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_mer"))
-write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_mer.csv"))
+saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_sac"))
+write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_sac.csv"))
 
 print("saving independent field areas by sim object")
 print(Sys.time())
-saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_mer"))
-write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_mer.csv"))
+saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_sac"))
+write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_sac.csv"))
 
 print("saving area_by_field object")
 print(Sys.time())
-saveRDS(field_areas, file = file.path(root_data_out, "field_areas_mer"))
-write.csv(field_areas, file = file.path(root_data_out, "field_areas_mer.csv"))
+saveRDS(field_areas, file = file.path(root_data_out, "field_areas_sac"))
+write.csv(field_areas, file = file.path(root_data_out, "field_areas_sac.csv"))
 
 

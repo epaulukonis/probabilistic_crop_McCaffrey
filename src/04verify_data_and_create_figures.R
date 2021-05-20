@@ -78,6 +78,7 @@ total_crop_and_field_area<-read.csv(total_crop_and_field_area)
 orig_area<-as.data.frame(t(total_crop_and_field_area[1,]))
 orig_area$Crop<-row.names(orig_area)
 row.names(orig_area)<-NULL
+orig_area<-orig_area[2:31,]
 orig_area<-orig_area[order(orig_area$Crop),]
 orig_area$crop_total<-as.integer(orig_area$crop_total)
 colnames(orig_area)[1]<-'Area_Crop'
