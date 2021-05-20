@@ -18,14 +18,14 @@ print('dim sim mat')
 print(dim(simulation_matrix))
 print('dim of field areas')
 print(dim(field_areas))
+print('dim of probs by fields')
+print(dim(probs_by_fields))
 
 
 #create field areas and total crop area dataframes
 print('assign field areas based on id')
-print(dim(field_areas$ID))
-print(dim(simulation_matrix$ID))
-field_areas<-field_areas[(field_areas$ID %in% simulation_matrix$ID),]
-print(dim(probs_by_fields))
+field_areas<-field_areas[(field_areas$ID %in% probs_by_fields$ID),]
+print(dim(field_areas))
 total_crop_and_field_area<-probs_by_fields[,2:31]*field_areas$area_field
 print(dim(total_crop_and_field_area))
 total_crop_and_field_area<-as.data.frame(colSums(total_crop_and_field_area))
