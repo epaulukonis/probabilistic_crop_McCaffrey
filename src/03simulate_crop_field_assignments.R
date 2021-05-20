@@ -29,9 +29,7 @@ print(dim(field_areas))
 print(dim(probs_by_fields))
 print(names(field_areas))
 
-total_crop_and_field_area<-probs_by_fields[,2:31]*field_areas$area_field
-
-
+total_crop_and_field_area<-probs_by_fields[,2:31]*field_areas$field_areas
 print(dim(total_crop_and_field_area))
 total_crop_and_field_area<-as.data.frame(colSums(total_crop_and_field_area))
 colnames(total_crop_and_field_area)[1]<-'crop_total'
