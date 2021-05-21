@@ -32,7 +32,7 @@ field_areas<-file.path(root_data_out, "field_areas_sac.csv")
 field_areas<-read.csv(field_areas)
 
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
-simulation_matrix_f<-simulation_matrix_f[,c(1,1004,3:1002)]
+simulation_matrix_f<-simulation_matrix_f[,c(1,1003,2:1002)]
 
 list_of_sims<-setNames(lapply(names(simulation_matrix_f)[-2], function(x) cbind(simulation_matrix_f[2], simulation_matrix_f[x])), names(simulation_matrix_f)[-2])
 list_of_sims[1]<-NULL
@@ -80,10 +80,12 @@ orig_area$Crop<-row.names(orig_area)
 row.names(orig_area)<-NULL
 orig_area<-orig_area[2:31,]
 orig_area<-orig_area[order(orig_area$Crop),]
-orig_area$crop_total<-as.integer(orig_area$crop_total)
+#orig_area$crop_total<-as.integer(orig_area$crop_total)
 colnames(orig_area)[1]<-'Area_Crop'
 orig_area<-orig_area[,c(2,1)]
 orig_area$ID<-'Orig'
+
+sum(as.numeric(orig_area$Area_Crop))
 
 #let's add in the ratio of each crop for each sim to its original area
 
@@ -94,17 +96,18 @@ orig_area$Name<-namesc
 
 compiled_areas_fin<-merge(compiled_areas_fin,orig_area, by = 'Crop')
 compiled_areas_fin<-compiled_areas_fin[order(compiled_areas_fin$ID.x), ]
-compiled_areas_fin$Ratio<-compiled_areas_fin$Area_Crop.x/compiled_areas_fin$Area_Crop.y
+compiled_areas_fin$Ratio<-as.numeric(compiled_areas_fin$Area_Crop.x)/as.numeric(compiled_areas_fin$Area_Crop.y)
+
 #for now, let's simple remove the rows with NAN, because those simulations won't have those crops represented
 #we can hope/assume out of 1000, all crops should be somewhat represented
 
 compiled_areas_fin<-na.omit(compiled_areas_fin)
 
-jpeg(file = root_data_out)
+
 compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) + 
   geom_boxplot()+
   coord_cartesian(ylim = c(-2, 6))+
-  xlab("Crop - Merced County") + 
+  xlab("Crop - Sacramento County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 

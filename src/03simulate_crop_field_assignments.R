@@ -50,6 +50,7 @@ print(total_crop_and_field_area[1,])
 crop_probs[2,]<-total_crop_and_field_area[1,]
 names(crop_probs)<-names(probs_by_fields[,2:31])
 row.names(crop_probs)<-c("orig_prob","total_crop","crop_so_far","updated_prob")
+print(crop_probs)
 
 #field loop
 print("big loop over simulations and fields")
@@ -64,6 +65,8 @@ for (simulation in 1:nsims+1){ #1000
     #new_crop_probs<-(1-(crop_probs[3,]/crop_probs[2,]))*crop_probs[1,]
     new_crop_probs<-rapply(new_crop_probs, function(x) ifelse(is.nan(x),0,x), how="replace" )
    #new_crop_probs[new_crop_probs < 0] <- 0 #if any probs are neg, change to 0
+    print(new_crop_probs)
+    #write.csv(new_crop_probs, file = file.path(root_data_out, "new_crop_probs_san.csv"))
     r1<-sample(30, size = 1, replace = TRUE, prob = new_crop_probs)
     simulation_matrix[field,simulation] <-colnames(out)[r1+1]
     indi_field_area<-field_areas[field_areas$ID %in% out[,1],]
