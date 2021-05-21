@@ -88,22 +88,22 @@ print(paste("time for big loop:", simulate_time_elapsed))
 
 print("saving simulation_matrix object; specify county at end of each name")
 print(Sys.time())
-saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_san"))
-write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_san.csv"))
+saveRDS(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_stan"))
+write.csv(simulation_matrix, file = file.path(root_data_out, "simulation_matrix_stan.csv"))
 
 print("saving crop_probs object")
 print(Sys.time())
-saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_san"))
-write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_san.csv"))
+saveRDS(crop_probs, file = file.path(root_data_out, "crop_probs_stan"))
+write.csv(crop_probs, file = file.path(root_data_out, "crop_probs_stan.csv"))
 
 print("saving independent field areas by sim object")
 print(Sys.time())
-saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_san"))
-write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_san.csv"))
+saveRDS(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_stan"))
+write.csv(total_crop_and_field_area, file = file.path(root_data_out, "total_crop_and_field_area_stan.csv"))
 
 print("saving area_by_field object")
 print(Sys.time())
-saveRDS(field_areas, file = file.path(root_data_out, "field_areas_san"))
-write.csv(field_areas, file = file.path(root_data_out, "field_areas_san.csv"))
+saveRDS(field_areas, file = file.path(root_data_out, "field_areas_stan"))
+write.csv(field_areas, file = file.path(root_data_out, "field_areas_stan.csv"))
 
 
