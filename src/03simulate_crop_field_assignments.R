@@ -65,10 +65,11 @@ for (simulation in 1:nsims+1){ #1000
     new_crop_probs<- crop_probs[4,]
     #new_crop_probs<-(1-(crop_probs[3,]/crop_probs[2,]))*crop_probs[1,]
     new_crop_probs<-rapply(new_crop_probs, function(x) ifelse(is.nan(x),0,x), how="replace" )
-    new_crop_probs[new_crop_probs < 0] <- 0 #if any probs are neg, change to 0; fixes issues where crop_probs[1,] == 0
+   # new_crop_probs[new_crop_probs < 0] <- 0 #if any probs are neg, change to 0; fixes issues where crop_probs[1,] == 0
    # print(new_crop_probs)
    # #write.csv(new_crop_probs, file = file.path(root_data_out, "new_crop_probs_san.csv"))
     print(crop_probs)
+    print(field)
     r1<-sample(30, size = 1, replace = TRUE, prob = new_crop_probs)
     simulation_matrix[field,simulation] <-colnames(out)[r1+1]
     indi_field_area<-field_areas[field_areas$ID %in% out[,1],]
