@@ -1,16 +1,14 @@
-
 simulate_start_time <- Sys.time()
 print("stepping into 04verify_data_and_create_figures.R")
 print(Sys.time())
 
-##figure for workflow - Fig. 1
-#madera county, alfalfa
+
+#Figure 1, Workflow
 window<-extent(-2200000, -2160000, 1980000, 2000000)
 r1<-crop(crop_raster_stack[[1]], window)
 plot(r1)
 plot(counties_trans[[3]])
 counties_ca <- file.path(root_data_in, "ca_counties")
-
 counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
 sac.sub <- counties_shapes[counties_shapes$NAME == 'Sacramento',] 
 sac.sub<-spTransform(madera.sub,crs(r1))
@@ -18,22 +16,19 @@ plot(r1)
 plot(sac.sub, add=T)
 counties_trans_sac<-counties_trans[[3]]
 counties_trans_sac$crop<-simulation_matrix[,3]
-
 plot(counties_trans[[3]], add=T, col=col)
 
 
 
-##figure for boxplot - Fig. 2
+##Figure 2, boxplot
 
-#sac
+#Sacramento
 sim_mat<-file.path(root_data_out, "simulation_matrix_sac.csv")
 simulation_matrix<-read.csv(sim_mat)
 field_areas<-file.path(root_data_out, "field_areas_sac.csv")
 field_areas<-read.csv(field_areas)
-
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
-simulation_matrix_f<-simulation_matrix_f[,c(1,1003,2:1002)]
-
+simulation_matrix_f<-simulation_matrix_f[,c(1,1004,2:1003)]
 list_of_sims<-setNames(lapply(names(simulation_matrix_f)[-2], function(x) cbind(simulation_matrix_f[2], simulation_matrix_f[x])), names(simulation_matrix_f)[-2])
 list_of_sims[1]<-NULL
 IDs<-simulation_matrix_f$ID
