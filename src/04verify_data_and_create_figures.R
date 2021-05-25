@@ -74,6 +74,8 @@ colnames(orig_area)[1]<-'Area_Crop'
 orig_area<-orig_area[,c(2,1)]
 orig_area$ID<-'Orig'
 sum(as.numeric(orig_area$Area_Crop))
+fin_total_sum_areas[2,]
+sum(as.numeric(orig_area$Area_Crop)) - fin_total_sum_areas[2,]
 
 #let's add in the ratio of each crop for each sim to its original area
 namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
@@ -152,6 +154,9 @@ colnames(orig_area)[1]<-'Area_Crop'
 orig_area<-orig_area[,c(2,1)]
 orig_area$ID<-'Orig'
 sum(as.numeric(orig_area$Area_Crop))
+fin_total_sum_areas[2,]
+sum(as.numeric(orig_area$Area_Crop)) - fin_total_sum_areas[2,]
+
 
 #let's add in the ratio of each crop for each sim to its original area
 namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
@@ -230,6 +235,8 @@ colnames(orig_area)[1]<-'Area_Crop'
 orig_area<-orig_area[,c(2,1)]
 orig_area$ID<-'Orig'
 sum(as.numeric(orig_area$Area_Crop))
+fin_total_sum_areas[2,]
+sum(as.numeric(orig_area$Area_Crop)) - fin_total_sum_areas[2,]
 
 #let's add in the ratio of each crop for each sim to its original area
 namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
@@ -308,6 +315,8 @@ colnames(orig_area)[1]<-'Area_Crop'
 orig_area<-orig_area[,c(2,1)]
 orig_area$ID<-'Orig'
 sum(as.numeric(orig_area$Area_Crop))
+fin_total_sum_areas[2,]
+sum(as.numeric(orig_area$Area_Crop)) - fin_total_sum_areas[2,]
 
 #let's add in the ratio of each crop for each sim to its original area
 namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
@@ -385,6 +394,8 @@ colnames(orig_area)[1]<-'Area_Crop'
 orig_area<-orig_area[,c(2,1)]
 orig_area$ID<-'Orig'
 sum(as.numeric(orig_area$Area_Crop))
+fin_total_sum_areas[2,]
+sum(as.numeric(orig_area$Area_Crop)) - fin_total_sum_areas[2,]
 
 #let's add in the ratio of each crop for each sim to its original area
 namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
