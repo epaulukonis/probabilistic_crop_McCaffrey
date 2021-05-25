@@ -7,11 +7,11 @@ print(Sys.time())
 window<-extent(-2200000, -2160000, 1980000, 2000000)
 r1<-crop(crop_raster_stack[[1]], window)
 plot(r1)
-plot(counties_trans[[3]])
+plot(counties_trans[[3]], add=T)
 counties_ca <- file.path(root_data_in, "ca_counties")
 counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
 sac.sub <- counties_shapes[counties_shapes$NAME == 'Sacramento',] 
-sac.sub<-spTransform(madera.sub,crs(r1))
+sac.sub<-spTransform(sac.sub,crs(r1))
 plot(r1)
 plot(sac.sub, add=T)
 counties_trans_sac<-counties_trans[[3]]
@@ -20,7 +20,7 @@ plot(counties_trans[[3]], add=T)
 
 vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
 vern.sub<-spTransform(vernal,crs(r1))
-plot(vern.sub, add=T, col=blue)
+plot(vern.sub, add=T, col='blue')
 plot(counties_trans[[3]], add=T)
 
 
