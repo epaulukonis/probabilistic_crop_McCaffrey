@@ -16,7 +16,13 @@ plot(r1)
 plot(sac.sub, add=T)
 counties_trans_sac<-counties_trans[[3]]
 counties_trans_sac$crop<-simulation_matrix[,3]
-plot(counties_trans[[3]], add=T, col=col)
+plot(counties_trans[[3]], add=T)
+
+vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
+vern.sub<-spTransform(vernal,crs(r1))
+plot(vern.sub, add=T, col=blue)
+plot(counties_trans[[3]], add=T)
+
 
 
 
