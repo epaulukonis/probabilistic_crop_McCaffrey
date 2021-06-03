@@ -87,7 +87,7 @@ sum(as.numeric(orig_area$Area_Crop)) - fin_total_sum_areas[2,]
 namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
           "Grapes","Honeydew Melons","Lettuce","Misc.","Non-Crop","Oats","Oranges","Pears","Pecans","Peppers","Pistachios","Pomegranates",
           "Potatoes","Pumpkins","Soybeans","Squash","Sweet Potatoes","Tomatoes","Walnuts","Watermelons")
-orig_area$Name<-namesc
+orig_area$Crops<-namesc
 compiled_areas_fin<-merge(compiled_areas_fin,orig_area, by = 'Crop')
 compiled_areas_fin<-compiled_areas_fin[order(compiled_areas_fin$ID.x), ]
 compiled_areas_fin$Ratio<-as.numeric(compiled_areas_fin$Area_Crop.x)/as.numeric(compiled_areas_fin$Area_Crop.y)
@@ -96,15 +96,31 @@ compiled_areas_fin$Ratio<-as.numeric(compiled_areas_fin$Area_Crop.x)/as.numeric(
 #we can hope/assume out of 1000, all crops should be somewhat represented
 
 compiled_areas_fin<-na.omit(compiled_areas_fin)
-compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) + 
+colnames(compiled_areas_fin)[6]<-'Crops'
+label_area<-orig_area[orig_area$Crops %in% compiled_areas_fin$Crops,]
+label_area$Area_Crop<-round(as.numeric(label_area$Area_Crop)*0.00024711,1)
+label_area = compiled_areas_fin %>%
+  group_by(Crops) %>%
+  summarize(ypos = median(Ratio) + 1.00)%>%
+  inner_join(., label_area)
+
+mycolors = c(brewer.pal(name="Dark2", n = 8), brewer.pal(name="Paired", n = 6))
+compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops, color=Crops)) + 
   geom_boxplot()+
+  scale_y_continuous(breaks=c(-2,-1,0,1,2,3,4,5,6))+
   coord_cartesian(ylim = c(-2, 6))+
+  geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
+             position = position_dodge(width = .50),
+            angle=45, show.legend = FALSE )+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop),alpha = 0.9, vjust=0.5, show.legend = F)+
   xlab("Crop - Madera County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 
         axis.title=element_text(size=14,face="bold"),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))+
+
 
 
 #Merced----
@@ -168,24 +184,34 @@ sum(as.numeric(orig_area$Area_Crop)) - fin_total_sum_areas[2,]
 namesc<-c("Alfalfa", "Almond", "Cabbage", "Cantaloupes", "Corn", "Cotton", "Cucumbers", "Dry Beans", "Eggplants", "Fallow",
           "Grapes","Honeydew Melons","Lettuce","Misc.","Non-Crop","Oats","Oranges","Pears","Pecans","Peppers","Pistachios","Pomegranates",
           "Potatoes","Pumpkins","Soybeans","Squash","Sweet Potatoes","Tomatoes","Walnuts","Watermelons")
-orig_area$Name<-namesc
+orig_area$Crops<-namesc
 compiled_areas_fin<-merge(compiled_areas_fin,orig_area, by = 'Crop')
 compiled_areas_fin<-compiled_areas_fin[order(compiled_areas_fin$ID.x), ]
 compiled_areas_fin$Ratio<-as.numeric(compiled_areas_fin$Area_Crop.x)/as.numeric(compiled_areas_fin$Area_Crop.y)
 
-#for now, let's remove the rows with NAN, because those simulations won't have those crops represented
-#we can hope/assume out of 1000, all crops should be somewhat represented
-
 compiled_areas_fin<-na.omit(compiled_areas_fin)
-compiled_areas_fin %>% ggplot(aes(x=Name, y=Ratio, fill=Name)) + 
+colnames(compiled_areas_fin)[6]<-'Crops'
+label_area<-orig_area[orig_area$Crops %in% compiled_areas_fin$Crops,]
+label_area$Area_Crop<-round(as.numeric(label_area$Area_Crop)*0.00024711,1)
+label_area = compiled_areas_fin %>%
+  group_by(Crops) %>%
+  summarize(ypos = median(Ratio) + 1.00)%>%
+  inner_join(., label_area)
+
+compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
+  scale_y_continuous(breaks=c(-2,-1,0,1,2,3,4,5,6))+
   coord_cartesian(ylim = c(-2, 6))+
+  geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops), 
+            position = position_dodge(width = .50), 
+            angle=45, show.legend = FALSE )+
   xlab("Crop - Merced County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
+
 
 
 #Sacramento----
