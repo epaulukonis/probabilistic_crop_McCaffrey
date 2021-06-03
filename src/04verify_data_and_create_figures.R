@@ -121,6 +121,10 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops, color=Crops)) +
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))+
 
+#what percent of time is that being assigned zero? 
+  #certain crops should not be assigned total crop zero
+  #well-behaved simulation? accept them only if well-behaved
+  #only accept if they're not zero for large crops, or other issues
 
 
 #Merced----
