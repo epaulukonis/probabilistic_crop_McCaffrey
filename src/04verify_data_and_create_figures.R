@@ -29,11 +29,11 @@ plot(counties_trans[[3]], add=T)
 ##Figure 2, Boxplot
 #Madera----
 sim_mat<-file.path(root_data_out, "simulation_matrix_mad.csv")
-simulation_matrix<-read.csv(sim_mat)
+simulation_matrix<-read.csv(sim_mat)[,-1]
 field_areas<-file.path(root_data_out, "field_areas_mad.csv")
-field_areas<-read.csv(field_areas)
+field_areas<-read.csv(field_areas)[,-1]
 simulation_matrix_f<-merge(simulation_matrix,field_areas, by='ID')
-simulation_matrix_f<-simulation_matrix_f[,c(1,1004,2:1003)]
+simulation_matrix_f<-simulation_matrix_f[,c(1,1002,2:1001)]
 list_of_sims<-setNames(lapply(names(simulation_matrix_f)[-2], function(x) cbind(simulation_matrix_f[2], simulation_matrix_f[x])), names(simulation_matrix_f)[-2])
 list_of_sims[1]<-NULL
 IDs<-simulation_matrix_f$ID
@@ -92,6 +92,7 @@ compiled_areas_fin<-merge(compiled_areas_fin,orig_area, by = 'Crop')
 compiled_areas_fin<-compiled_areas_fin[order(compiled_areas_fin$ID.x), ]
 compiled_areas_fin$Ratio<-as.numeric(compiled_areas_fin$Area_Crop.x)/as.numeric(compiled_areas_fin$Area_Crop.y)
 
+
 #for now, let's remove the rows with NAN, because those simulations won't have those crops represented
 #we can hope/assume out of 1000, all crops should be somewhat represented
 
@@ -101,25 +102,27 @@ label_area<-orig_area[orig_area$Crops %in% compiled_areas_fin$Crops,]
 label_area$Area_Crop<-round(as.numeric(label_area$Area_Crop)*0.00024711,1)
 label_area = compiled_areas_fin %>%
   group_by(Crops) %>%
-  summarize(ypos = median(Ratio) + 1.00)%>%
+  summarize(ypos = median(Ratio) + 1.10)%>%
   inner_join(., label_area)
 
-mycolors = c(brewer.pal(name="Dark2", n = 8), brewer.pal(name="Paired", n = 6))
-compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops, color=Crops)) + 
+#compiled_areas_fin<-compiled_areas_fin[compiled_areas_fin$Crops %in% orig_area$Crops,]
+
+
+compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
-  scale_y_continuous(breaks=c(-2,-1,0,1,2,3,4,5,6))+
-  coord_cartesian(ylim = c(-2, 6))+
-  geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
-             position = position_dodge(width = .50),
-            angle=45, show.legend = FALSE )+
-  # geom_label(data = label_area,
-  #            aes(y = ypos, label = Area_Crop),alpha = 0.9, vjust=0.5, show.legend = F)+
+  scale_y_continuous(breaks=c(0,1,2,3,4,5,6))+
+  coord_cartesian(ylim = c(0, 6))+
+  # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
+  #            position = position_dodge(width = .50),
+  #           angle=45, show.legend = FALSE, fontface='bold')+
+  geom_label(data = label_area,
+             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Madera County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 
         axis.title=element_text(size=14,face="bold"),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))+
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
 
 #what percent of time is that being assigned zero? 
   #certain crops should not be assigned total crop zero
@@ -193,6 +196,9 @@ compiled_areas_fin<-merge(compiled_areas_fin,orig_area, by = 'Crop')
 compiled_areas_fin<-compiled_areas_fin[order(compiled_areas_fin$ID.x), ]
 compiled_areas_fin$Ratio<-as.numeric(compiled_areas_fin$Area_Crop.x)/as.numeric(compiled_areas_fin$Area_Crop.y)
 
+#for now, let's remove the rows with NAN, because those simulations won't have those crops represented
+#we can hope/assume out of 1000, all crops should be somewhat represented
+
 compiled_areas_fin<-na.omit(compiled_areas_fin)
 colnames(compiled_areas_fin)[6]<-'Crops'
 label_area<-orig_area[orig_area$Crops %in% compiled_areas_fin$Crops,]
@@ -202,13 +208,16 @@ label_area = compiled_areas_fin %>%
   summarize(ypos = median(Ratio) + 1.00)%>%
   inner_join(., label_area)
 
+
 compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
   scale_y_continuous(breaks=c(-2,-1,0,1,2,3,4,5,6))+
   coord_cartesian(ylim = c(-2, 6))+
-  geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops), 
-            position = position_dodge(width = .50), 
-            angle=45, show.legend = FALSE )+
+  # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
+  #            position = position_dodge(width = .50),
+  #           angle=45, show.legend = FALSE, fontface='bold')+
+  geom_label(data = label_area,
+             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Merced County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
