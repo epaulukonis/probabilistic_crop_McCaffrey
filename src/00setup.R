@@ -11,7 +11,6 @@ library(rgdal)
 library(raster)
 library(dplyr)
 library(ggplot2)
-library(ggsci)
 #install.packages("disaggregation") ##for extracParrallel function
 #library(disaggregation)
 #install.packages('exactextractr')

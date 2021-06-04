@@ -107,16 +107,17 @@ label_area = compiled_areas_fin %>%
 
 #compiled_areas_fin<-compiled_areas_fin[compiled_areas_fin$Crops %in% orig_area$Crops,]
 
+write.csv(label_area, file = file.path(root_data_out, "madera_orig.csv"))
 
 compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
-  scale_y_continuous(breaks=c(0,1,2,3,4,5,6))+
-  coord_cartesian(ylim = c(0, 6))+
+  scale_y_continuous(breaks=c(0,1,2,3))+
+  coord_cartesian(ylim = c(0, 3))+
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Madera County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -209,6 +210,8 @@ label_area = compiled_areas_fin %>%
 
 #compiled_areas_fin<-compiled_areas_fin[compiled_areas_fin$Crops %in% orig_area$Crops,]
 
+write.csv(label_area, file = file.path(root_data_out, "merced_orig.csv"))
+
 compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
   scale_y_continuous(breaks=c(0,1,2,3,4,5,6))+
@@ -216,8 +219,8 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) +
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Merced County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -304,16 +307,17 @@ label_area = compiled_areas_fin %>%
   inner_join(., label_area)
 
 #compiled_areas_fin<-compiled_areas_fin[compiled_areas_fin$Crops %in% orig_area$Crops,]
+write.csv(label_area, file = file.path(root_data_out, "sacramento_orig.csv"))
 
 compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
-  scale_y_continuous(breaks=c(0,1,2,3,4,5,6))+
-  coord_cartesian(ylim = c(0, 6))+
+  scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8,9))+
+  coord_cartesian(ylim = c(0, 9))+
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Sacramento County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -399,16 +403,17 @@ label_area = compiled_areas_fin %>%
   inner_join(., label_area)
 
 #compiled_areas_fin<-compiled_areas_fin[compiled_areas_fin$Crops %in% orig_area$Crops,]
+write.csv(label_area, file = file.path(root_data_out, "sanjoaquin_orig.csv"))
 
 compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
-  scale_y_continuous(breaks=c(0,1,2,3,4,5,6))+
-  coord_cartesian(ylim = c(0, 6))+
+  scale_y_continuous(breaks=c(0,1,2,3,4,5,7,8))+
+  coord_cartesian(ylim = c(0, 8))+
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - San Joaquin County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -494,16 +499,17 @@ label_area = compiled_areas_fin %>%
   inner_join(., label_area)
 
 #compiled_areas_fin<-compiled_areas_fin[compiled_areas_fin$Crops %in% orig_area$Crops,]
+write.csv(label_area, file = file.path(root_data_out, "stanislaus_orig.csv"))
 
 compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
   geom_boxplot()+
-  scale_y_continuous(breaks=c(0,1,2,3,4,5,6))+
-  coord_cartesian(ylim = c(0, 6))+
+  scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8,9,10,11,12))+
+  coord_cartesian(ylim = c(0, 12))+
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Stanislaus County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
