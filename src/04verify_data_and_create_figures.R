@@ -32,15 +32,19 @@ vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
 plot(vernal)
 vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
 
-
-
 r1<-file.path(root_data_out, list.files(path=root_data_out, pattern='.tif$', all.files=T,full.names=F))
 bf<-raster(r1[1])
 plot(bf)
 
 window<-extent(-121.5, -121.1, 38,38.3)
-r1<-crop(bf, window)
-plot(r1)
+bfc<-crop(bf, window)
+plot(bfc)
+bfc<-spTransform(bfc,crs(crop_raster_stack[[1]]))
+#need to reproject
+#need to get the field ids of the fields within the clip
+#then link those to the field ids in the simulation matrix
+#take the 
+
 
 ##Figure 3, Boxplot
 #Madera----
