@@ -40,10 +40,13 @@ window<-extent(-121.5, -121.1, 38,38.3)
 bfc<-crop(bf, window)
 plot(bfc)
 bfc<-spTransform(bfc,crs(crop_raster_stack[[1]]))
-#need to reproject
+#need to re-project
+#need to identify a vernal pool near this region, make sure it's large enough
 #need to get the field ids of the fields within the clip
 #then link those to the field ids in the simulation matrix
-#take the 
+#take the field layer and then extract the field values of the chosen simulations to that 
+#need to get a) histogram of total area of those 6 crops within that radius over 1000 sims and b) an image of a few sims near pool
+
 
 
 ##Figure 3, Boxplot
