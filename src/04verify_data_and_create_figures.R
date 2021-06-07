@@ -26,7 +26,14 @@ plot(counties_trans[[3]], add=T)
 
 
 
-##Figure 2, Boxplot
+##Figure 2, VP area
+
+vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
+vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
+
+
+
+##Figure 3, Boxplot
 #Madera----
 sim_mat<-file.path(root_data_out, "simulation_matrix_mad.csv")
 simulation_matrix<-read.csv(sim_mat)[,-1]
@@ -116,8 +123,8 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) +
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Madera County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -220,8 +227,8 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) +
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Merced County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -318,8 +325,8 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) +
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Sacramento County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -415,8 +422,8 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) +
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - San Joaquin County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
@@ -512,11 +519,13 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) +
   # geom_text(data = label_area, aes(label = Area_Crop, y = ypos, color=Crops),
   #            position = position_dodge(width = .50),
   #           angle=45, show.legend = FALSE, fontface='bold')+
-  geom_label(data = label_area,
-             aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
+  # geom_label(data = label_area,
+  #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
   xlab("Crop - Stanislaus County") + 
   ylab ("Ratio of Original Area to Simulated Area by Crop") +
   theme(panel.background = element_blank(), 
         axis.line = element_line(colour = "black"), 
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
+
+
