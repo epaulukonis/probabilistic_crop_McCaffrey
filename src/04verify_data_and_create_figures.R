@@ -66,10 +66,26 @@ sac.sims<-sim_mat_sac[sim_mat_sac$ID %in% sac.df.f$ID,]
 san.df.f<-san.df[san.df$ID %in% sim_mat_san$ID,] #remove any rows that may not be present in the final sim
 san.sims<-sim_mat_san[sim_mat_san$ID %in% san.df.f$ID,]
 
+
+
 sac$sim<-sac.sims$Sim1
 san$sim<-san.sims$Sim1
+unique(sac.sims$Sim1)
 
-plot(sac, add=T, col=sim)
+
+crop_col <- c("blue","green","orange","purple", "red","yellow",)
+
+
+plot(lines_HARV, 
+     col=roadColors,
+     lwd=3,
+     main="NEON Harvard Forest Field Site\n Roads & Trails")
+
+
+
+
+
+
 
 #almond
 #corn
