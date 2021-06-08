@@ -27,25 +27,24 @@ plot(counties_trans[[4]], add=T)
 
 
 ##Figure 2, VP area
-
 vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
 plot(vernal)
 vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
-
-
-#this is in san joaquin 
 r1<-file.path(root_data_out, list.files(path=root_data_out, pattern='.tif$', all.files=T,full.names=F))
 bf<-raster(r1[1])
 bf<-projectRaster(bf, crs = crs(crop_raster_stack[[1]]))
-plot(bf)
-plot(vern.sub, add=T)
+# plot(bf)
+# plot(vern.sub, add=T)
 window<-extent(-2167000, -2157000,  1975000, 1985000)
 bfc<-crop(bf, window)
 sj<-crop(vern.sub, window)
-#county<-crop(counties_trans[[4]], window)
+sj<-aggregate(sj, dissolve=T)
+sac<-crop(counties_trans[[3]], window)
+san<-crop(counties_trans[[4]], window)
 plot(bfc)
-plot(sj, add=T, col='blue', alpha=0.5)
-
+plot(sj, add=T, col='blue')
+plot(san,add=T)
+plot(sac, add=T)
 
 
 
