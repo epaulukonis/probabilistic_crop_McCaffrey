@@ -21,7 +21,7 @@ plot(counties_trans[[3]], add=T)
 vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
 vern.sub<-spTransform(vernal,crs(r1))
 plot(vern.sub, add=T, col='blue')
-plot(counties_trans[[3]], add=T)
+plot(counties_trans[[4]], add=T)
 
 
 
@@ -32,14 +32,30 @@ vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
 plot(vernal)
 vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
 
+
+#this is in san joaquin 
 r1<-file.path(root_data_out, list.files(path=root_data_out, pattern='.tif$', all.files=T,full.names=F))
 bf<-raster(r1[1])
+bf<-projectRaster(bf, crs = crs(crop_raster_stack[[1]]))
 plot(bf)
-
-window<-extent(-121.5, -121.1, 38,38.3)
+plot(vern.sub, add=T)
+window<-extent(-2167000, -2157000,  1975000, 1985000)
 bfc<-crop(bf, window)
+sj<-crop(vern.sub, window)
+#county<-crop(counties_trans[[4]], window)
 plot(bfc)
-bfc<-spTransform(bfc,crs(crop_raster_stack[[1]]))
+plot(sj, add=T, col='blue', alpha=0.5)
+
+
+
+
+#almond
+#corn
+#cotton
+#pistachios
+#tomatoes
+#walnuts
+
 #need to re-project
 #need to identify a vernal pool near this region, make sure it's large enough
 #need to get the field ids of the fields within the clip
