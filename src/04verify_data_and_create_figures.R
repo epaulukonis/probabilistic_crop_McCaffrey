@@ -18,11 +18,10 @@ counties_trans_sac<-counties_trans[[3]]
 counties_trans_sac$crop<-simulation_matrix[,3]
 plot(counties_trans[[3]], add=T)
 
-vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
-vern.sub<-spTransform(vernal,crs(r1))
-plot(vern.sub, add=T, col='blue')
-plot(counties_trans[[4]], add=T)
-
+# vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
+# vern.sub<-spTransform(vernal,crs(r1))
+# plot(vern.sub, add=T, col='blue')
+# plot(counties_trans[[4]], add=T)
 
 
 
@@ -31,22 +30,46 @@ vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
 plot(vernal)
 vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
 r1<-file.path(root_data_out, list.files(path=root_data_out, pattern='.tif$', all.files=T,full.names=F))
-bf<-raster(r1[1])
-bf<-projectRaster(bf, crs = crs(crop_raster_stack[[1]]))
+bf<-raster(r1[1]) #this raster contains the original crop probabilities; let's find an area of high prob near vernal pool
+bf<-projectRaster(bf, crs = crs(crop_raster_stack[[1]])) #reproject
 # plot(bf)
 # plot(vern.sub, add=T)
-window<-extent(-2167000, -2157000,  1975000, 1985000)
+window<-extent(-2167000, -2157000,  1975000, 1985000) #extent of vp with overlap of varied probability
 bfc<-crop(bf, window)
 sj<-crop(vern.sub, window)
 sj<-aggregate(sj, dissolve=T)
 sac<-crop(counties_trans[[3]], window)
 san<-crop(counties_trans[[4]], window)
-plot(bfc)
-plot(sj, add=T, col='blue')
-plot(san,add=T)
-plot(sac, add=T)
+#this is an area between sacramento and san joaquin counties
+plot(bfc,axes=FALSE, box=FALSE) #probability raster 
+plot(sj, add=T, col='blue',axes=FALSE, box=FALSE) #cropped vernal pools
+plot(san,add=T,axes=FALSE, box=FALSE) #cropped field levels
+plot(sac, add=T, axes=FALSE, box=FALSE) #cropped field levels
+
+#time to add in the simulations for sac and san
+sim_mat_sac<-file.path(root_data_out, "simulation_matrix_sac.csv")
+sim_mat_san<-file.path(root_data_out, "simulation_matrix_san.csv")
+sim_mat_sac<-read.csv(sim_mat_sac)[,-1]
+sim_mat_san<-read.csv(sim_mat_san)[,-1]
+
+#let's turn our cropped polygon field layrers into a datafame that we can then match to our sim matrices
+
+sac$ID<-1:nrow(sac)
+san$ID<-1:nrow(san)
+sac.df <- as.data.frame(sac)
+san.df <- as.data.frame(san)
 
 
+sac.df.f<-sac.df[sac.df$ID %in% sim_mat_sac$ID,] #remove any rows that may not be present in the final sim
+sac.sims<-sim_mat_sac[sim_mat_sac$ID %in% sac.df.f$ID,]
+
+san.df.f<-san.df[san.df$ID %in% sim_mat_san$ID,] #remove any rows that may not be present in the final sim
+san.sims<-sim_mat_san[sim_mat_san$ID %in% san.df.f$ID,]
+
+sac$sim<-sac.sims$Sim1
+san$sim<-san.sims$Sim1
+
+plot(sac, add=T, col=sim)
 
 #almond
 #corn
@@ -55,14 +78,14 @@ plot(sac, add=T)
 #tomatoes
 #walnuts
 
+
+
 #need to re-project
 #need to identify a vernal pool near this region, make sure it's large enough
 #need to get the field ids of the fields within the clip
 #then link those to the field ids in the simulation matrix
 #take the field layer and then extract the field values of the chosen simulations to that 
 #need to get a) histogram of total area of those 6 crops within that radius over 1000 sims and b) an image of a few sims near pool
-
-
 
 ##Figure 3, Boxplot
 #Madera----
