@@ -154,3 +154,35 @@
 #   print("saving out object")
 #   print(Sys.time())
 #   saveRDS(out, file = file.path(root_data_out, "out.rds"))
+
+
+
+#plot(bfc,axes=FALSE, box=FALSE) #probability raster 
+plot(sj, add=T, col='blue',axes=FALSE, box=FALSE) #cropped vernal pools
+five_san_sub <- san[san$sim5%in% crops, ]
+plot(five_san_sub, add =T)
+five_sac_sub <- sac[sac$sim5%in% crops, ]
+plot(five_sac_sub, add =T)
+
+#plot(bfc,axes=FALSE, box=FALSE) #probability raster 
+# par(bg = "azure2")
+# plot(sj, col='lightblue') 
+#cropped vernal pools
+
+
+
+
+
+#do a KDE of each of the crops across each sim as well
+p2 <- ggplot(data=diamonds, aes(x=price, group=cut, fill=cut)) +
+  geom_density(adjust=1.5, alpha=.4) +
+  theme_ipsum()
+
+
+
+#almond
+#corn
+#cotton
+#pistachios
+#tomatoes
+#walnuts
