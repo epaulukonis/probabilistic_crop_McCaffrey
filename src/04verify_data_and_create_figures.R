@@ -32,11 +32,13 @@ vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
 r1<-file.path(root_data_out, list.files(path=root_data_out, pattern='.tif$', all.files=T,full.names=F))
 bf<-raster(r1[1]) #this raster contains the original crop probabilities; let's find an area of high prob near vernal pool
 bf<-projectRaster(bf, crs = crs(crop_raster_stack[[1]])) #reproject
-# plot(bf)
-# plot(vern.sub, add=T)
-window<-extent(-2167000, -2157000,  1975000, 1985000) #extent of vp with overlap of varied probability
+plot(bf)
+plot(vern.sub, add=T)
+window<-extent(-2160000, -2140000, 1935000, 1955000) #extent of vp with overlap of varied probability
 
 bfc<-crop(bf, window)
+plot(bfc)
+
 sj<-crop(vern.sub, window)
 sj<-aggregate(sj, dissolve=T, )
 sac<-crop(counties_trans[[3]], window)
