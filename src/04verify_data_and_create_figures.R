@@ -17,10 +17,9 @@ plot(crop_san, add=T)
 
 counties_ca <- file.path(root_data_in, "ca_counties")
 counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
-sac.sub <- counties_shapes[counties_shapes$NAME == 'San Joaquin',] 
-sac.sub<-spTransform(sac.sub,crs(r1))
+san.sub <- counties_shapes[counties_shapes$NAME == 'San Joaquin',] 
+san.sub<-spTransform(sac.sub,crs(r1))
 plot(r1)
-plot(sac.sub, add=T)
 counties_trans_sac<-counties_trans[[3]]
 counties_trans_sac$crop<-simulation_matrix[,3]
 plot(counties_trans[[3]], add=T)
