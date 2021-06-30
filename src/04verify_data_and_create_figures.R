@@ -4,8 +4,10 @@ print(Sys.time())
 
 
 #Figure 1, Workflow
-window<-extent(-2200000, -2160000, 1980000, 2000000)
-r1<-crop(crop_raster_stack[[1]], window)
+window<-extent(-2160000, -21545000, 1920000, 1940000) 
+plot(crop_raster_stack[[2]])
+plot(window,add=T)
+r1<-crop(crop_raster_stack[[2]], window)
 plot(r1)
 plot(counties_trans[[3]], add=T)
 counties_ca <- file.path(root_data_in, "ca_counties")
