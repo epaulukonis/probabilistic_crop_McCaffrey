@@ -33,18 +33,21 @@ r1<-file.path(root_data_out, list.files(path=root_data_out, pattern='.tif$', all
 bf<-raster(r1[1]) #this raster contains the original crop probabilities; let's find an area of high prob near vernal pool
 bf<-projectRaster(bf, crs = crs(crop_raster_stack[[1]])) #reproject
 plot(bf)
-plot(vern.sub, add=T)
-window<-extent(-2160000, -2140000, 1935000, 1955000) #extent of vp with overlap of varied probability
+window<-extent(-2155000, -2141500, 1938000, 1955000) #extent of vp with overlap of varied probability
+
 
 bfc<-crop(bf, window)
 plot(bfc)
-plot(counties_trans[[4]], add=T)
-extent(counties_trans[[4]])
+plot(vern.sub, add=T, col='blue')
+
+buff_1km<-gBuffer(vern.sub, byid = TRUE, width = 1000, capStyle="ROUND")
+plot(buff_1km, add=T)
 
 sj<-crop(vern.sub, window)
 sj<-aggregate(sj, dissolve=T)
 san<-gBuffer(counties_trans[[4]], byid=T, width=0)
-san<-crop(san, window)
+#san<-crop(san, window)
+san<-crop(san,buff_1km)
 
 
 #this is an area between sacramento and san joaquin counties
@@ -54,22 +57,22 @@ plot(sj, add=T, col='blue',axes=FALSE, box=FALSE) #cropped vernal pools
 #plot(sac, add=T, axes=FALSE, box=FALSE) #cropped field levels
 
 #time to add in the simulations for sac and san
-sim_mat_sac<-file.path(root_data_out, "simulation_matrix_sac.csv")
+#sim_mat_sac<-file.path(root_data_out, "simulation_matrix_sac.csv")
 sim_mat_san<-file.path(root_data_out, "simulation_matrix_san.csv")
-sim_mat_sac<-read.csv(sim_mat_sac)[,-1]
+#sim_mat_sac<-read.csv(sim_mat_sac)[,-1]
 sim_mat_san<-read.csv(sim_mat_san)[,-1]
-field_areas_sac<-file.path(root_data_out, "field_areas_sac.csv")
-field_areas_sac<-read.csv(field_areas_sac)[,-1]
+#field_areas_sac<-file.path(root_data_out, "field_areas_sac.csv")
+#field_areas_sac<-read.csv(field_areas_sac)[,-1]
 field_areas_san<-file.path(root_data_out, "field_areas_san.csv")
 field_areas_san<-read.csv(field_areas_san)[,-1]
 
 #let's turn our cropped polygon field layers into a data-frame that we can then match to our sim matrices
-sac$ID<-1:nrow(sac)
+#sac$ID<-1:nrow(sac)
 san$ID<-1:nrow(san)
-sac.df <- as.data.frame(sac)
+#sac.df <- as.data.frame(sac)
 san.df <- as.data.frame(san)
-sac.df.f<-sac.df[sac.df$ID %in% sim_mat_sac$ID,] #remove any rows that may not be present in the final sim
-sac.sims<-sim_mat_sac[sim_mat_sac$ID %in% sac.df.f$ID,]
+#sac.df.f<-sac.df[sac.df$ID %in% sim_mat_sac$ID,] #remove any rows that may not be present in the final sim
+#sac.sims<-sim_mat_sac[sim_mat_sac$ID %in% sac.df.f$ID,]
 san.df.f<-san.df[san.df$ID %in% sim_mat_san$ID,] #remove any rows that may not be present in the final sim
 san.sims<-sim_mat_san[sim_mat_san$ID %in% san.df.f$ID,]
 
@@ -92,9 +95,9 @@ colnames(quantile_sims)[1]<-'area'
 
  histy<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
   geom_histogram(binwidth=120, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-   geom_vline(xintercept=6419.595 , color="black", linetype="dashed", size=1)+
-   geom_vline(xintercept=7310.636, color="black", linetype="dashed", size=1)+
-   geom_vline(xintercept=8282.450 , color="black", linetype="dashed", size=1)+
+   geom_vline(xintercept=5932.258 , color="black", linetype="dashed", size=1)+
+   geom_vline(xintercept=6745.209, color="black", linetype="dashed", size=1)+
+   geom_vline(xintercept=7647.598 , color="black", linetype="dashed", size=1)+
   xlab("Total Area of 6 Major Bifenthrin Crops (Sum of Acres)") + 
    # geom_area(data = subset(hist_data, BifenthrinCropArea < 6419.570), fill = "grey") +
    # geom_area(data = subset(hist_data, BifenthrinCropArea > 8282.646 ), fill = "black") +
@@ -102,27 +105,30 @@ colnames(quantile_sims)[1]<-'area'
    theme(
      plot.title = element_text(size=15)
    )
+ histy
 
 #note; quantile does not return the specific row values, apparently. So I used a 'closest' function to pick my scenarios
  #this is not a permanent solution
- five_per<-hist_data[which.min(abs(6419.565-hist_data$BifenthrinCropArea)),]
- fifty_per<-hist_data[which.min(abs(7315.047-hist_data$BifenthrinCropArea)),]
- ninetyfive_per<-hist_data[which.min(abs(8282.646-hist_data$BifenthrinCropArea)),]
+ five_per<-hist_data[which.min(abs(5932.258-hist_data$BifenthrinCropArea)),]
+ fifty_per<-hist_data[which.min(abs(6745.209-hist_data$BifenthrinCropArea)),]
+ ninetyfive_per<-hist_data[which.min(abs(7647.598-hist_data$BifenthrinCropArea)),]
  
  perc<-rbind(five_per,fifty_per,ninetyfive_per)
+ perc
  
- sac$sim5<-sac.sims$Sim6
- san$sim5<-san.sims$Sim6
- sac$sim50<-sac.sims$Sim715
- san$sim50<-san.sims$Sim715
- sac$sim95<-sac.sims$Sim175
- san$sim95<-san.sims$Sim175
+ #sac$sim5<-sac.sims$Sim6
+ san$sim5<-san.sims$Sim209
+ #sac$sim50<-sac.sims$Sim715
+ san$sim50<-san.sims$Sim668
+ #sac$sim95<-sac.sims$Sim175
+ san$sim95<-san.sims$Sim309
  
  crops<-c("Almond_StudyArea", "Walnuts_StudyArea","Tomatoes_StudyArea", "Corn_StudyArea","Cotton_StudyArea", "Pistachios_StudyArea")
 
- five_sac_sub <- sac[sac$sim5%in% crops, ]
- five_san_sub <- san[san$sim5%in% crops, ]
- fields<-rbind(five_san_sub, five_sac_sub)
+ #five_sac_sub <- sac[sac$sim5%in% crops, ]
+ # five_san_sub <- san[san$sim5%in% crops, ]
+ # fields<-rbind(five_san_sub, five_sac_sub)
+ fields<-san[san$sim5%in% crops, ]
  fields_f <- fortify(fields, region = "ID")
  colnames(fields_f)[6]<-'ID'
  fields_fin <-merge(fields_f, fields@data,
@@ -135,17 +141,19 @@ colnames(quantile_sims)[1]<-'area'
    geom_path(color = "white", size = 0.1) +
    geom_polygon(data = sj_f, aes(x = long, y = lat), fill = "lightblue") +
    # scale_fill_manual("#69b3a2")+
-   coord_equal() +
+  coord_equal(ylim=c(1940000,1952500), xlim=c(-2155000,-2142000)) +
    theme(panel.background=element_blank())+
    theme(panel.background= element_rect(color="black")) +
-   theme(axis.title = element_blank(), 
+   theme(axis.title = element_blank(),
          axis.text = element_blank()) +
    labs(title = "5th Percentile Area")
+ p1
  
  
- fifty_sac_sub <- sac[sac$sim50%in% crops, ]
- fifty_san_sub <- san[san$sim50%in% crops, ]
- fields<-rbind(fifty_san_sub, fifty_sac_sub)
+ #fifty_sac_sub <- sac[sac$sim50%in% crops, ]
+ # fifty_san_sub <- san[san$sim50%in% crops, ]
+ # fields<-rbind(fifty_san_sub, fifty_sac_sub)
+ fields<-san[san$sim50%in% crops, ]
  fields_f <- fortify(fields, region = "ID")
  colnames(fields_f)[6]<-'ID'
  fields_fin <-merge(fields_f, fields@data,
@@ -158,14 +166,15 @@ colnames(quantile_sims)[1]<-'area'
     geom_path(color = "white", size = 0.1) +
     geom_polygon(data = sj_f, aes(x = long, y = lat), fill = "lightblue") +
     # scale_fill_manual("#69b3a2")+
-    coord_equal() +
+    coord_equal(ylim=c(1940000,1952500), xlim=c(-2155000,-2142000)) +
     theme(panel.background=element_blank())+
     theme(panel.background= element_rect(color="black")) +
-    theme(axis.title = element_blank(), 
+    theme(axis.title = element_blank(),
           axis.text = element_blank()) +
     labs(title = "Median Area")
-
+  p2
   
+
   ninefive_sac_sub <- sac[sac$sim95%in% crops, ]
   ninvefive_san_sub <- san[san$sim95%in% crops, ]
   fields<-rbind(ninvefive_san_sub, ninefive_sac_sub)
@@ -181,12 +190,15 @@ colnames(quantile_sims)[1]<-'area'
     geom_path(color = "white", size = 0.1) +
     geom_polygon(data = sj_f, aes(x = long, y = lat), fill = "lightblue") +
     # scale_fill_manual("#69b3a2")+
-    coord_equal() +
+    coord_equal(ylim=c(1940000,1952500), xlim=c(-2155000,-2142000)) +
     theme(panel.background=element_blank())+
     theme(panel.background= element_rect(color="black")) +
-    theme(axis.title = element_blank(), 
+    theme(axis.title = element_blank(),
           axis.text = element_blank()) +
     labs(title = "95th Percentile Area")
+  p3
+  
+  
   
   
   first_row = plot_grid(histy, labels = c('Total Areas of 6 Major Bifenthrin Crops near CH, 5th, 50th, and 95th Percentile'))
