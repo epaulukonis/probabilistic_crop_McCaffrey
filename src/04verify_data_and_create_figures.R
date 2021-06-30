@@ -38,15 +38,19 @@ window<-extent(-2160000, -2140000, 1935000, 1955000) #extent of vp with overlap 
 
 bfc<-crop(bf, window)
 plot(bfc)
+plot(counties_trans[[4]], add=T)
+extent(counties_trans[[4]])
 
 sj<-crop(vern.sub, window)
-sj<-aggregate(sj, dissolve=T, )
-sac<-crop(counties_trans[[3]], window)
-san<-crop(counties_trans[[4]], window)
+sj<-aggregate(sj, dissolve=T)
+san<-gBuffer(counties_trans[[4]], byid=T, width=0)
+san<-crop(san, window)
+
+
 #this is an area between sacramento and san joaquin counties
 plot(bfc,axes=FALSE, box=FALSE) #probability raster 
+plot(san,add=T,axes=FALSE, box=FALSE) #cropped field levels
 plot(sj, add=T, col='blue',axes=FALSE, box=FALSE) #cropped vernal pools
-#plot(san,add=T,axes=FALSE, box=FALSE) #cropped field levels
 #plot(sac, add=T, axes=FALSE, box=FALSE) #cropped field levels
 
 #time to add in the simulations for sac and san
