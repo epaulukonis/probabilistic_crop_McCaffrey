@@ -4,15 +4,20 @@ print(Sys.time())
 
 
 #Figure 1, Workflow
-window<-extent(-2160000, -21545000, 1920000, 1940000) 
+window<-extent(-2165000, -2150000, 1920000, 1940000) 
 plot(crop_raster_stack[[2]])
 plot(window,add=T)
 r1<-crop(crop_raster_stack[[2]], window)
 plot(r1)
-plot(counties_trans[[3]], add=T)
+plot(counties_trans[[4]], add=T)
+crop_san<-gBuffer(counties_trans[[4]], byid=T, width=0)
+crop_san<-crop(crop_san,r1)
+plot(r1)
+plot(crop_san, add=T)
+
 counties_ca <- file.path(root_data_in, "ca_counties")
 counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
-sac.sub <- counties_shapes[counties_shapes$NAME == 'Sacramento',] 
+sac.sub <- counties_shapes[counties_shapes$NAME == 'San Joaquin',] 
 sac.sub<-spTransform(sac.sub,crs(r1))
 plot(r1)
 plot(sac.sub, add=T)
@@ -36,7 +41,6 @@ bf<-raster(r1[1]) #this raster contains the original crop probabilities; let's f
 bf<-projectRaster(bf, crs = crs(crop_raster_stack[[1]])) #reproject
 plot(bf)
 window<-extent(-2155000, -2141500, 1938000, 1955000) #extent of vp with overlap of varied probability
-
 
 bfc<-crop(bf, window)
 plot(bfc)
