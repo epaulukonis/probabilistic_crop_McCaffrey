@@ -10,24 +10,29 @@ plot(window,add=T)
 r1<-crop(crop_raster_stack[[2]], window)
 plot(r1)
 plot(counties_trans[[4]], add=T)
-crop_san<-gBuffer(counties_trans[[4]], byid=T, width=0)
-crop_san<-crop(crop_san,r1)
-plot(r1)
-plot(crop_san, add=T)
-
-counties_ca <- file.path(root_data_in, "ca_counties")
-counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
-san.sub <- counties_shapes[counties_shapes$NAME == 'San Joaquin',] 
-san.sub<-spTransform(sac.sub,crs(r1))
-plot(r1)
 counties_trans_sac<-counties_trans[[4]]
-counties_trans_sac$crop<-simulation_matrix[,4]
-plot(counties_trans[[3]], add=T)
+counties_trans_sac$crop<-sim_mat_san$Sim10
+counties_trans_sac<-gBuffer(counties_trans_sac, byid=T, width=0)
+crop_san<-crop(counties_trans_sac,r1)
+plot(r1, axes= F, box=F)
+plot(crop_san, add=T, axes=F, box=F)
+crop_san$ID<-1:nrow(crop_san)
 
-# vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
-# vern.sub<-spTransform(vernal,crs(r1))
-# plot(vern.sub, add=T, col='blue')
-# plot(counties_trans[[4]], add=T)
+
+fields_f <- fortify(crop_san, region = "ID")
+colnames(fields_f)[6]<-'ID'
+fields_fin <-merge(fields_f, crop_san@data,
+                   by = "ID")
+
+# counties_ca <- file.path(root_data_in, "ca_counties")
+# counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
+# san.sub <- counties_shapes[counties_shapes$NAME == 'San Joaquin',] 
+# san.sub<-spTransform(sac.sub,crs(r1))
+
+
+#plot(counties_trans[[4]], add=T)
+
+
 
 
 
@@ -80,7 +85,6 @@ san.df <- as.data.frame(san)
 #sac.sims<-sim_mat_sac[sim_mat_sac$ID %in% sac.df.f$ID,]
 san.df.f<-san.df[san.df$ID %in% sim_mat_san$ID,] #remove any rows that may not be present in the final sim
 san.sims<-sim_mat_san[sim_mat_san$ID %in% san.df.f$ID,]
-
 
 hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
 colnames(hist_data)[1]<-'BifenthrinCropArea'
