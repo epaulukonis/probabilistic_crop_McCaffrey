@@ -4,7 +4,7 @@ print(Sys.time())
 
 
 #Figure 1, Workflow
-window<-extent(-2165000, -2150000, 1920000, 1940000) 
+window<-extent(-2165000, -2150000, 1925000, 1935000) 
 plot(crop_raster_stack[[2]])
 plot(window,add=T)
 r1<-crop(crop_raster_stack[[2]], window)
@@ -20,8 +20,8 @@ counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
 san.sub <- counties_shapes[counties_shapes$NAME == 'San Joaquin',] 
 san.sub<-spTransform(sac.sub,crs(r1))
 plot(r1)
-counties_trans_sac<-counties_trans[[3]]
-counties_trans_sac$crop<-simulation_matrix[,3]
+counties_trans_sac<-counties_trans[[4]]
+counties_trans_sac$crop<-simulation_matrix[,4]
 plot(counties_trans[[3]], add=T)
 
 # vernal <- readOGR(dsn =  root_data_out, layer = "VPs2012remap")
