@@ -5,9 +5,9 @@ print(Sys.time())
 
 #Figure 1, Workflow
 window<-extent(-2165000, -2150000, 1925000, 1935000) 
-plot(crop_raster_stack[[2]])
+plot(crop_raster_stack[[4]])
 plot(window,add=T)
-r1<-crop(crop_raster_stack[[2]], window)
+r1<-crop(crop_raster_stack[[8]], window)
 plot(r1)
 plot(counties_trans[[4]], add=T)
 counties_trans_sac<-counties_trans[[4]]
@@ -17,12 +17,36 @@ crop_san<-crop(counties_trans_sac,r1)
 plot(r1, axes= F, box=F)
 plot(crop_san, add=T, axes=F, box=F)
 crop_san$ID<-1:nrow(crop_san)
-
+crop_san$Crop<- factor(crop_san$crop, levels = c("NC","Almond_StudyArea","Corn_StudyArea","DryBeans_StudyArea",
+                                                 "Grapes_StudyArea","Pumpkins_StudyArea","Tomatoes_StudyArea", "Walnuts_StudyArea" ))
 
 fields_f <- fortify(crop_san, region = "ID")
 colnames(fields_f)[6]<-'ID'
 fields_fin <-merge(fields_f, crop_san@data,
                    by = "ID")
+
+#FF9999
+#FF9966
+#CC6600
+#336600
+#FFFF33
+#669933
+#CCCCCC
+w1<-ggplot() +
+  geom_polygon(data = fields_fin, aes(x=long, y=lat, group=group, fill=Crop), colour='black') +
+ scale_fill_manual(labels = c("Non-Crop", "Almond","Corn","Beans","Grapes","Pumpkins","Tomatoes","Walnuts"), values = c("#CCCCCC","#669933", "#336600","#99CC00","#FFCC33", "#CC6600","#FF9999","#FF9966")) + 
+  coord_equal() +
+  theme(
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank()) +
+  labs(title = "")
+w1
+
+scale_color_manual(labels = c("T999", "T888"), values = c("blue", "red")) +
 
 # counties_ca <- file.path(root_data_in, "ca_counties")
 # counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
@@ -30,7 +54,7 @@ fields_fin <-merge(fields_f, crop_san@data,
 # san.sub<-spTransform(sac.sub,crs(r1))
 
 
-#plot(counties_trans[[4]], add=T)
+
 
 
 
@@ -207,15 +231,10 @@ colnames(quantile_sims)[1]<-'area'
     labs(title = "95th Percentile Area")
   p3
   
-  
-  
-  
   first_row = plot_grid(histy, labels = c('Total Areas of 6 Major Bifenthrin Crops near CH, 5th, 50th, and 95th Percentile'))
   second_row = plot_grid(p1,p2,p3, nrow = 1)
   gg_all = plot_grid(first_row, second_row, labels=c('', '', ''), ncol=1)
  
-
-
 
 #need to re-project
 #need to identify a vernal pool near this region, make sure it's large enough
