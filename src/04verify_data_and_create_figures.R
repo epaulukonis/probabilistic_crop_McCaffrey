@@ -3,7 +3,7 @@ print("stepping into 04verify_data_and_create_figures.R")
 print(Sys.time())
 
 
-#Figure 1, Workflow
+#Figure 1, Workflow----
 window<-extent(-2165000, -2150000, 1925000, 1935000) 
 plot(crop_raster_stack[[4]])
 plot(window,add=T)
@@ -60,7 +60,7 @@ scale_color_manual(labels = c("T999", "T888"), values = c("blue", "red")) +
 
 
 
-##Figure 2, VP area
+##Figure 2, VP area----
 vernal <- readOGR(dsn =  root_data_out, layer = "vp_vpfs_fCH_71FR7117.shp")
 plot(vernal)
 vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))

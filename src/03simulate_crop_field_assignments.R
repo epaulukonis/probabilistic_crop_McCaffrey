@@ -8,6 +8,7 @@ print(dim(probs_by_fields))
 #note that you will specify which county in 02
 print('check 02 for county')
 
+
 # create empty simulation matrix
 simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=nsims)) #set up empty df to hold simulations
 print(dim(simulation_matrix))
