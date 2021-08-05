@@ -4,6 +4,7 @@ print(Sys.time())
 
 
 
+####calculate area tables----
 total_crop_and_field_area_mad<-file.path(root_data_out, "total_crop_and_field_area_mad.csv")
 mad<-read.csv(total_crop_and_field_area_mad)
 
@@ -55,4 +56,97 @@ print((crop/tot)*100)
 
 
 tot_all/5164822
+
+
+
+####create histograms----
+#read in ca counties
+ca_dir = file.path(root_data_in, "/ca_counties")
+ca <- readOGR(dsn =  ca_dir, layer = "CA_Counties_TIGER2016")
+ca.sub<-ca[ca$NAME == 'Merced' | ca$NAME == 'Madera' | ca$NAME == 'Sacramento' | ca$NAME == 'Stanislaus' | ca$NAME == 'San Joaquin',] 
+plot(ca.sub)
+
+mer<-ca[ca$NAME == 'Merced',]
+mad<-ca[ca$NAME == 'Madera' ,]
+sac<-ca[ca$NAME == 'Sacramento',]
+stan<-ca[ca$NAME == 'Stanislaus',]
+san<-ca[ca$NAME == 'San Joaquin',]
+
+sim_mat_san<-file.path(root_data_out, "simulation_matrix_san.csv")
+sim_mat_stan<-file.path(root_data_out, "simulation_matrix_stan.csv")
+sim_mat_sac<-file.path(root_data_out, "simulation_matrix_sac.csv")
+sim_mat_mer<-file.path(root_data_out, "simulation_matrix_mer.csv")
+sim_mat_mad<-file.path(root_data_out, "simulation_matrix_mad.csv")
+
+sim_mat_sac<-read.csv(sim_mat_sac)[,-1]
+sim_mat_san<-read.csv(sim_mat_san)[,-1]
+sim_mat_stan<-read.csv(sim_mat_stan)[,-1]
+sim_mat_mer<-read.csv(sim_mat_mer)[,-1]
+sim_mat_mad<-read.csv(sim_mat_mad)[,-1]
+
+field_areas_sac<-file.path(root_data_out, "field_areas_sac.csv")
+field_areas_sac<-read.csv(field_areas_sac)[,-1]
+field_areas_san<-file.path(root_data_out, "field_areas_san.csv")
+field_areas_san<-read.csv(field_areas_san)[,-1]
+field_areas_stan<-file.path(root_data_out, "field_areas_stan.csv")
+field_areas_stan<-read.csv(field_areas_stan)[,-1]
+field_areas_mer<-file.path(root_data_out, "field_areas_mer.csv")
+field_areas_mer<-read.csv(field_areas_mer)[,-1]
+field_areas_mad<-file.path(root_data_out, "field_areas_mad.csv")
+field_areas_mad<-read.csv(field_areas_mad)[,-1]
+
+san$ID<-1:nrow(san)
+stan$ID<-1:nrow(stan)
+sac$ID<-1:nrow(sac)
+mer$ID<-1:nrow(mer)
+mad$ID<-1:nrow(mad)
+sac.df <- as.data.frame(sac)
+san.df <- as.data.frame(san)
+stan.df <- as.data.frame(stan)
+mer.df <- as.data.frame(mer)
+mad.df <- as.data.frame(mer)
+
+sac.df.f<-sac.df[sac.df$ID %in% sim_mat_sac$ID,] #remove any rows that may not be present in the final sim
+sac.sims<-sim_mat_sac[sim_mat_sac$ID %in% sac.df.f$ID,]
+san.df.f<-san.df[san.df$ID %in% sim_mat_san$ID,] #remove any rows that may not be present in the final sim
+san.sims<-sim_mat_san[sim_mat_san$ID %in% san.df.f$ID,]
+mer.df.f<-mer.df[mer.df$ID %in% sim_mat_mer$ID,] #remove any rows that may not be present in the final sim
+mer.sims<-sim_mat_mer[sim_mat_mer$ID %in% mer.df.f$ID,]
+stan.df.f<-stan.df[sac.df$ID %in% sim_mat_stan$ID,] #remove any rows that may not be present in the final sim
+stan.sims<-sim_mat_stan[sim_mat_stan$ID %in% stan.df.f$ID,]
+mad.df.f<-mad.df[mad.df$ID %in% sim_mat_mad$ID,] #remove any rows that may not be present in the final sim
+mad.sims<-sim_mat_mad[sim_mat_mad$ID %in% mad.df.f$ID,]
+
+
+#san joaquin
+hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
+colnames(hist_data)[1]<-'BifenthrinCropArea'
+colnames(hist_data)[2]<-'Sim'
+hist_data[,2]<-colnames(san.sims)[2:1001]
+for (sim in 2:ncol(san.sims)){
+  bif_crops_san<-san.sims[san.sims[,sim] %in% crops,1:sim]
+  bif_crop_area_san<- field_areas_san[field_areas_san[,2] %in% bif_crops_san[,1],]
+  bif_crops_sac<-sac.sims[sac.sims[,sim] %in% crops,1:sim]
+  bif_crop_area_sac<- field_areas_sac[field_areas_sac[,2] %in% bif_crops_sac[,1],]
+  hist_data[sim-1,1] <-sum(bif_crop_area_san[,1]+bif_crop_area_sac[,1])*0.00024711
+}
+
+quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
+colnames(quantile_sims)[1]<-'area'
+#quantile_sims[,1]<-round(quantile_sims[,1], 2)
+
+histy<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
+  geom_histogram(binwidth=120, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+  # geom_vline(xintercept=5932.258 , color="black", linetype="dashed", size=1)+
+  # geom_vline(xintercept=6745.209, color="black", linetype="dashed", size=1)+
+  # geom_vline(xintercept=7647.598 , color="black", linetype="dashed", size=1)+
+  xlab("Total Area of 6 Major Bifenthrin Crops (Sum of Acres)") + 
+  # geom_area(data = subset(hist_data, BifenthrinCropArea < 6419.570), fill = "grey") +
+  # geom_area(data = subset(hist_data, BifenthrinCropArea > 8282.646 ), fill = "black") +
+  theme_ipsum() +
+  theme(
+    plot.title = element_text(size=15)
+  )
+histy
+
 
