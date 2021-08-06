@@ -115,7 +115,7 @@ colnames(hist_data)[1]<-'BifenthrinCropArea'
 colnames(hist_data)[2]<-'Sim'
 hist_data[,2]<-colnames(san.sims)[2:1001]
 for (sim in 2:ncol(san.sims)){
-bif_crops_san<-san.sims[san.sims[,sim] %in% crops,1:sim]
+bif_crops_san<-san.sims[san.sims[,2] %in% crops,1:2]
 bif_crop_area_san<- field_areas_san[field_areas_san[,2] %in% bif_crops_san[,1],]
 bif_crops_sac<-sac.sims[sac.sims[,sim] %in% crops,1:sim]
 bif_crop_area_sac<- field_areas_sac[field_areas_sac[,2] %in% bif_crops_sac[,1],]

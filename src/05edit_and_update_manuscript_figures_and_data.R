@@ -66,11 +66,11 @@ ca <- readOGR(dsn =  ca_dir, layer = "CA_Counties_TIGER2016")
 ca.sub<-ca[ca$NAME == 'Merced' | ca$NAME == 'Madera' | ca$NAME == 'Sacramento' | ca$NAME == 'Stanislaus' | ca$NAME == 'San Joaquin',] 
 plot(ca.sub)
 
-mer<-ca[ca$NAME == 'Merced',]
-mad<-ca[ca$NAME == 'Madera' ,]
-sac<-ca[ca$NAME == 'Sacramento',]
-stan<-ca[ca$NAME == 'Stanislaus',]
-san<-ca[ca$NAME == 'San Joaquin',]
+mad<-gBuffer(counties_trans[[1]], byid=T, width=0)
+mer<-gBuffer(counties_trans[[2]], byid=T, width=0)
+sac<-gBuffer(counties_trans[[3]], byid=T, width=0)
+san<-gBuffer(counties_trans[[4]], byid=T, width=0)
+stan<-gBuffer(counties_trans[[5]], byid=T, width=0)
 
 sim_mat_san<-file.path(root_data_out, "simulation_matrix_san.csv")
 sim_mat_stan<-file.path(root_data_out, "simulation_matrix_stan.csv")
@@ -117,6 +117,8 @@ stan.sims<-sim_mat_stan[sim_mat_stan$ID %in% stan.df.f$ID,]
 mad.df.f<-mad.df[mad.df$ID %in% sim_mat_mad$ID,] #remove any rows that may not be present in the final sim
 mad.sims<-sim_mat_mad[sim_mat_mad$ID %in% mad.df.f$ID,]
 
+crops<-c("Almond_StudyArea", "Walnuts_StudyArea","Tomatoes_StudyArea", "Corn_StudyArea","Cotton_StudyArea", "Pistachios_StudyArea")
+
 
 #san joaquin
 hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
@@ -126,25 +128,26 @@ hist_data[,2]<-colnames(san.sims)[2:1001]
 for (sim in 2:ncol(san.sims)){
   bif_crops_san<-san.sims[san.sims[,sim] %in% crops,1:sim]
   bif_crop_area_san<- field_areas_san[field_areas_san[,2] %in% bif_crops_san[,1],]
-  hist_data[sim-1,1] <-(bif_crop_area_san[,1])*0.00024711
+  hist_data[sim-1,1] <-sum(bif_crop_area_san[,1])*0.00024711
 }
 
 quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
 colnames(quantile_sims)[1]<-'area'
 #quantile_sims[,1]<-round(quantile_sims[,1], 2)
 
-histy<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
-  geom_histogram(binwidth=120, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-  # geom_vline(xintercept=5932.258 , color="black", linetype="dashed", size=1)+
-  # geom_vline(xintercept=6745.209, color="black", linetype="dashed", size=1)+
-  # geom_vline(xintercept=7647.598 , color="black", linetype="dashed", size=1)+
+histysj<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
+  geom_histogram(binwidth=100, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+  geom_vline(xintercept=184700 , color="black", linetype="dashed", size=1)+
   xlab("Total Area of 6 Major Bifenthrin Crops (Sum of Acres)") + 
-  # geom_area(data = subset(hist_data, BifenthrinCropArea < 6419.570), fill = "grey") +
-  # geom_area(data = subset(hist_data, BifenthrinCropArea > 8282.646 ), fill = "black") +
   theme_ipsum() +
   theme(
     plot.title = element_text(size=15)
   )
-histy
+histysj
+
+#corn, cotton, almond, walnuts, tomatoes, pistachios
+SJ_d<-703.20+0+2838.11+4171.92+1474.87+5.33
+SJ_p<-295901
+
 
 
