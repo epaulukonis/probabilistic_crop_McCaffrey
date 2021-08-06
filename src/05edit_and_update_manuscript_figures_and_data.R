@@ -126,9 +126,7 @@ hist_data[,2]<-colnames(san.sims)[2:1001]
 for (sim in 2:ncol(san.sims)){
   bif_crops_san<-san.sims[san.sims[,sim] %in% crops,1:sim]
   bif_crop_area_san<- field_areas_san[field_areas_san[,2] %in% bif_crops_san[,1],]
-  bif_crops_sac<-sac.sims[sac.sims[,sim] %in% crops,1:sim]
-  bif_crop_area_sac<- field_areas_sac[field_areas_sac[,2] %in% bif_crops_sac[,1],]
-  hist_data[sim-1,1] <-sum(bif_crop_area_san[,1]+bif_crop_area_sac[,1])*0.00024711
+  hist_data[sim-1,1] <-(bif_crop_area_san[,1])*0.00024711
 }
 
 quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
