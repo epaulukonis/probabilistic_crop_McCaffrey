@@ -13,6 +13,7 @@ library(dplyr)
 library(ggplot2)
 library(hrbrthemes)
 library(cowplot)
+library(grid)
 #install.packages("disaggregation") ##for extracParrallel function
 #library(disaggregation)
 #install.packages('exactextractr')

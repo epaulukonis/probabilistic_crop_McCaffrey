@@ -285,6 +285,8 @@ fin_total_sum_areas<-compiled_areas_fin %>%
 #there's going to be a slight discrepancy between the total field area and the total area of the raster crops
 #this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
 
+mad<-mean(fin_total_sum_areas$Total)
+
 total_crop_and_field_area<-file.path(root_data_out, "total_crop_and_field_area_mad.csv")
 total_crop_and_field_area<-read.csv(total_crop_and_field_area)
 orig_area<-as.data.frame(t(total_crop_and_field_area[1,]))
@@ -389,6 +391,8 @@ fin_total_sum_areas<-compiled_areas_fin %>%
 #there's going to be a slight discrepancy between the total field area and the total area of the raster crops
 #this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
 
+mer<-mean(fin_total_sum_areas$Total)
+
 total_crop_and_field_area<-file.path(root_data_out, "total_crop_and_field_area_mer.csv")
 total_crop_and_field_area<-read.csv(total_crop_and_field_area)
 orig_area<-as.data.frame(t(total_crop_and_field_area[1,]))
@@ -487,6 +491,7 @@ fin_total_sum_areas<-compiled_areas_fin %>%
   summarize(Total=sum(Area_Crop)) #this gives sum of each total area with new crop assignments
 #there's going to be a slight discrepancy between the total field area and the total area of the raster crops
 #this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
+sac<-mean(fin_total_sum_areas$Total)
 
 total_crop_and_field_area<-file.path(root_data_out, "total_crop_and_field_area_sac.csv")
 total_crop_and_field_area<-read.csv(total_crop_and_field_area)
@@ -585,6 +590,8 @@ fin_total_sum_areas<-compiled_areas_fin %>%
 #there's going to be a slight discrepancy between the total field area and the total area of the raster crops
 #this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
 
+san<-mean(fin_total_sum_areas$Total)
+
 total_crop_and_field_area<-file.path(root_data_out, "total_crop_and_field_area_stan.csv")
 total_crop_and_field_area<-read.csv(total_crop_and_field_area)
 orig_area<-as.data.frame(t(total_crop_and_field_area[1,]))
@@ -682,6 +689,8 @@ fin_total_sum_areas<-compiled_areas_fin %>%
 #there's going to be a slight discrepancy between the total field area and the total area of the raster crops
 #this is likely because of a small (<0.25 acre) difference between the cropped pixels and the fields (i.e., a few pixels not covering the extent of the fields)
 
+stan<-mean(fin_total_sum_areas$Total)
+
 total_crop_and_field_area<-file.path(root_data_out, "total_crop_and_field_area_san.csv")
 total_crop_and_field_area<-read.csv(total_crop_and_field_area)
 orig_area<-as.data.frame(t(total_crop_and_field_area[1,]))
@@ -739,3 +748,6 @@ compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) +
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
 
 
+
+#sum areas
+sum(mad+mer+san+sac+stan)*0.00024711
