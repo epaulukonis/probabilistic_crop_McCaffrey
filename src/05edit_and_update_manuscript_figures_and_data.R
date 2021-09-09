@@ -135,14 +135,16 @@ all_crops<-c("Alfalfa_StudyArea","Almond_StudyArea","Cabbage_StudyArea", "Cantal
 
 
 ###madera----
-hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
-colnames(hist_data)[1]<-'BifenthrinCropArea'
-colnames(hist_data)[2]<-'Sim'
-hist_data[,2]<-colnames(mad.sims)[2:1001]
+hist_datama<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datama)[1]<-'BifenthrinCropArea'
+colnames(hist_datama)[2]<-'Sim'
+colnames(hist_datama)[3]<-'County'
+hist_datama[,2]<-colnames(mad.sims)[2:1001]
+hist_datama[,3]<-'Madera'
 for (sim in 2:ncol(mad.sims)){
   bif_crops_mad<-mad.sims[mad.sims[,sim] %in% all_crops,1:2]
   bif_crop_area_mad<- field_areas_mad[field_areas_mad[,2] %in% bif_crops_mad[,1],]
-  hist_data[sim-1,1] <-sum(bif_crop_area_mad[,1])*0.00024711
+  hist_datama[sim-1,1] <-sum(bif_crop_area_mad[,1])*0.00024711
 }
 
 # quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
@@ -150,18 +152,32 @@ for (sim in 2:ncol(mad.sims)){
 #quantile_sims[,1]<-round(quantile_sims[,1], 2)
 
 #add deterministic and probabilistic lines
-ma_d<-188000
+ma_d<-340621
 ma_p<-187618
-histyma<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
-  geom_histogram(binwidth=50, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-  geom_vline(xintercept=ma_d , color="blue", linetype="dashed", size=1)+
-  geom_vline(xintercept=ma_p , color="red", linetype="dashed", size=1)+
+ma_m<-186030
+
+histyma<-ggplot(hist_datama, aes(x=BifenthrinCropArea)) + 
+  geom_histogram(binwidth=25, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+  # geom_vline(xintercept=ma_d , color="red", linetype="dashed", size=1)+
+  geom_vline(xintercept=ma_p , color="blue", linetype="dashed", size=1)+
+  geom_vline(xintercept=ma_m , color="black", linetype="dashed", size=1)+
+  # # scale_x_log10()+
+  #scale_x_continuous(breaks = seq(182000,341000,50000))+
   xlab("Total Area of Bifenthrin Crops (Sum of Acres)") + 
+  ylab("Density")+
   theme_ipsum() +
   theme(
     plot.title = element_text(size=15)
   )
 histyma
+
+
+# ma_areas<-ggplot(hist_datama, aes(x=County, y=BifenthrinCropArea, fill=County)) + 
+#   geom_hline(yintercept=ma_d , color="red", linetype="dashed", size=1)+
+#   geom_hline(yintercept=ma_p , color="blue", linetype="dashed", size=1)+
+#   geom_hline(yintercept=ma_m , color="black", linetype="dashed", size=1)+
+#   geom_boxplot()
+# ma_areas
 
 mad.sub<-ca.sub[ca.sub$NAME == 'Madera',]
 mad.sub.f <- fortify(mad.sub, region = "GEOID")
@@ -176,17 +192,20 @@ p1<-ggplot(data = ca.sub.f, aes(x=long, y=lat, group=group)) +
         axis.text = element_blank()) 
 p1
 
-gridExtra::grid.arrange(histyma, p1, ncol=2)
+plot_grid(histyma,p1, align = "h", nrow = 1, ncol=2, rel_widths = c(2, 1))
+
 
 ###merced----
-hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
-colnames(hist_data)[1]<-'BifenthrinCropArea'
-colnames(hist_data)[2]<-'Sim'
-hist_data[,2]<-colnames(mer.sims)[2:1001]
+hist_datame<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datame)[1]<-'BifenthrinCropArea'
+colnames(hist_datame)[2]<-'Sim'
+colnames(hist_datame)[3]<-'County'
+hist_datame[,2]<-colnames(mer.sims)[2:1001]
+hist_datame[,3]<-'Merced'
 for (sim in 2:ncol(mer.sims)){
   bif_crops_mer<-mer.sims[mer.sims[,sim] %in% all_crops,1:2]
   bif_crop_area_mer<- field_areas_mer[field_areas_mer[,2] %in% bif_crops_mer[,1],]
-  hist_data[sim-1,1] <-sum(bif_crop_area_mer[,1])*0.00024711
+  hist_datame[sim-1,1] <-sum(bif_crop_area_mer[,1])*0.00024711
 }
 
 # quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
@@ -194,12 +213,12 @@ for (sim in 2:ncol(mer.sims)){
 #quantile_sims[,1]<-round(quantile_sims[,1], 2)
 
 #add deterministic and probabilistic lines
-me_d<-240800
-me_p<-240600
-histyme<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
+me_p<-246856 
+me_m<-240266 
+histyme<-ggplot(hist_datame, aes(x=BifenthrinCropArea)) + 
   geom_histogram(binwidth=50, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-  geom_vline(xintercept=me_d , color="blue", linetype="dashed", size=1)+
-  geom_vline(xintercept=me_p , color="red", linetype="dashed", size=1)+
+  geom_vline(xintercept=me_m , color="black", linetype="dashed", size=1)+
+  geom_vline(xintercept=me_p , color="blue", linetype="dashed", size=1)+
   xlab("Total Area of Bifenthrin Crops (Sum of Acres)") + 
   theme_ipsum() +
   theme(
@@ -220,18 +239,19 @@ p1<-ggplot(data = ca.sub.f, aes(x=long, y=lat, group=group)) +
         axis.text = element_blank()) 
 p1
 
-gridExtra::grid.arrange(histyme, p1, ncol=2)
-
+plot_grid(histyme,p1, align = "h", nrow = 1, ncol=2, rel_widths = c(2, 1))
 
 ###sacramento----
-hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
-colnames(hist_data)[1]<-'BifenthrinCropArea'
-colnames(hist_data)[2]<-'Sim'
-hist_data[,2]<-colnames(sac.sims)[2:1001]
+hist_datasa<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datasa)[1]<-'BifenthrinCropArea'
+colnames(hist_datasa)[2]<-'Sim'
+colnames(hist_datasa)[3]<-'County'
+hist_datasa[,2]<-colnames(sac.sims)[2:1001]
+hist_datasa[,3]<-'Sacramento'
 for (sim in 2:ncol(sac.sims)){
   bif_crops_sac<-sac.sims[sac.sims[,sim] %in% all_crops,1:2]
   bif_crop_area_sac<- field_areas_sac[field_areas_sac[,2] %in% bif_crops_sac[,1],]
-  hist_data[sim-1,1] <-sum(bif_crop_area_sac[,1])*0.00024711
+  hist_datasa[sim-1,1] <-sum(bif_crop_area_sac[,1])*0.00024711
 }
 
 # quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
@@ -239,12 +259,12 @@ for (sim in 2:ncol(sac.sims)){
 #quantile_sims[,1]<-round(quantile_sims[,1], 2)
 
 #add deterministic and probabilistic lines
-Sa_d<-41600
-Sa_p<-41190
-histysa<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
-  geom_histogram(binwidth=50, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-  geom_vline(xintercept=Sa_d , color="blue", linetype="dashed", size=1)+
-   geom_vline(xintercept=Sa_p , color="red", linetype="dashed", size=1)+
+Sa_m<-40657 
+Sa_p<-59465 
+histysa<-ggplot(hist_datasa, aes(x=BifenthrinCropArea)) + 
+  geom_histogram(binwidth=200, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+  geom_vline(xintercept=Sa_m , color="black", linetype="dashed", size=1)+
+   geom_vline(xintercept=Sa_p , color="blue", linetype="dashed", size=1)+
   xlab("Total Area of Bifenthrin Crops (Sum of Acres)") + 
   theme_ipsum() +
   theme(
@@ -265,18 +285,20 @@ p1<-ggplot(data = ca.sub.f, aes(x=long, y=lat, group=group)) +
         axis.text = element_blank()) 
 p1
 
-gridExtra::grid.arrange(histysa, p1, ncol=2)
+plot_grid(histysa,p1, align = "h", nrow = 1, ncol=2, rel_widths = c(2, 1))
 
 
 ###san joaquin----
-hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
-colnames(hist_data)[1]<-'BifenthrinCropArea'
-colnames(hist_data)[2]<-'Sim'
-hist_data[,2]<-colnames(san.sims)[2:1001]
+hist_datasj<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datasj)[1]<-'BifenthrinCropArea'
+colnames(hist_datasj)[2]<-'Sim'
+colnames(hist_datasj)[3]<-'County'
+hist_datasj[,2]<-colnames(san.sims)[2:1001]
+hist_datasj[,3]<-'San joaquin'
 for (sim in 2:ncol(san.sims)){
   bif_crops_san<-san.sims[san.sims[,sim] %in% all_crops,1:2]
   bif_crop_area_san<- field_areas_san[field_areas_san[,2] %in% bif_crops_san[,1],]
-  hist_data[sim-1,1] <-sum(bif_crop_area_san[,1])*0.00024711
+  hist_datasj[sim-1,1] <-sum(bif_crop_area_san[,1])*0.00024711
 }
 
 # quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
@@ -284,12 +306,12 @@ for (sim in 2:ncol(san.sims)){
 #quantile_sims[,1]<-round(quantile_sims[,1], 2)
 
 #add deterministic and probabilistic lines
-SJ_d<-276300
-SJ_p<-276100
-histysj<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
-  geom_histogram(binwidth=50, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-  geom_vline(xintercept=SJ_d , color="blue", linetype="dashed", size=1)+
-  geom_vline(xintercept=SJ_p , color="red", linetype="dashed", size=1)+
+SJ_m<-275911 
+SJ_p<-295901 
+histysj<-ggplot(hist_datasj, aes(x=BifenthrinCropArea)) + 
+  geom_histogram(binwidth=150, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+  geom_vline(xintercept=SJ_m , color="black", linetype="dashed", size=1)+
+  geom_vline(xintercept=SJ_p , color="blue", linetype="dashed", size=1)+
   xlab("Total Area of Bifenthrin Crops (Sum of Acres)") + 
   theme_ipsum() +
   theme(
@@ -310,17 +332,19 @@ p1<-ggplot(data = ca.sub.f, aes(x=long, y=lat, group=group)) +
         axis.text = element_blank()) 
 p1
 
-gridExtra::grid.arrange(histysj, p1, ncol=2)
+plot_grid(histysj,p1, align = "h", nrow = 1, ncol=2, rel_widths = c(2, 1))
 
 ####stanislaus----
-hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
-colnames(hist_data)[1]<-'BifenthrinCropArea'
-colnames(hist_data)[2]<-'Sim'
-hist_data[,2]<-colnames(stan.sims)[2:1001]
+hist_datast<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datast)[1]<-'BifenthrinCropArea'
+colnames(hist_datast)[2]<-'Sim'
+colnames(hist_datast)[3]<-'County'
+hist_datast[,2]<-colnames(stan.sims)[2:1001]
+hist_datast[,3]<-'Stanislaus'
 for (sim in 2:ncol(stan.sims)){
   bif_crops_stan<-stan.sims[stan.sims[,sim] %in% all_crops,1:2]
   bif_crop_area_stan<- field_areas_stan[field_areas_stan[,2] %in% bif_crops_stan[,1],]
-  hist_data[sim-1,1] <-sum(bif_crop_area_stan[,1])*0.00024711
+  hist_datast[sim-1,1] <-sum(bif_crop_area_stan[,1])*0.00024711
 }
 
 # quantile_sims<-as.data.frame(quantile(hist_data[,1], probs = c(0.05,0.5,0.95), names=F))
@@ -328,12 +352,12 @@ for (sim in 2:ncol(stan.sims)){
 #quantile_sims[,1]<-round(quantile_sims[,1], 2)
 
 #add deterministic and probabilistic lines
-St_d<-198600
-St_p<-198500
-histyst<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
-  geom_histogram(binwidth=50, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-  geom_vline(xintercept=St_d , color="blue", linetype="dashed", size=1)+
-  geom_vline(xintercept=St_p , color="red", linetype="dashed", size=1)+
+St_m<-198348 
+St_p<-206026 
+histyst<-ggplot(hist_datast, aes(x=BifenthrinCropArea)) + 
+  geom_histogram(binwidth=100, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+  geom_vline(xintercept=St_m , color="black", linetype="dashed", size=1)+
+  geom_vline(xintercept=St_p , color="blue", linetype="dashed", size=1)+
   xlab("Total Area of Bifenthrin Crops (Sum of Acres)") + 
   theme_ipsum() +
   theme(
@@ -354,23 +378,135 @@ p1<-ggplot(data = ca.sub.f, aes(x=long, y=lat, group=group)) +
         axis.text = element_blank()) 
 p1
 
-gridExtra::grid.arrange(histyst, p1, ncol=2)
+plot_grid(histyst,p1, align = "h", nrow = 1, ncol=2, rel_widths = c(2, 1))
+
+####create boxplot with counties ----
+
+##all area
+hist_datama$AreaRatio <- 340621/hist_datama$BifenthrinCropArea
+hist_datame$AreaRatio <- 479098/hist_datame$BifenthrinCropArea
+hist_datasa$AreaRatio <- 192993/hist_datasa$BifenthrinCropArea
+hist_datasj$AreaRatio <- 508653/hist_datasj$BifenthrinCropArea
+hist_datast$AreaRatio <- 372095/hist_datast$BifenthrinCropArea
+
+hist_data<-rbind(hist_datama,hist_datame,hist_datasa,hist_datasj,hist_datast)
+bp_areas<-ggplot(hist_data, aes(x=County, y=AreaRatio, fill=County)) + 
+  geom_boxplot()+
+  xlab("County") + 
+  ylab("Ratio of Deterministic Crop Area to Simulated Probabilistic Crop Areas")+
+  theme(panel.background = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.title.x=element_text(margin = margin(t = 10, r = 0, b = , l = 0), size=14,face="bold"),
+        axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
+        legend.position = "none")
+bp_areas
 
 
+##vernal pool area
+#we need to read in the deterministic raster and calculate the total area of crops within 1km of vernal pools by county
+print(list.files(path=root_data_in, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+deterministic <- file.path(root_data_in, 
+                           list.files(path=root_data_in, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 
-####create table of 1km area vernal pool co-occurence----
-#need to calculate the total potential crop area in each county
+deterministic<-raster(deterministic[3])
+plot(deterministic)
 
-vernal <- readOGR(dsn =  root_data_out, layer = "vp_vpfs_fCH_71FR7117.shp")
-plot(vernal)
 vernal<-spTransform(vernal,crs(crop_raster_stack[[1]]))
 buff_1km<-gBuffer(vernal, byid = TRUE, width = 1000, capStyle="ROUND")
 plot(buff_1km)
 
+hist_datama_1k<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datama_1k)[1]<-'BifenthrinCropArea'
+colnames(hist_datama_1k)[2]<-'Sim'
+colnames(hist_datama_1k)[3]<-'County'
+hist_datama_1k[,2]<-colnames(mad.sims)[2:1001]
+hist_datama_1k[,3]<-'Madera'
+mad_c<-crop(mad, buff_1km)
+for (sim in 2:ncol(mad.sims)){
+  bif_crops_mad<-mad.sims[mad.sims[,sim] %in% all_crops,1:2]
+  bif_crop_area_mad<- field_areas_mad[field_areas_mad[,2] %in% bif_crops_mad[,1],]
+  mad_vp<-mad_c[mad_c$ID %in% bif_crop_area_mad$ID,]
+  mad_vp$acres<-bif_crop_area_mad[bif_crop_area_mad$ID %in% mad_vp$ID, 1]
+  hist_datama_1k[sim-1,1] <-round(sum(mad_vp$acres)*0.00024711, 2)
+}
 
-plot(mad)
-plot(vernal, add=T, col='red')
+hist_datame_1k<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datame_1k)[1]<-'BifenthrinCropArea'
+colnames(hist_datame_1k)[2]<-'Sim'
+colnames(hist_datame_1k)[3]<-'County'
+hist_datame_1k[,2]<-colnames(mer.sims)[2:1001]
+hist_datame_1k[,3]<-'Merced'
+mer_c<-crop(mer, buff_1km)
+for (sim in 2:ncol(mer.sims)){
+  bif_crops_mer<-mer.sims[mer.sims[,sim] %in% all_crops,1:2]
+  bif_crop_area_mer<- field_areas_mer[field_areas_mer[,2] %in% bif_crops_mer[,1],]
+  mer_vp<-mer_c[mer_c$ID %in% bif_crop_area_mer$ID,]
+  mer_vp$acres<-bif_crop_area_mer[bif_crop_area_mer$ID %in% mer_vp$ID, 1]
+  hist_datame_1k[sim-1,1] <-round(sum(mer_vp$acres)*0.00024711, 2)
+}
 
+hist_datasa_1k<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datasa_1k)[1]<-'BifenthrinCropArea'
+colnames(hist_datasa_1k)[2]<-'Sim'
+colnames(hist_datasa_1k)[3]<-'County'
+hist_datasa_1k[,2]<-colnames(sac.sims)[2:1001]
+hist_datasa_1k[,3]<-'San Joaquin'
+sac_c<-crop(sac, buff_1km)
+for (sim in 2:ncol(sac.sims)){
+  bif_crops_sac<-sac.sims[sac.sims[,sim] %in% all_crops,1:2]
+  bif_crop_area_sac<- field_areas_sac[field_areas_sac[,2] %in% bif_crops_sac[,1],]
+  sac_vp<-sac_c[sac_c$ID %in% bif_crop_area_sac$ID,]
+  sac_vp$acres<-bif_crop_area_sac[bif_crop_area_sac$ID %in% sac_vp$ID, 1]
+  hist_datasa_1k[sim-1,1] <-round(sum(sac_vp$acres)*0.00024711, 2)
+}
+
+hist_datasj_1k<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datasj_1k)[1]<-'BifenthrinCropArea'
+colnames(hist_datasj_1k)[2]<-'Sim'
+colnames(hist_datasj_1k)[3]<-'County'
+hist_datasj_1k[,2]<-colnames(san.sims)[2:1001]
+hist_datasj_1k[,3]<-'San Joaquin'
+san_c<-crop(san, buff_1km)
+for (sim in 2:ncol(san.sims)){
+  bif_crops_san<-san.sims[san.sims[,sim] %in% all_crops,1:2]
+  bif_crop_area_san<- field_areas_san[field_areas_san[,2] %in% bif_crops_san[,1],]
+  san_vp<-san_c[san_c$ID %in% bif_crop_area_san$ID,]
+  san_vp$acres<-bif_crop_area_san[bif_crop_area_san$ID %in% san_vp$ID, 1]
+  hist_datasj_1k[sim-1,1] <-round(sum(san_vp$acres)*0.00024711, 2)
+}
+
+hist_datast_1k<-as.data.frame(matrix(data=0,nrow=1000,ncol=3)) 
+colnames(hist_datast_1k)[1]<-'BifenthrinCropArea'
+colnames(hist_datast_1k)[2]<-'Sim'
+colnames(hist_datast_1k)[3]<-'County'
+hist_datast_1k[,2]<-colnames(stan.sims)[2:1001]
+hist_datast_1k[,3]<-'San Joaquin'
+stan_c<-crop(stan, buff_1km)
+for (sim in 2:ncol(stan.sims)){
+  bif_crops_stan<-stan.sims[stan.sims[,sim] %in% all_crops,1:2]
+  bif_crop_area_stan<- field_areas_stan[field_areas_stan[,2] %in% bif_crops_stan[,1],]
+  stan_vp<-stan_c[stan_c$ID %in% bif_crop_area_stan$ID,]
+  stan_vp$acres<-bif_crop_area_stan[bif_crop_area_stan$ID %in% stan_vp$ID, 1]
+  hist_datast_1k[sim-1,1] <-round(sum(stan_vp$acres)*0.00024711, 2)
+}
+
+
+#deterministic
+
+county_list<-list(mad,mer,sac,san,stan)
+ext_vps_d<-function(x){
+  
+}
+
+d_ma<-crop(deterministic,mad)
+d_ma_vp<-crop(d_ma,buff_1km)
+d_ma_vp<-mask(d_ma_vp, buff_1km)
+plot(d_ma_vp)
+
+
+
+
+####create table of 1km area vernal pool co-occurence----
 ##madera
 #pull out a simulation and calculate field area of crops 
 sim<-mad.sims[,c(1,501)]
@@ -430,6 +566,9 @@ stan_vp<-stan_c[stan_c$ID %in% bif_crop_area_stan$ID,]
 stan_vp$acres<-bif_crop_area_stan[bif_crop_area_stan$ID %in% stan_vp$ID, 1]
 stan_area <-round(sum(stan_vp$acres)*0.00024711, 2)
 print(stan_area)
+
+
+
 
 
 
