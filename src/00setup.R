@@ -14,6 +14,8 @@ library(ggplot2)
 library(hrbrthemes)
 library(cowplot)
 library(grid)
+library(geosphere)
+library(ggridges)
 #install.packages("disaggregation") ##for extracParrallel function
 #library(disaggregation)
 #install.packages('exactextractr')

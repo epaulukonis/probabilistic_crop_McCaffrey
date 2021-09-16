@@ -71,7 +71,7 @@ if( file.exists(madera_filename)&&
   }
   
   print("summarize each crop by fields to mean")
-  field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
+  field_areas<- as.data.frame(area(county_shape), na.rm=T) #area of each field in meters^2
   colnames(field_areas)[1]<-'field_areas'
   field_areas$ID<-1:nrow(probs_by_fields)  
   print(dim(field_areas))
