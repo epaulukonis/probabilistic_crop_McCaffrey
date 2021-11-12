@@ -527,8 +527,11 @@ str(data_6)
 # ggplot(data_6, aes(x = Probability, y = crop)) + 
 #   geom_density_ridges(stat = "binline", bins = 10)
 
-gc()
-ggplot(data_6, aes(x = Probability, y = crop, fill = crop)) + 
+data_6 %>%
+  mutate(crop = fct_relevel(crop, 
+                            "Almond", "Corn", "Cotton","Walnuts",
+                            "Pistachios","Tomatoes")) %>%
+ggplot(aes(x = Probability, y = crop, fill = crop)) + 
   geom_density_ridges()+
   scale_y_discrete(limits = unique(rev(data_6$crop)))+
   xlab("Probability")+
@@ -542,6 +545,7 @@ ggplot(data_6, aes(x = Probability, y = crop, fill = crop)) +
         axis.title.y=element_text(margin = margin(t = 0, r = 10, b = 0, l = 0), size=14,face="bold"),
         legend.position = "none")
   
+
 
 # 1 + 3.3*log(nrow(data_6)) Sturges Rule
   

@@ -60,7 +60,7 @@ scale_color_manual(labels = c("T999", "T888"), values = c("blue", "red")) +
 
 
 
-##Figure 6, VP area----
+##Figure 7, VP area----
 vernal <- readOGR(dsn =  root_data_out, layer = "vp_vpfs_fCH_71FR7117.shp")
 plot(vernal)
 vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
@@ -79,6 +79,9 @@ plot(buff_1km, add=T)
 
 sj<-crop(vern.sub, window)
 sj<-aggregate(sj, dissolve=T)
+plot(sj)
+sj
+
 san<-gBuffer(counties_trans[[4]], byid=T, width=0)
 #san<-crop(san, window)
 san<-crop(san,buff_1km)
@@ -132,15 +135,22 @@ quantile_sims
    geom_vline(xintercept=4067.62, color="black", linetype="dashed", size=1)+
    geom_vline(xintercept=4409.97, color="black", linetype="dashed", size=1)+
    geom_vline(xintercept=5683.322, color="red", linetype="dashed", size=1)+
-  xlab("Total Area of Bifenthrin Crops (Sum of Acres)") + 
+   ylab("Frequency")+
+   xlab ("Crop Acres")+
    # geom_area(data = subset(hist_data, BifenthrinCropArea < 6419.570), fill = "grey") +
    # geom_area(data = subset(hist_data, BifenthrinCropArea > 8282.646 ), fill = "black") +
    theme_ipsum() +
    theme(
+     text = element_text(size=14, face = 'bold'),
+     axis.title.x=element_text(size = 14, face = 'bold'),
+     axis.title.y=element_text(size = 14, face = 'bold'),
      plot.title = element_text(size=15)
    )
  histy
 
+ theme(text = element_text(size=20),
+       axis.text.x = element_text(angle=90, hjust=1)) 
+ 
 #note; quantile does not return the specific row values, apparently. So I used a 'closest' function to pick my scenarios
  #this is not a permanent solution
  five_per<-hist_data[which.min(abs(3728.16-hist_data$BifenthrinCropArea)),]
@@ -180,7 +190,7 @@ quantile_sims
    theme(panel.background= element_rect(color="black")) +
    theme(axis.title = element_blank(),
          axis.text = element_blank()) +
-   labs(title = "5th Percentile Area")
+   labs(title = "5th Percentile Area: 3728 Acres ")
  p1
  
  
@@ -205,7 +215,7 @@ quantile_sims
     theme(panel.background= element_rect(color="black")) +
     theme(axis.title = element_blank(),
           axis.text = element_blank()) +
-    labs(title = "Median Area")
+    labs(title = "Median Area: 4067 Acres")
   p2
   
 
@@ -230,7 +240,7 @@ quantile_sims
     theme(panel.background= element_rect(color="black")) +
     theme(axis.title = element_blank(),
           axis.text = element_blank()) +
-    labs(title = "95th Percentile Area")
+    labs(title = "95th Percentile Area: 4409 Acres")
   p3
   
   #add the deterministic snapshot
@@ -239,7 +249,6 @@ quantile_sims
                              list.files(path=root_data_in, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   
  deterministic<-raster(deterministic[3])
-
   det_snap<-crop(deterministic, window)
   plot(det_snap)
   det_snap<-mask(det_snap, buff_1km)
@@ -264,15 +273,65 @@ quantile_sims
     theme(panel.background= element_rect(color="black")) +
     theme(axis.title = element_blank(),
           axis.text = element_blank()) +
-    labs(title = "Deterministic Area")
+    labs(title = "Deterministic Area: 5683 Acres")
   p4
   
-  first_row = plot_grid(histy, labels = c('Total Areas of Bifenthrin Crops near CH, 5th, 50th, and 95th Percentile, with Deterministic Estimate'))
-  second_row = plot_grid(p1,p2,p3,p4, nrow = 1)
-  gg_all = plot_grid(first_row, second_row, labels=c('', '', ''), ncol=1)
- gg_all
+  
+  
+  #add the reference map
+  ca_dir<- file.path(root_data_in, "ca_counties")
+  ca <- readOGR(dsn =  ca_dir, layer = "CA_Counties_TIGER2016")
+  ca<-spTransform(ca,crs(vernal))
+  ca$ID<-1:nrow(ca)
+  ca.sub<-ca[ca$NAME == 'San Joaquin',]
+  ca<-aggregate(ca, dissolve = TRUE)
+  plot(ca)
+  plot(ca.sub, add=T, col = "lightgrey")
+  plot(vern.sub, add=T, col = "lightblue")
+  plot(sj, add=T, col = "red")
 
+  ca<-st_as_sf(ca)
+  ca.sub<-st_as_sf(ca.sub)
+  sj<-st_as_sf(sj)
+  
+  vern.sub<-st_as_sf(vern.sub)
+  
+  vern.sub.bb<-st_as_sfc(st_bbox(vern.sub))
+  sj.bb<-st_as_sfc(st_bbox(sj))
+  ca.sub.bb<-st_as_sfc(st_bbox(ca.sub))
+ 
+  
+  ref1 = ggplot() + 
+    geom_sf(data = ca, fill = "white") + 
+    geom_sf(data = ca.sub, fill = "lightgrey") +
+    geom_sf(data = vern.sub, fill = "lightblue") +
+    geom_sf(data = sj, fill = "lightblue") + 
+    geom_sf(data = sj.bb, fill = NA, color = "red", size = 0.7) +
+    theme_void()
+  
+  ref1
+  
+  ref2 = ggplot() + 
+    geom_sf(data = ca.sub, fill = "lightgrey") +
+    geom_sf(data = sj, fill = "lightblue") + 
+    geom_sf(data = sj.bb, fill = NA, color = "red", size = 0.7) +
+    theme_void()
+  ref2
+  
+  ref<-plot_grid(ref1, ref2, nrow=1, rel_widths = c(0.5, 0.5))
+  ref
+  # first_row = plot_grid(histy, labels = c('Total Areas of Bifenthrin Crops within a 1km Buffer of a single Vernal Pool'))
+  # second_row = plot_grid(ref, nrow = 1)
+plot_grid(p2,p4, nrow = 1)
+ plot_grid(p1,p3, nrow = 1)
 
+#  gg_inset_map1 = ggdraw() +
+#    draw_plot(histy, x = 1, y = 1, width = 0.8, height = 0.2)+
+#    draw_plot(ref, x = 1, y = 0.5, width = 0.3, height = 0.3)+
+#    draw_plot(row3, x = 1, y = 0.25, width = 0.3, height = 0.3)+
+#    draw_plot(row4, x = 0.25, y = 0.25, width = 0.3, height = 0.3)
+# gg_inset_map1
+ 
 ##Figure S2, Boxplot----
   #Madera----
   sim_mat<-file.path(root_data_out, "simulation_matrix_mad.csv")
