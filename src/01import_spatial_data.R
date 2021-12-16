@@ -4,13 +4,13 @@ print("stepping into 01import_spatial_data.R")
 ##Step 1: extract the spatial data (note that if you load the environment this work has been done for you)
 #read in list of tif files denoting probability of each crop
 
-print(list.files(path=crop_data_dir1, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-crop_stack1_files <- file.path(crop_data_dir1, 
+print(list.files(path=crop_data_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+crop_stack_files <- file.path(crop_data_dir, 
                          list.files(path=crop_data_dir1, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-print(list.files(path=crop_data_dir2, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-crop_stack2_files <- file.path(crop_data_dir2, 
-                       list.files(path=crop_data_dir2, pattern='.tif$', all.files=TRUE, full.names=FALSE))
-crop_stack_allfiles <- c(crop_stack1_files, crop_stack2_files) #was #crop_stackf
+# print(list.files(path=crop_data_dir2, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+# crop_stack2_files <- file.path(crop_data_dir2, 
+#                        list.files(path=crop_data_dir2, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+crop_stack_allfiles <- crop_stack_files #was crop_stackf/cropstack1 and cropstack2; new updates 12/16 require only a single directory with all files
 
 # crop_raster_stack was crop_stackf
 crop_raster_stack <- stack(crop_stack_allfiles)
