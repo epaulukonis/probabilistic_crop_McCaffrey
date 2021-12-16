@@ -6,7 +6,7 @@ print("stepping into 01import_spatial_data.R")
 
 print(list.files(path=crop_data_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 crop_stack_files <- file.path(crop_data_dir, 
-                         list.files(path=crop_data_dir1, pattern='.tif$', all.files=TRUE, full.names=FALSE))
+                         list.files(path=crop_data_dir, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 # print(list.files(path=crop_data_dir2, pattern='.tif$', all.files=TRUE, full.names=FALSE))
 # crop_stack2_files <- file.path(crop_data_dir2, 
 #                        list.files(path=crop_data_dir2, pattern='.tif$', all.files=TRUE, full.names=FALSE))
