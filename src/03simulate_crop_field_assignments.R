@@ -108,3 +108,5 @@ saveRDS(field_areas, file = file.path(root_data_out, "field_areas_mad"))
 write.csv(field_areas, file = file.path(root_data_out, "field_areas_mad.csv"))
 
 
+print("done with 03_simulate_crop_field_assignments")
+print(Sys.time())
