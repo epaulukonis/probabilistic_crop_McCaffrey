@@ -38,7 +38,7 @@ if( file.exists(madera_filename)&&
   county<-"madera"
   print('specify county here')
   print(county)
-  probs_by_fields<-readRDS(file = merced_filename)  #data frame of field probs by county
+  probs_by_fields<-readRDS(file = madera_filename)  #data frame of field probs by county ## change here!
   print(dim(probs_by_fields))
   print("loading extracted field file for county of interest here")
   print(Sys.time())
