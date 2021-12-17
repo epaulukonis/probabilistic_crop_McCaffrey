@@ -103,9 +103,12 @@ if( file.exists(madera_filename)&&
   print("extract the raster cell values by polygons to a df, double check that the masked rasterstack is there")
   print(file.exists(file.path(root_data_out, "crop_rasterstack_masked.rds")))
   print(dim(crop_raster_stack2[1]))
+  print('check raster stack')
   print(dim(counties_trans[1]))
+  print('check counties_trans')
 
   print(dim(stack(crop_raster_stack2[1])))
+  print('stack looks in order?')
   print(dim(madera_shape))
   
   madera<- exact_extract(stack(crop_raster_stack2[1]), madera_shape, 'mean')
