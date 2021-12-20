@@ -14,6 +14,8 @@ simulation_matrix<-as.data.frame(matrix(data=NA,nrow=nrow(probs_by_fields),ncol=
 print(dim(simulation_matrix))
 colnames(simulation_matrix)[1:nsims]<-paste0("Sim",1:nsims,"")
 ID<-unique(probs_by_fields$ID)
+print(dim(ID))
+print(head(ID))
 simulation_matrix<-cbind(ID,simulation_matrix)
 print('dim sim mat')
 print(dim(simulation_matrix))

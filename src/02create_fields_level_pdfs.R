@@ -167,6 +167,7 @@ if( file.exists(madera_filename)&&
   field_areas<- as.data.frame(area(county_shape)) #area of each field in meters
   colnames(field_areas)[1]<-'field_areas'
   field_areas$ID<-1:nrow(probs_by_fields)  
+  print(dim(field_areas))
   print("area of individual fields put into dataframe for 03 code")
   
   print(dim(probs_by_fields))
