@@ -68,7 +68,7 @@ if(!unzipped_cadwr){unzip(unzip_cadwr_filename, exdir=county_shp_dir)}
 
 
 #print current environment
-print(lapply(ls(),function(x)get(x)))
+#print(lapply(ls(),function(x)get(x)))
 
 #see how long initial setup takes
 end_time <- Sys.time()
