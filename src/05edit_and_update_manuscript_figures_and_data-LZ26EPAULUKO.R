@@ -56,7 +56,9 @@ tot<-969352
 print((crop/tot)*100) #percent
 
 
+
 tot_all/5164822
+
 
 
 
@@ -123,10 +125,7 @@ stan_vp$acres<-bif_crop_area_stan[bif_crop_area_stan$ID %in% stan_vp$ID, 1]
 stan_area <-round(sum(stan_vp$acres)*0.00024711, 2)
 print(stan_area)
 
-
-
-
-
+print(sum(mad_area,mer_area,sac_area,san_area,stan_area))
 
 
 ####create unused histograms----
@@ -449,7 +448,9 @@ all_crops<-c("Alfalfa_StudyArea","Almond_StudyArea","Cabbage_StudyArea", "Cantal
   plot_grid(histyst,p1, align = "h", nrow = 1, ncol=2, rel_widths = c(2, 1))
   
   
-####create new version of Figure 5----
+  
+  
+####create new version of Figure 7----
 crop_raster_stack <- stack(crop_stack_allfiles)
 sel <- subset(crop_raster_stack, c(2,5,6, 20,27,28))
 names(sel)
@@ -527,12 +528,13 @@ str(data_6)
 # ggplot(data_6, aes(x = Probability, y = crop)) + 
 #   geom_density_ridges(stat = "binline", bins = 10)
 
+
 data_6 %>%
   mutate(crop = fct_relevel(crop, 
                             "Almond", "Corn", "Cotton","Walnuts",
                             "Pistachios","Tomatoes")) %>%
 ggplot(aes(x = Probability, y = crop, fill = crop)) + 
-  geom_density_ridges()+
+  geom_density_ridges(stat = "binline", bins = 20, scale = 2.2)+
   scale_y_discrete(limits = unique(rev(data_6$crop)))+
   xlab("Probability")+
   ylab("Crop")+
@@ -551,9 +553,9 @@ ggplot(aes(x = Probability, y = crop, fill = crop)) +
   
 ####create figure 6 ----
   ##all area
-  hist_datama$AreaRatio <- hist_datama$BifenthrinCropArea/340621
-  hist_datame$AreaRatio <- hist_datame$BifenthrinCropArea/479098
-  hist_datasa$AreaRatio <- hist_datasa$BifenthrinCropArea/192993
+  hist_datama$AreaRatio <- hist_datama$BifenthrinCropArea/340591 
+  hist_datame$AreaRatio <- hist_datame$BifenthrinCropArea/479003 
+  hist_datasa$AreaRatio <- hist_datasa$BifenthrinCropArea/192993 
   hist_datasj$AreaRatio <- hist_datasj$BifenthrinCropArea/508653
   hist_datast$AreaRatio <- hist_datast$BifenthrinCropArea/372095
   

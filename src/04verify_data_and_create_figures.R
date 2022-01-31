@@ -24,7 +24,6 @@ fields_f <- fortify(crop_san, region = "ID")
 colnames(fields_f)[6]<-'ID'
 fields_fin <-merge(fields_f, crop_san@data,
                    by = "ID")
-
 #FF9999
 #FF9966
 #CC6600
@@ -46,7 +45,7 @@ w1<-ggplot() +
   labs(title = "")
 w1
 
-scale_color_manual(labels = c("T999", "T888"), values = c("blue", "red")) +
+scale_color_manual(labels = c("T999", "T888"), values = c("blue", "red")) 
 
 # counties_ca <- file.path(root_data_in, "ca_counties")
 # counties_shapes <- readOGR(dsn =  counties_ca, layer = "CA_Counties_TIGER2016")
@@ -60,9 +59,12 @@ scale_color_manual(labels = c("T999", "T888"), values = c("blue", "red")) +
 
 
 
-##Figure 7, VP area----
-vernal <- readOGR(dsn =  root_data_out, layer = "vp_vpfs_fCH_71FR7117.shp")
+
+##Figure 5, VP area----
+
+vernal <- readOGR(dsn =  root_data_out, layer = "vp_vpfs_fCH_71FR7117")
 plot(vernal)
+
 vern.sub<-spTransform(vernal,crs(crop_raster_stack[[1]]))
 r1<-file.path(root_data_out, list.files(path=root_data_out, pattern='.tif$', all.files=T,full.names=F))
 bf<-raster(r1[1]) #this raster contains the original crop probabilities; let's find an area of high prob near vernal pool
@@ -80,7 +82,7 @@ plot(buff_1km, add=T)
 sj<-crop(vern.sub, window)
 sj<-aggregate(sj, dissolve=T)
 plot(sj)
-sj
+
 
 san<-gBuffer(counties_trans[[4]], byid=T, width=0)
 #san<-crop(san, window)
@@ -112,6 +114,17 @@ san.df <- as.data.frame(san)
 san.df.f<-san.df[san.df$ID %in% sim_mat_san$ID,] #remove any rows that may not be present in the final sim
 san.sims<-sim_mat_san[sim_mat_san$ID %in% san.df.f$ID,]
 
+#top crops
+m_crops<-c("Almond_StudyArea", "Walnuts_StudyArea","Tomatoes_StudyArea", "Corn_StudyArea","Cotton_StudyArea", "Pistachios_StudyArea")
+#all crops
+all_crops<-c("Alfalfa_StudyArea","Almond_StudyArea","Cabbage_StudyArea", "Cantaloupes_StudyArea","Corn_StudyArea",
+             "Cotton_StudyArea", "Cucumbers_StudyArea","DryBeans_StudyArea","Eggplants_StudyArea","Fallow_Idle_StudyArea",
+             "Grapes_StudyArea","Honeydew_Melons_StudyArea", "Lettuce_StudyArea", "Misc_Vegs_Fruits_StudyArea", "Oats_StudyArea", 
+             "Oranges_StudyArea","Pears_StudyArea","Pecans_StudyArea","Peppers_StudyArea","Pistachio_StudyArea","Pomegranates_StudyArea",
+             "Potatoes_StudyArea", "Pumpkins_StudyArea","Soybeans_StudyArea","Squash_StudyArea","Sweet_potatoes_StudyArea",
+             "Tomatoes_StudyArea", "Walnuts_StudyArea","Watermelons_StudyArea")
+
+
 hist_data<-as.data.frame(matrix(data=0,nrow=1000,ncol=2)) 
 colnames(hist_data)[1]<-'BifenthrinCropArea'
 colnames(hist_data)[2]<-'Sim'
@@ -131,9 +144,9 @@ quantile_sims
 
  histy<-ggplot(hist_data, aes(x=BifenthrinCropArea)) + 
   geom_histogram(binwidth=75, fill="#69b3a2", color="#e9ecef", alpha=0.9) +
-   geom_vline(xintercept=3728.16 , color="black", linetype="dashed", size=1)+
-   geom_vline(xintercept=4067.62, color="black", linetype="dashed", size=1)+
-   geom_vline(xintercept=4409.97, color="black", linetype="dashed", size=1)+
+   geom_vline(xintercept=3342.73 , color="black", linetype="dashed", size=1)+
+   geom_vline(xintercept=3722.80, color="black", linetype="dashed", size=1)+
+   geom_vline(xintercept=4106.18, color="black", linetype="dashed", size=1)+
    geom_vline(xintercept=5683.322, color="red", linetype="dashed", size=1)+
    ylab("Frequency")+
    xlab ("Crop Acres")+
@@ -148,24 +161,24 @@ quantile_sims
    )
  histy
 
- theme(text = element_text(size=20),
-       axis.text.x = element_text(angle=90, hjust=1)) 
+ # theme(text = element_text(size=20),
+ #       axis.text.x = element_text(angle=90, hjust=1)) 
  
 #note; quantile does not return the specific row values, apparently. So I used a 'closest' function to pick my scenarios
  #this is not a permanent solution
- five_per<-hist_data[which.min(abs(3728.16-hist_data$BifenthrinCropArea)),]
- fifty_per<-hist_data[which.min(abs(4067.62-hist_data$BifenthrinCropArea)),]
- ninetyfive_per<-hist_data[which.min(abs(4409.97-hist_data$BifenthrinCropArea)),]
+ five_per<-hist_data[which.min(abs(3342.73-hist_data$BifenthrinCropArea)),]
+ fifty_per<-hist_data[which.min(abs(3722.80-hist_data$BifenthrinCropArea)),]
+ ninetyfive_per<-hist_data[which.min(abs(4106.18-hist_data$BifenthrinCropArea)),]
  
  perc<-rbind(five_per,fifty_per,ninetyfive_per)
  perc
  
  #sac$sim5<-sac.sims$Sim6
- san$sim5<-san.sims$Sim976
+ san$sim5<-san.sims$Sim329
  #sac$sim50<-sac.sims$Sim715
- san$sim50<-san.sims$Sim581
+ san$sim50<-san.sims$Sim728
  #sac$sim95<-sac.sims$Sim175
- san$sim95<-san.sims$Sim185
+ san$sim95<-san.sims$Sim619
  
  #crops<-c("Almond_StudyArea", "Walnuts_StudyArea","Tomatoes_StudyArea", "Corn_StudyArea","Cotton_StudyArea", "Pistachios_StudyArea")
 
@@ -189,10 +202,11 @@ quantile_sims
    theme(panel.background=element_blank())+
    theme(panel.background= element_rect(color="black")) +
    theme(axis.title = element_blank(),
-         axis.text = element_blank()) +
-   labs(title = "5th Percentile Area: 3728 Acres ")
+         axis.text = element_blank()) 
+   # labs(title = "A")
  p1
  
+
  
  # fifty_sac_sub <- sac[sac$sim50%in% crops, ]
  # fifty_san_sub <- san[san$sim50%in% crops, ]
@@ -214,8 +228,8 @@ quantile_sims
     theme(panel.background=element_blank())+
     theme(panel.background= element_rect(color="black")) +
     theme(axis.title = element_blank(),
-          axis.text = element_blank()) +
-    labs(title = "Median Area: 4067 Acres")
+          axis.text = element_blank()) 
+    # labs(title = "B")
   p2
   
 
@@ -239,8 +253,8 @@ quantile_sims
     theme(panel.background=element_blank())+
     theme(panel.background= element_rect(color="black")) +
     theme(axis.title = element_blank(),
-          axis.text = element_blank()) +
-    labs(title = "95th Percentile Area: 4409 Acres")
+          axis.text = element_blank()) 
+    # labs(title = "C")
   p3
   
   #add the deterministic snapshot
@@ -272,8 +286,8 @@ quantile_sims
     theme(panel.background=element_blank())+
     theme(panel.background= element_rect(color="black")) +
     theme(axis.title = element_blank(),
-          axis.text = element_blank()) +
-    labs(title = "Deterministic Area: 5683 Acres")
+          axis.text = element_blank()) 
+    # labs(title = "")
   p4
   
   
@@ -318,12 +332,26 @@ quantile_sims
     theme_void()
   ref2
   
-  ref<-plot_grid(ref1, ref2, nrow=1, rel_widths = c(0.5, 0.5))
-  ref
+  # ref<-plot_grid(ref1, ref2,  rel_widths = c(0.5, 0.3))
+  # ref
+  # 
+  
+  gg_inset_map1 = ggdraw() +
+    draw_plot(ref2, x = 0.07, y=0.65, width=0.35, height=0.35) +
+    draw_plot(ref1, x = -0.13, y = 0.50, width = 0.5, height = 0.5)+
+    draw_plot(histy, x = -0.02, y= -0.05, width=0.65, height=0.65)+
+    draw_plot(p1,x = 0.20, y = 0.55, width = 0.45, height = 0.45)+
+    draw_plot(p2,x = 0.425, y = 0.55, width = 0.45, height = 0.45)+
+    draw_plot(p3,x = 0.65, y = 0.55, width = 0.45, height = 0.45)+
+    draw_plot(p4, x = 0.55, y = 0.08, width = 0.45, height = 0.45)
+    
+  gg_inset_map1
+  
+  
   # first_row = plot_grid(histy, labels = c('Total Areas of Bifenthrin Crops within a 1km Buffer of a single Vernal Pool'))
   # second_row = plot_grid(ref, nrow = 1)
-plot_grid(p2,p4, nrow = 1)
- plot_grid(p1,p3, nrow = 1)
+# plot_grid(p2,p4, nrow = 1)
+#  plot_grid(p1,p3, nrow = 1)
 
 #  gg_inset_map1 = ggdraw() +
 #    draw_plot(histy, x = 1, y = 1, width = 0.8, height = 0.2)+
@@ -332,7 +360,8 @@ plot_grid(p2,p4, nrow = 1)
 #    draw_plot(row4, x = 0.25, y = 0.25, width = 0.3, height = 0.3)
 # gg_inset_map1
  
-##Figure S2, Boxplot----
+ 
+##Figure S1, Boxplot----
   #Madera----
   sim_mat<-file.path(root_data_out, "simulation_matrix_mad.csv")
   simulation_matrix<-read.csv(sim_mat)[,-1]
@@ -417,7 +446,7 @@ plot_grid(p2,p4, nrow = 1)
   orig_area$Area_Crop<-round(as.numeric(orig_area$Area_Crop)*0.00024711,1)
   write.csv(orig_area, file = file.path(root_data_out, "madera_orig.csv"))
   
-  compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
+ mad<- compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
     geom_boxplot()+
     scale_y_continuous(breaks=c(0,1,2,3))+
     coord_cartesian(ylim = c(0, 3))+
@@ -427,7 +456,7 @@ plot_grid(p2,p4, nrow = 1)
     # geom_label(data = label_area,
     #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
     xlab("Crop - Madera County") + 
-    ylab ("Ratio of Original Area to Simulated Area by Crop") +
+    # ylab ("Ratio of Original Area to Simulated Area by Crop") +
     theme(panel.background = element_blank(), 
           axis.line = element_line(colour = "black"), 
           axis.title=element_text(size=14,face="bold"),
@@ -523,7 +552,7 @@ plot_grid(p2,p4, nrow = 1)
   orig_area$Area_Crop<-round(as.numeric(orig_area$Area_Crop)*0.00024711,1)
   write.csv(orig_area, file = file.path(root_data_out, "merced_orig.csv"))
   
-  compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
+  mer<-compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
     geom_boxplot()+
     scale_y_continuous(breaks=c(0,1,2,3,4,5,6))+
     coord_cartesian(ylim = c(0, 6))+
@@ -533,7 +562,7 @@ plot_grid(p2,p4, nrow = 1)
     # geom_label(data = label_area,
     #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
     xlab("Crop - Merced County") + 
-    ylab ("Ratio of Original Area to Simulated Area by Crop") +
+    # ylab ("Ratio of Original Area to Simulated Area by Crop") +
     theme(panel.background = element_blank(), 
           axis.line = element_line(colour = "black"), 
           axis.title=element_text(size=14,face="bold"),
@@ -622,7 +651,7 @@ plot_grid(p2,p4, nrow = 1)
   orig_area$Area_Crop<-round(as.numeric(orig_area$Area_Crop)*0.00024711,1)
   write.csv(orig_area, file = file.path(root_data_out, "sacramento_orig.csv"))
   
-  compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
+  sac<-compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
     geom_boxplot()+
     scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8,9))+
     coord_cartesian(ylim = c(0, 9))+
@@ -632,7 +661,7 @@ plot_grid(p2,p4, nrow = 1)
     # geom_label(data = label_area,
     #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
     xlab("Crop - Sacramento County") + 
-    ylab ("Ratio of Original Area to Simulated Area by Crop") +
+    # ylab ("Ratio of Original Area to Simulated Area by Crop") +
     theme(panel.background = element_blank(), 
           axis.line = element_line(colour = "black"), 
           axis.title=element_text(size=14,face="bold"),
@@ -721,7 +750,7 @@ plot_grid(p2,p4, nrow = 1)
   orig_area$Area_Crop<-round(as.numeric(orig_area$Area_Crop)*0.00024711,1)
   write.csv(orig_area, file = file.path(root_data_out, "sanjoaquin_orig.csv"))
   
-  compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
+  san<-compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
     geom_boxplot()+
     scale_y_continuous(breaks=c(0,1,2,3,4,5,7,8))+
     coord_cartesian(ylim = c(0, 8))+
@@ -731,7 +760,7 @@ plot_grid(p2,p4, nrow = 1)
     # geom_label(data = label_area,
     #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
     xlab("Crop - San Joaquin County") + 
-    ylab ("Ratio of Original Area to Simulated Area by Crop") +
+    # ylab ("Ratio of Original Area to Simulated Area by Crop") +
     theme(panel.background = element_blank(), 
           axis.line = element_line(colour = "black"), 
           axis.title=element_text(size=14,face="bold"),
@@ -820,7 +849,7 @@ plot_grid(p2,p4, nrow = 1)
   orig_area$Area_Crop<-round(as.numeric(orig_area$Area_Crop)*0.00024711,1)
   write.csv(orig_area, file = file.path(root_data_out, "stanislaus_orig.csv"))
   
-  compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
+ stan<- compiled_areas_fin %>% ggplot(aes(x=Crops, y=Ratio, fill=Crops)) + 
     geom_boxplot()+
     scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8,9,10,11,12))+
     coord_cartesian(ylim = c(0, 12))+
@@ -830,7 +859,7 @@ plot_grid(p2,p4, nrow = 1)
     # geom_label(data = label_area,
     #            aes(y = ypos, label = Area_Crop), vjust=0.5, fontface='bold', show.legend = F)+
     xlab("Crop - Stanislaus County") + 
-    ylab ("Ratio of Original Area to Simulated Area by Crop") +
+    # ylab ("Ratio of Original Area to Simulated Area by Crop") +
     theme(panel.background = element_blank(), 
           axis.line = element_line(colour = "black"), 
           axis.title=element_text(size=14,face="bold"),
@@ -840,4 +869,11 @@ plot_grid(p2,p4, nrow = 1)
   
   #sum areas
   sum(mad+mer+san+sac+stan)*0.00024711
+  
+  
+  #plot all
+  
+  plot_grid(mad,mer)
+  plot_grid(sac,san)
+  stan
   
