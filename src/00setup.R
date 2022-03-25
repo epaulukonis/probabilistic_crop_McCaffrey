@@ -19,11 +19,12 @@ library(geosphere)
 library(ggridges)
 library(ghibli)
 library(tidyverse)
+library(maptools)
 #install.packages("disaggregation") ##for extracParrallel function
 #library(disaggregation)
 #install.packages('exactextractr')
 #install.packages('exactextractr')
-library(exactextractr) #requires geos
+#library(exactextractr) #requires geos
 
 who_is_running<-'eap'
 #who_is_running<-'stp'

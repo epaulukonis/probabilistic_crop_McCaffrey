@@ -38,12 +38,12 @@ if(!cropped_raster_stack){crop_raster_stack2 <- lapply(counties_trans, function(
 print('county shapefiles cropped to extent each county, put in list')
 print('make sure each list element is a stack of rasters')
 crop_raster_stack2<-lapply(crop_raster_stack2, stack)
-saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
+# saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
 print('raster stack masked and saved locally')
 print('write field level layers to useable file')
 
-saveRDS(counties_trans, file = file.path(root_data_out, "counties_trans.rds"))
-saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
+# saveRDS(counties_trans, file = file.path(root_data_out, "counties_trans.rds"))
+# saveRDS(crop_raster_stack2, file = file.path(root_data_out, "crop_rasterstack_masked.rds"))
 import_end_time <- Sys.time()
 import_time_elapsed <- import_end_time - import_start_time
 print(paste("time for importing spatial data:", import_time_elapsed))
