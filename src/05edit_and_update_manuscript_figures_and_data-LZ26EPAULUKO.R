@@ -4,7 +4,7 @@ print(Sys.time())
 
 
 
-####calculate table 5 area ----
+####calculate table 3 area ----
 total_crop_and_field_area_mad<-file.path(root_data_out, "total_crop_and_field_area_mad.csv")
 mad<-read.csv(total_crop_and_field_area_mad)
 
@@ -59,11 +59,7 @@ print((crop/tot)*100) #percent
 
 tot_all/5164822
 
-
-
-
-
-####create table 6 vernal pool co-occurrence----
+####create table 4 vernal pool co-occurrence----
 ##madera
 #pull out a simulation and calculate field area of crops 
 sim<-mad.sims[,c(1,501)]
@@ -128,7 +124,7 @@ print(stan_area)
 print(sum(mad_area,mer_area,sac_area,san_area,stan_area))
 
 
-####create unused histograms----
+####create S4 histograms----
 #read in ca counties
 
 counties_trans<-readRDS("C:/Users/epauluko/OneDrive - Environmental Protection Agency (EPA)/Profile/Documents/GitHub/probabilistic_crop_McCaffrey/data_out/counties_trans.rds")
@@ -450,7 +446,8 @@ all_crops<-c("Alfalfa_StudyArea","Almond_StudyArea","Cabbage_StudyArea", "Cantal
   
   
   
-####create new version of Figure 7----
+  
+####create new version of Figure S6----
 crop_raster_stack <- stack(crop_stack_allfiles)
 sel <- subset(crop_raster_stack, c(2,5,6, 20,27,28))
 names(sel)

@@ -24,9 +24,9 @@ All updated R files for analysis are contained here.
 02_create_fields_levels: contains script to assign and extract field data for each county and prepare for simulation
 03simulate_crop_field_assignments: contains large simulation loop and construction of field delineation datasets
 04verify_data_and_create_figures: 
--Creates:
-05edit_and_update_manusccript_figures_and_data
--Creates:
+-Creates: Figure 3, Figure 4, Figure S3
+05edit_and_update_manuscript_figures_and_data
+-Creates: Table 3, Table 4, Figure S6
 
 figures/ 
 All figures will go here

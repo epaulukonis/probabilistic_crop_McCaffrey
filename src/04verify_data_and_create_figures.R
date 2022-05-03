@@ -60,7 +60,7 @@ scale_color_manual(labels = c("T999", "T888"), values = c("blue", "red"))
 
 
 
-##Figure 5, VP area----
+##Figure 4, VP area----
 
 vernal <- readOGR(dsn =  root_data_out, layer = "vp_vpfs_fCH_71FR7117")
 plot(vernal)
@@ -361,8 +361,8 @@ quantile_sims
 # gg_inset_map1
  
  
-##Figure S1, Boxplot----
-  #Madera----
+##Figure S3, Boxplot----
+  #Madera
   sim_mat<-file.path(root_data_out, "simulation_matrix_mad.csv")
   simulation_matrix<-read.csv(sim_mat)[,-1]
   field_areas<-file.path(root_data_out, "field_areas_mad.csv")
@@ -430,9 +430,6 @@ quantile_sims
   compiled_areas_fin$Ratio<-as.numeric(compiled_areas_fin$Area_Crop.x)/as.numeric(compiled_areas_fin$Area_Crop.y)
   
   
-  #for now, let's remove the rows with NAN, because those simulations won't have those crops represented
-  #we can hope/assume out of 1000, all crops should be somewhat represented
-  
   compiled_areas_fin<-na.omit(compiled_areas_fin)
   colnames(compiled_areas_fin)[6]<-'Crops'
   label_area<-orig_area[orig_area$Crops %in% compiled_areas_fin$Crops,]
@@ -468,7 +465,7 @@ quantile_sims
     #only accept if they're not zero for large crops, or other issues
   
   
-  #Merced----
+  #Merced
   sim_mat<-file.path(root_data_out, "simulation_matrix_mer.csv")
   simulation_matrix<-read.csv(sim_mat)[,-1]
   field_areas<-file.path(root_data_out, "field_areas_mer.csv")
@@ -569,7 +566,7 @@ quantile_sims
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
   
   
-  #Sacramento----
+  #Sacramento
   sim_mat<-file.path(root_data_out, "simulation_matrix_sac.csv")
   simulation_matrix<-read.csv(sim_mat)[,-1]
   field_areas<-file.path(root_data_out, "field_areas_sac.csv")
@@ -667,7 +664,7 @@ quantile_sims
           axis.title=element_text(size=14,face="bold"),
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
   
-  #San Joaquin----
+  #San Joaquin
   sim_mat<-file.path(root_data_out, "simulation_matrix_stan.csv")
   simulation_matrix<-read.csv(sim_mat)[,-1]
   field_areas<-file.path(root_data_out, "field_areas_stan.csv")
@@ -766,7 +763,7 @@ quantile_sims
           axis.title=element_text(size=14,face="bold"),
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size=9))
   
-  #Stanislaus ----
+  #Stanislaus
   sim_mat<-file.path(root_data_out, "simulation_matrix_san.csv")
   simulation_matrix<-read.csv(sim_mat)[,-1]
   field_areas<-file.path(root_data_out, "field_areas_san.csv")
@@ -870,10 +867,5 @@ quantile_sims
   #sum areas
   sum(mad+mer+san+sac+stan)*0.00024711
   
-  
-  #plot all
-  
-  plot_grid(mad,mer)
-  plot_grid(sac,san)
-  stan
+
   
