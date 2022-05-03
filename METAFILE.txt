@@ -1,0 +1,32 @@
+McCaffrey et al. 2022
+All associated files can be found here: https://github.com/epaulukonis/probabilistic_crop_McCaffrey
+
+Repo follows convention:
+data_in/
+data_out/
+src/
+figures/
+
+data_in/
+CADWR: https://data.cnra.ca.gov/dataset/statewide-crop-mapping
+CA counties:
+https://data.ca.gov/dataset/ca-geographic-boundaries
+All other input is contained in the folder form: FinalCrops
+This contains the probabilistic output from the first portion of the manuscript.
+
+data_out/
+All output files will go here
+
+src/
+All updated R files for analysis are contained here. 
+00setup: contains script to set up directories and read in files
+001import_spatial_data: contains script to import files and organize spatial layers (extent,resolution)
+02_create_fields_levels: contains script to assign and extract field data for each county and prepare for simulation
+03simulate_crop_field_assignments: contains large simulation loop and construction of field delineation datasets
+04verify_data_and_create_figures: 
+-Creates:
+05edit_and_update_manusccript_figures_and_data
+-Creates:
+
+figures/ 
+All figures will go here
