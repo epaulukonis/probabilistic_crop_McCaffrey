@@ -1,5 +1,5 @@
 McCaffrey et al. 2022
-All associated files can be found here: https://github.com/epaulukonis/probabilistic_crop_McCaffrey
+All associated files and workflows for the first portion of the analysis can be found here: https://github.com/epaulukonis/probabilistic_crop_McCaffrey
 
 Repo follows convention:
 data_in/
