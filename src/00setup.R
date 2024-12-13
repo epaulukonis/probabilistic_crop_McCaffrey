@@ -79,9 +79,9 @@ time_elapsed <- end_time - start_time
 print(paste("time for initial setup:", time_elapsed))
 
 # source other files
-source(file.path(root_src, "01import_spatial_data.R"))
-source(file.path(root_src, "02create_fields_level_pdfs.R"))
-source(file.path(root_src, "03simulate_crop_field_assignments.R"))
+# source(file.path(root_src, "01import_spatial_data.R"))
+# source(file.path(root_src, "02create_fields_level_pdfs.R"))
+# source(file.path(root_src, "03simulate_crop_field_assignments.R"))
 #source(file.path(root_src, "04verify_data_and_create_figures.R"))
 #source(file.path(root_src, "05edit_and_update_manuscript_figures.R"))
 

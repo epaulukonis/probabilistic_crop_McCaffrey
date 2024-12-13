@@ -262,7 +262,7 @@ quantile_sims
   deterministic <- file.path(root_data_in, 
                              list.files(path=root_data_in, pattern='.tif$', all.files=TRUE, full.names=FALSE))
   
- deterministic<-raster(deterministic[3])
+  deterministic<-raster(deterministic[3])
   det_snap<-crop(deterministic, window)
   plot(det_snap)
   det_snap<-mask(det_snap, buff_1km)
