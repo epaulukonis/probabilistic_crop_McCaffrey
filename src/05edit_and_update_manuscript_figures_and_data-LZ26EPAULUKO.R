@@ -61,7 +61,7 @@ tot_all/5164822
 
 ####create table 4 vernal pool co-occurrence----
 ##madera
-#pull out a simulation and calculate field area of crops 
+#pull out a random simulation and calculate field area of crops 
 sim<-mad.sims[,c(1,501)]
 sim<-as.data.frame(sim[sim$Sim500 %in% all_crops,])
 bif_crop_area_mad<- field_areas_mad[field_areas_mad[,2] %in% sim[,1],]
@@ -74,7 +74,7 @@ print(mad_area)
 
 
 ##merced
-#pull out a simulation and calculate field area of crops 
+#pull out a random simulation and calculate field area of crops 
 sim<-mer.sims[,c(1,501)]
 sim<-as.data.frame(sim[sim$Sim500 %in% all_crops,])
 bif_crop_area_mer<- field_areas_mer[field_areas_mer[,2] %in% sim[,1],]
@@ -86,7 +86,7 @@ mer_area <-round(sum(mer_vp$acres)*0.00024711, 2)
 print(mer_area)
 
 ##sacramento
-#pull out a simulation and calculate field area of crops 
+#pull out a random simulation and calculate field area of crops 
 sim<-sac.sims[,c(1,501)]
 sim<-as.data.frame(sim[sim$Sim500 %in% all_crops,])
 bif_crop_area_sac<- field_areas_sac[field_areas_sac[,2] %in% sim[,1],]
@@ -98,7 +98,7 @@ sac_area <-round(sum(sac_vp$acres)*0.00024711, 2)
 print(sac_area)
 
 ##san joaquin
-#pull out a simulation and calculate field area of crops 
+#pull out a random simulation and calculate field area of crops 
 sim<-san.sims[,c(1,501)]
 sim<-as.data.frame(sim[sim$Sim500 %in% all_crops,])
 bif_crop_area_san<- field_areas_san[field_areas_san[,2] %in% sim[,1],]
@@ -110,7 +110,7 @@ san_area <-round(sum(san_vp$acres)*0.00024711, 2)
 print(san_area)
 
 ##stanislaus
-#pull out a simulation and calculate field area of crops 
+#pull out a random simulation and calculate field area of crops 
 sim<-stan.sims[,c(1,501)]
 sim<-as.data.frame(sim[sim$Sim500 %in% all_crops,])
 bif_crop_area_stan<- field_areas_stan[field_areas_stan[,2] %in% sim[,1],]
